@@ -37,7 +37,7 @@ public class MatchmakingLobbyManager : MonoBehaviourPunCallbacks
     {
         if (roomInputField.text.Length >= 1)
         {
-            PhotonNetwork.CreateRoom(roomInputField.text, new RoomOptions() {MaxPlayers = 2});
+            PhotonNetwork.CreateRoom(roomInputField.text, new RoomOptions() {MaxPlayers = 2, BroadcastPropsChangeToAll = true});
         }
     }
 

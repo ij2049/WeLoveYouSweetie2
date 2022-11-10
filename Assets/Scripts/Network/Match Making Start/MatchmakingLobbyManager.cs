@@ -119,6 +119,10 @@ public class MatchmakingLobbyManager : MonoBehaviourPunCallbacks
         {
             PlayerItem newPlayerItem = Instantiate(playerItemPrefab, playerItemParent);
             newPlayerItem.SetPlayerInfo(player.Value);
+            if (player.Value == PhotonNetwork.LocalPlayer)
+            {
+                newPlayerItem.ApplyLocalChanges();
+            }
             playerItemList.Add(newPlayerItem);
         }
     }

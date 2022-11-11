@@ -20,6 +20,8 @@ public class MatchmakingLobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject lobbyPanel;
     [SerializeField] private GameObject roomPanel;
     [SerializeField] private TextMeshProUGUI roomName;
+    [SerializeField] private GameObject btn_play;
+    [SerializeField] private string nextSceName;
     
     //Player Button
     public List<PlayerItem> playerItemList = new List<PlayerItem>();
@@ -28,9 +30,32 @@ public class MatchmakingLobbyManager : MonoBehaviourPunCallbacks
 
     public float timeBtwUpdates = 1.5f;
     private float nextUpdateTime;
+
+    
     private void Start()
     {
         JoinLobby();
+    }
+
+    private void Update()
+    {
+        //check how many players are in the room and if the players are two active the button
+        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            btn_play.SetActive(true);
+        }
+        else
+        {
+            btn_play.SetActive(false);
+        }
+    }
+
+    public void OnClickPlayButton()
+    {
+        if (nextSceName != null)
+        {
+            PhotonNetwork.LoadLevel(nextSceName);
+        }
     }
 
     public void OnClickCreate()

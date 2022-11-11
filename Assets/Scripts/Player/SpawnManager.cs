@@ -9,8 +9,7 @@ using Random = UnityEngine.Random;
 public class SpawnManager : MonoBehaviour
 {
 
-    public GameObject playerPrefabs;
-
+    [SerializeField] private GameObject[] playerPrefabs;
     [SerializeField] private Transform[] playerSpawnPos;
 
     private void Start()
@@ -20,15 +19,9 @@ public class SpawnManager : MonoBehaviour
 
     private void TryPlayerSpawn()
     {
-        int temp = Random.Range(1, 2);
-        
-        if (temp == 1)
-        {
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonPlayer"), playerSpawnPos[0].position, Quaternion.identity);
-        }
-        else
-        {
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonPlayer"), playerSpawnPos[1].position, Quaternion.identity);
-        }
+        int randomNum = Random.Range(0, playerSpawnPos.Length);
+        Transform spawnPoint = playerSpawnPos[randomNum];
+        GameObject playerToSpawn = playerPrefabs[(int) PhotonNetwork.LocalPlayer.CustomProperties["playerAvatar"]];
+        PhotonNetwork.Instantiate(playerToSpawn.name, spawnPoint.position, quaternion.identity);
     }
 }

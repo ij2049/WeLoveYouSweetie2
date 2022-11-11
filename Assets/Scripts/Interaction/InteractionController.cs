@@ -14,7 +14,8 @@ public enum InteractableItems
 public enum InteractableFurniture
 {
     Cradle,
-    Bathtub
+    Bathtub,
+    Trash
 }
 
 public class InteractionController : MonoBehaviour
@@ -81,6 +82,9 @@ public class InteractionController : MonoBehaviour
                     break;
                 case InteractableFurniture.Bathtub:
                     theInteractionController.furnitureInfo = "Bathtub";
+                    break;
+                case InteractableFurniture.Trash:
+                    theInteractionController.furnitureInfo = "Trash";
                     break;
             }
         }

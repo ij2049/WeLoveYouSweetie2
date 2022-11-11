@@ -11,8 +11,8 @@ public class PlayerItems
 }
 
 public class PlayerInventory : MonoBehaviour
-{
-    [SerializeField] private PlayerItems[] playerItems;
+{ 
+    public PlayerItems[] playerItems;
     private PlayerInventory thePlayerInventory;
 
     private void Awake()

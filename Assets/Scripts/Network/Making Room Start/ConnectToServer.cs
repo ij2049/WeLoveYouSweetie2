@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MatchmakingNameManager : MonoBehaviourPunCallbacks
+public class ConnectToServer : MonoBehaviourPunCallbacks
 {
 
     [SerializeField] private TMP_InputField usernameInput;
@@ -19,6 +19,7 @@ public class MatchmakingNameManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.NickName = usernameInput.text;
             btn_txt.text = "Connecting..";
+            PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.ConnectUsingSettings();
         }
     }

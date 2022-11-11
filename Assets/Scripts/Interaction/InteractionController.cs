@@ -20,11 +20,14 @@ public enum InteractableFurniture
 
 public class InteractionController : MonoBehaviour
 {
-    [Header("what kind of Interaction?")]
-    //[Space(10)]
+    [Header("Item")]
     [SerializeField] private bool isItem;
     [SerializeField] private InteractableItems interactableItems;
+    
+    [Space(10)]
+    [Header("Furniture")]
     [SerializeField] private bool isFurniture;
+    [SerializeField] private bool isHoldable;
     [SerializeField] private InteractableFurniture interactableFurniture;
 
 
@@ -97,26 +100,46 @@ public class InteractionController : MonoBehaviour
         {
             Debug.Log("Try Item Interaction!");
 
-            if (!PlayerController.isHolding)
+            if (!PlayerInventory.isHolding)
             {
-                PlayerController.isHolding = true;
+                PlayerInventory.isHolding = true;
                 Debug.Log("Player is not holding item!");
-                PlayerInventory _temp = _player.gameObject.GetComponent<PlayerInventory>();
-                HoldItem(_temp);
+                PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
+                HoldItem(_playerInventory);
             }
         }
         
         //Furniture
         else if(theInteractionController.isFurniture && !theInteractionController.isItem)
         {
-            if (!PlayerController.isHolding)
+            Debug.Log("Try furniture Interaction!");
+
+            if (!theInteractionController.isHoldable)
             {
-                UseFurniture();
+                if (!PlayerInventory.isHolding)
+                {
+                    PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
+                    UseFurniture(_playerInventory);
+                }
+
+                else
+                {
+                    Debug.Log("Sth is hold");
+                }
             }
 
             else
             {
-                Debug.Log("Player is holding item! Please make sure the hand is empty");
+                if (PlayerInventory.isHolding)
+                {
+                    PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
+                    UseFurniture(_playerInventory);
+                }
+                else
+                {
+                    Debug.Log("To use trashbin player need to hold sth");
+                }
+
             }
         }
 
@@ -130,18 +153,20 @@ public class InteractionController : MonoBehaviour
     {
         Debug.Log("Try Holditem");
 
-        for (int i = 0; i < _playerInventory.playerItems.Length; i++)
+        for (int i = 0; i < _playerInventory.thePlayerInventory.playerItems.Length; i++)
         {
             //if the one of the player's items' name is samw as a interactable item, make item set active true
             if (theInteractionController.itemsInfo == _playerInventory.playerItems[i].itemsName)
             {
-                _playerInventory.playerItems[i].itemObject.SetActive(true);
+                _playerInventory.thePlayerInventory.playerItems[i].itemObject.SetActive(true);
             }
         }
     }
     
-    private void UseFurniture()
+    private void UseFurniture(PlayerInventory _playerInventory)
     {
-        ;
+        Debug.Log("Use furniture!");
+        FurnitureType _furniture = GetComponent<FurnitureType>();
+        _furniture.TryFurniture(_playerInventory);
     }
 }

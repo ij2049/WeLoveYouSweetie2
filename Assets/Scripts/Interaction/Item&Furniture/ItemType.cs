@@ -22,10 +22,10 @@ public class ItemType : MonoBehaviour
 
     private void Start()
     {
-        CheckItem();
+        GetItemInfo();
     }
 
-    private void CheckItem()
+    private void GetItemInfo()
     {
         switch (theItemType.theItem)
         {

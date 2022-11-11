@@ -13,7 +13,9 @@ public class PlayerItems
 public class PlayerInventory : MonoBehaviour
 { 
     public PlayerItems[] playerItems;
-    private PlayerInventory thePlayerInventory;
+    public PlayerInventory thePlayerInventory;
+    
+    public static bool isHolding;
 
     private void Awake()
     {

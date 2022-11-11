@@ -14,8 +14,6 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
     private PhotonView view;
 
-    public static bool isHolding;
-    
     private void Start()
     {
         view = GetComponent<PhotonView>();

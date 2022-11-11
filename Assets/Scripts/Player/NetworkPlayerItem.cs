@@ -10,7 +10,7 @@ using Photon.Pun.Demo.Cockpit;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PlayerItem : MonoBehaviourPunCallbacks
+public class NetworkPlayerItem : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TextMeshProUGUI playerName;
     

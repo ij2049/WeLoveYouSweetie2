@@ -24,8 +24,8 @@ public class MatchmakingLobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private string nextSceName;
     
     //Player Button
-    public List<PlayerItem> playerItemList = new List<PlayerItem>();
-    public PlayerItem playerItemPrefab;
+    public List<NetworkPlayerItem> playerItemList = new List<NetworkPlayerItem>();
+    public NetworkPlayerItem playerItemPrefab;
     public Transform playerItemParent;
 
     public float timeBtwUpdates = 1.5f;
@@ -129,7 +129,7 @@ public class MatchmakingLobbyManager : MonoBehaviourPunCallbacks
     //Player
     private void UpdatePlayerList()
     {
-        foreach (PlayerItem item in playerItemList)
+        foreach (NetworkPlayerItem item in playerItemList)
         {
             Destroy(item.gameObject);
         }
@@ -142,7 +142,7 @@ public class MatchmakingLobbyManager : MonoBehaviourPunCallbacks
 
         foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
         {
-            PlayerItem newPlayerItem = Instantiate(playerItemPrefab, playerItemParent);
+            NetworkPlayerItem newPlayerItem = Instantiate(playerItemPrefab, playerItemParent);
             newPlayerItem.SetPlayerInfo(player.Value);
             if (player.Value == PhotonNetwork.LocalPlayer)
             {

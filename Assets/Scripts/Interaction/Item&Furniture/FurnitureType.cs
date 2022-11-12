@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public enum Furniture
@@ -12,6 +13,7 @@ public enum Furniture
 public class FurnitureType : MonoBehaviour
 {
     [SerializeField] private Furniture theFurniture;
+        
     private FurnitureType theFurnitureType;
     private string furnitureInfo;
     private BabyManager theBabyManager;
@@ -40,9 +42,11 @@ public class FurnitureType : MonoBehaviour
         {
             for (int i = 0; i < _playerInventory.playerItems.Length; i++)
             {
-                _playerInventory.playerItems[i].itemObject.SetActive(false);
+                if (_playerInventory.playerItems[i].itemsName != "Baby")
+                {
+                    _playerInventory.playerItems[i].itemObject.SetActive(false);
+                }
             }
-
             PlayerInventory.isHolding = false;
         }
 

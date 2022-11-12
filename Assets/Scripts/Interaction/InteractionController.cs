@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
+using TMPro;
 
 public enum InteractableItems
 {
@@ -30,7 +32,12 @@ public class InteractionController : MonoBehaviour
     [SerializeField] private bool isHoldable;
     [SerializeField] private InteractableFurniture interactableFurniture;
 
+    [Space(10)]
+    [Header("UI")]
+    [SerializeField] private GameObject obj_buttonInfo;
+    [SerializeField] private TextMeshProUGUI txt_buttonInfo;
 
+    
     private string itemsInfo;
     private string furnitureInfo;
     private InteractionController theInteractionController;
@@ -54,9 +61,14 @@ public class InteractionController : MonoBehaviour
             Debug.Log(theInteractionController.itemsInfo);
             TryInteratcion(other.gameObject);
         }
-
     }
-    
+
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        obj_buttonInfo.SetActive(false);
+    }
+
 
     private void ItemInfo()
     {
@@ -98,11 +110,14 @@ public class InteractionController : MonoBehaviour
         //Items
         if (theInteractionController.isItem && !theInteractionController.isFurniture)
         {
+            txt_buttonInfo.text = "Press (E) to hold " + theInteractionController.itemsInfo;
+            obj_buttonInfo.SetActive(true);
             Debug.Log("Try Item Interaction!");
 
             if (!PlayerInventory.isHolding)
             {
                 PlayerInventory.isHolding = true;
+                obj_buttonInfo.SetActive(false);
                 Debug.Log("Player is not holding item!");
                 PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
                 HoldItem(_playerInventory);
@@ -113,11 +128,15 @@ public class InteractionController : MonoBehaviour
         else if(theInteractionController.isFurniture && !theInteractionController.isItem)
         {
             Debug.Log("Try furniture Interaction!");
-
+            
+            txt_buttonInfo.text = "Press (E) to use " + theInteractionController.furnitureInfo;
+            obj_buttonInfo.SetActive(true);
+            
             if (!theInteractionController.isHoldable)
             {
                 if (!PlayerInventory.isHolding)
                 {
+                    obj_buttonInfo.SetActive(false);
                     PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
                     UseFurniture(_playerInventory);
                 }
@@ -134,6 +153,7 @@ public class InteractionController : MonoBehaviour
                 {
                     PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
                     UseFurniture(_playerInventory);
+                    obj_buttonInfo.SetActive(false);
                 }
                 else
                 {

@@ -39,7 +39,9 @@ public class InteractionController : MonoBehaviour
 
     
     private string itemsInfo;
+    private GameObject player;
     private string furnitureInfo;
+    private bool isPlayerEntered;
     private InteractionController theInteractionController;
 
     private void Awake()
@@ -53,13 +55,25 @@ public class InteractionController : MonoBehaviour
         FurnitureInFo();
     }
 
+    private void Update()
+    {
+        if (theInteractionController.isPlayerEntered)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                TryInteratcion(theInteractionController.player);
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Sth entered!");
         if (other.CompareTag("Player"))
         {
+            theInteractionController.player = other.gameObject;
             Debug.Log(theInteractionController.itemsInfo);
-            TryInteratcion(other.gameObject);
+            theInteractionController.isPlayerEntered = true;
+            ShowBtnInfo();
         }
     }
 
@@ -67,6 +81,7 @@ public class InteractionController : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         obj_buttonInfo.SetActive(false);
+        theInteractionController.isPlayerEntered = false;
     }
 
 
@@ -105,13 +120,28 @@ public class InteractionController : MonoBehaviour
         }
     }
 
+    private void ShowBtnInfo()
+    {
+        if (theInteractionController.isItem && !theInteractionController.isFurniture)
+        {
+            txt_buttonInfo.text = "Press (E) to hold " + theInteractionController.itemsInfo;
+            obj_buttonInfo.SetActive(true);
+        }
+        
+        else if (theInteractionController.isFurniture && !theInteractionController.isItem)
+        {
+                        
+            txt_buttonInfo.text = "Press (E) to use " + theInteractionController.furnitureInfo;
+            obj_buttonInfo.SetActive(true);
+        }
+    }
+
     private void TryInteratcion(GameObject _player)
     {
         //Items
         if (theInteractionController.isItem && !theInteractionController.isFurniture)
         {
-            txt_buttonInfo.text = "Press (E) to hold " + theInteractionController.itemsInfo;
-            obj_buttonInfo.SetActive(true);
+
             Debug.Log("Try Item Interaction!");
 
             if (!PlayerInventory.isHolding)
@@ -128,9 +158,7 @@ public class InteractionController : MonoBehaviour
         else if(theInteractionController.isFurniture && !theInteractionController.isItem)
         {
             Debug.Log("Try furniture Interaction!");
-            
-            txt_buttonInfo.text = "Press (E) to use " + theInteractionController.furnitureInfo;
-            obj_buttonInfo.SetActive(true);
+
             
             if (!theInteractionController.isHoldable)
             {

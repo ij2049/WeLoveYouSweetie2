@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class PlayerController : MonoBehaviour
@@ -14,10 +15,18 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
     private PhotonView view;
 
+    private PlayerController thePlayerController;
+
+    private void Awake()
+    {
+        thePlayerController = GetComponent<PlayerController>();
+    }
+
     private void Start()
     {
         view = GetComponent<PhotonView>();
     }
+    
 
     // Update is called once per frame
     void Update()

@@ -60,6 +60,11 @@ public class PlayerStatusController : MonoBehaviour
         }
     }
 
+    public void FullSpStatus()
+    {
+        thePlayerStatusController.currentSp = thePlayerStatusController.sp;
+    }
+
     private void GaugeUpdate()
     {
         thePlayerStatusController.img_spGauge.fillAmount = (float)thePlayerStatusController.currentSp / thePlayerStatusController.sp;

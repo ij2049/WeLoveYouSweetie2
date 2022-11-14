@@ -7,16 +7,22 @@ public enum Furniture
 {
     Cradle,
     Bathtub,
-    Trash
+    Trash,
+    Bed
 }
 
 public class FurnitureType : MonoBehaviour
 {
     [SerializeField] private Furniture theFurniture;
-        
+
+    [Space(10)] [Header("Bed Info")] 
+    [SerializeField] private Transform[] bedPos;
+    
     private FurnitureType theFurnitureType;
     private string furnitureInfo;
     private BabyManager theBabyManager;
+
+    public static bool isPlayerUsingFurniture;
 
     private void Awake()
     {
@@ -31,6 +37,7 @@ public class FurnitureType : MonoBehaviour
             case Furniture.Cradle: TryCradle(_playerInvenotry); break;
             case Furniture.Bathtub: theFurnitureType.furnitureInfo = "Bathtub"; break;
             case Furniture.Trash: TryTrashbin(_playerInvenotry); break;
+            case Furniture.Bed: StartCoroutine(TryBed(_playerInvenotry)); break;
         }
     }
 
@@ -101,5 +108,30 @@ public class FurnitureType : MonoBehaviour
             }
         }
         
+    }
+
+    private IEnumerator TryBed(PlayerInventory _playerInventory)
+    {
+        PlayerStatusController _playerStatus = _playerInventory.gameObject.GetComponent<PlayerStatusController>();
+        
+        Debug.Log("TryBed");
+        if (!isPlayerUsingFurniture)
+        {
+            isPlayerUsingFurniture = true;
+            _playerInventory.gameObject.transform.localPosition = bedPos[0].position;
+            Debug.Log("Put player 0 position");
+
+        }
+        else
+        {
+            _playerInventory.gameObject.transform.localPosition = bedPos[1].position;
+            Debug.Log("Put player 1 position");
+        }
+        
+        yield return new WaitForSeconds(4f);
+        _playerStatus.FullSpStatus();
+        _playerInventory.gameObject.transform.localPosition = bedPos[2].position;
+        Debug.Log("Now false");
+        isPlayerUsingFurniture = false;
     }
 }

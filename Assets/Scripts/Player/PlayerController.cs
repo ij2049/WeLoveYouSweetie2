@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (view.IsMine)
+        if (view.IsMine && !FurnitureType.isPlayerUsingFurniture)
         {
             PlayerMovement();
         }

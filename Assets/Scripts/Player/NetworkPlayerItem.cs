@@ -12,27 +12,22 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class NetworkPlayerItem : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private TextMeshProUGUI playerName;
+    public TextMeshProUGUI playerName;
     
     private Image backgrounImage;
     [SerializeField] private Color highlightColor;
     [SerializeField] private GameObject btn_leftArrow;
     [SerializeField] private GameObject btn_rightArrow;
 
-    private ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
-    [SerializeField] private Image playerAvatar;
-    [SerializeField] private Sprite[] avatars;
+    ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
+    public Image playerAvatar;
+    public Sprite[] avatars;
 
     private Player player;
 
     private void Awake()
     {
-        backgrounImage = FindObjectOfType<Image>();
-    }
-
-    private void Start()
-    {
-        playerProperties["playerAvatar"] = 0;
+       // backgrounImage = FindObjectOfType<Image>();
     }
 
     public void SetPlayerInfo(Player _player)
@@ -72,11 +67,10 @@ public class NetworkPlayerItem : MonoBehaviourPunCallbacks
         {
             playerProperties["playerAvatar"] = (int)playerProperties["playerAvatar"] + 1;
         }
-
         PhotonNetwork.SetPlayerCustomProperties(playerProperties);
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable ChangeProbs)
     {
         if (player == targetPlayer)
         {

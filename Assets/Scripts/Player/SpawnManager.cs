@@ -6,11 +6,11 @@ using Unity.Mathematics;
 using System.IO;
 using Random = UnityEngine.Random;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManager : MonoBehaviourPunCallbacks
 {
 
-    [SerializeField] private GameObject[] playerPrefabs;
-    [SerializeField] private Transform[] playerSpawnPos;
+    public GameObject[] playerPrefabs;
+    public Transform[] playerSpawnPos;
 
     private void Start()
     {
@@ -20,8 +20,17 @@ public class SpawnManager : MonoBehaviour
     private void TryPlayerSpawn()
     {
         int randomNum = Random.Range(0, playerSpawnPos.Length);
+        Debug.Log(randomNum);
         Transform spawnPoint = playerSpawnPos[randomNum];
-        GameObject playerToSpawn = playerPrefabs[(int) PhotonNetwork.LocalPlayer.CustomProperties["playerAvatar"]];
+        GameObject playerToSpawn;
+        if (PhotonNetwork.LocalPlayer.CustomProperties["playerAvatar"] == null)
+        {
+            playerToSpawn = playerPrefabs[0];
+        }
+        else
+        {
+            playerToSpawn = playerPrefabs[(int)PhotonNetwork.LocalPlayer.CustomProperties["playerAvatar"]];
+        }
         PhotonNetwork.Instantiate(playerToSpawn.name, spawnPoint.position, quaternion.identity);
     }
 }

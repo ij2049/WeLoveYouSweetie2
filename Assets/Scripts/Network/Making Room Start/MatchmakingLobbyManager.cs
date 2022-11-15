@@ -16,21 +16,21 @@ public class MatchmakingLobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private Transform contentObjects;
     
     //Lobby Info
-    [SerializeField] private TMP_InputField roomInputField;
-    [SerializeField] private GameObject lobbyPanel;
-    [SerializeField] private GameObject roomPanel;
-    [SerializeField] private TextMeshProUGUI roomName;
-    [SerializeField] private GameObject btn_play;
+    public TMP_InputField roomInputField;
+    public GameObject lobbyPanel;
+    public GameObject roomPanel;
+    public TextMeshProUGUI roomName;
+    public GameObject btn_play;
     [SerializeField] private string nextSceName;
+    
+    public float timeBtwUpdates = 1.5f;
+    private float nextUpdateTime;
     
     //Player Button
     public List<NetworkPlayerItem> playerItemList = new List<NetworkPlayerItem>();
     public NetworkPlayerItem playerItemPrefab;
     public Transform playerItemParent;
-
-    public float timeBtwUpdates = 1.5f;
-    private float nextUpdateTime;
-
+    
     
     private void Start()
     {
@@ -40,6 +40,7 @@ public class MatchmakingLobbyManager : MonoBehaviourPunCallbacks
     private void Update()
     {
         //check how many players are in the room and if the players are two active the button
+        //check this player is a master of the room or not
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount == 2)
         {
             btn_play.SetActive(true);
@@ -144,6 +145,7 @@ public class MatchmakingLobbyManager : MonoBehaviourPunCallbacks
         {
             NetworkPlayerItem newPlayerItem = Instantiate(playerItemPrefab, playerItemParent);
             newPlayerItem.SetPlayerInfo(player.Value);
+            
             if (player.Value == PhotonNetwork.LocalPlayer)
             {
                 newPlayerItem.ApplyLocalChanges();

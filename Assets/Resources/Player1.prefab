@@ -492,7 +492,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sp: 10000
   spDecreaseTime: 1
-  img_spGauge: {fileID: 0}
 --- !u!1 &1338682700707210146
 GameObject:
   m_ObjectHideFlags: 0

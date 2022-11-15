@@ -24,14 +24,14 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        view = GetComponent<PhotonView>();
+        thePlayerController.view = GetComponent<PhotonView>();
     }
     
 
     // Update is called once per frame
     void Update()
     {
-        if (view.IsMine && !FurnitureType.isPlayerUsingFurniture)
+        if (thePlayerController.view.IsMine && !FurnitureType.isPlayerUsingFurniture)
         {
             PlayerMovement();
         }

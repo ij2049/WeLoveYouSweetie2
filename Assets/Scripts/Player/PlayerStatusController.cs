@@ -12,19 +12,22 @@ public class PlayerStatusController : MonoBehaviour
     private int currentSp;
     [SerializeField] private int spDecreaseTime;
     private int currentSpDecreaseTime;
-    [SerializeField] private Image img_spGauge;
-    
+    private Image img_spGauge;
+
+
     private PhotonView view;
     private PlayerStatusController thePlayerStatusController;
-
+    private PlayerManager thePlayerManager;
 
     private void Awake()
     {
         thePlayerStatusController = GetComponent<PlayerStatusController>();
+        thePlayerManager = FindObjectOfType<PlayerManager>();
     }
     
     private void Start()
     {
+        thePlayerStatusController.img_spGauge = thePlayerManager.GetImage_SpGauge();
         thePlayerStatusController.view = GetComponent<PhotonView>();
         thePlayerStatusController.currentSp = thePlayerStatusController.sp;
     }

@@ -30,6 +30,11 @@ public class NetworkPlayerItem : MonoBehaviourPunCallbacks
         backgrounImage = FindObjectOfType<Image>();
     }
 
+    private void Start()
+    {
+        playerProperties["playerAvatar"] = 0;
+    }
+
     public void SetPlayerInfo(Player _player)
     {
         playerName.text = _player.NickName;
@@ -43,12 +48,12 @@ public class NetworkPlayerItem : MonoBehaviourPunCallbacks
         btn_leftArrow.SetActive(true);
         btn_rightArrow.SetActive(true);
     }
-
+    
     public void OnClickLeftArrow()
     {
         if ((int)playerProperties["playerAvatar"] == 0)
         {
-            playerProperties["[playerAvatar"] = avatars.Length - 1;
+            playerProperties["playerAvatar"] = avatars.Length - 1;
         }
         else
         {
@@ -61,7 +66,7 @@ public class NetworkPlayerItem : MonoBehaviourPunCallbacks
     {
         if ((int)playerProperties["playerAvatar"] == avatars.Length - 1)
         {
-            playerProperties["[playerAvatar"] = 0;
+            playerProperties["playerAvatar"] = 0;
         }
         else
         {

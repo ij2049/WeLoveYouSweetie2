@@ -28,6 +28,7 @@ public class FurnitureType : MonoBehaviour
     {
         theFurnitureType = GetComponent<FurnitureType>();
         theBabyManager = FindObjectOfType<BabyManager>();
+        isPlayerUsingFurniture = false;
     }
 
     public void TryFurniture(PlayerInventory _playerInvenotry)
@@ -118,19 +119,19 @@ public class FurnitureType : MonoBehaviour
         if (!isPlayerUsingFurniture)
         {
             isPlayerUsingFurniture = true;
-            _playerInventory.gameObject.transform.localPosition = bedPos[0].position;
+            _playerInventory.gameObject.transform.position = bedPos[0].position;
             Debug.Log("Put player 0 position");
 
         }
         else
         {
-            _playerInventory.gameObject.transform.localPosition = bedPos[1].position;
+            _playerInventory.gameObject.transform.position = bedPos[1].position;
             Debug.Log("Put player 1 position");
         }
         
         yield return new WaitForSeconds(4f);
         _playerStatus.FullSpStatus();
-        _playerInventory.gameObject.transform.localPosition = bedPos[2].position;
+        _playerInventory.gameObject.transform.position = bedPos[2].position;
         Debug.Log("Now false");
         isPlayerUsingFurniture = false;
     }

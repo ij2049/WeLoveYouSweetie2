@@ -82,8 +82,7 @@ public class FurnitureType : MonoBehaviour
         //if the baby is in the cradle and no one is holding baby -> Try baby hold from cradle
         if (BabyManager.IsBabyCradle && !BabyManager.IsBabyHold)
         {
-            BabyManager.IsBabyCradle = false;
-            BabyManager.IsBabyHold = true;
+
             for (int i = 0; i < _playerInventory.playerItems.Length; i++)
             {
                 if (_playerInventory.playerItems[i].itemsName == "Baby")
@@ -132,6 +131,8 @@ public class FurnitureType : MonoBehaviour
     [PunRPC]
     private void EnablePlayerBaby()
     {
+        BabyManager.IsBabyCradle = false;
+        BabyManager.IsBabyHold = true;
         StartCoroutine(TryEnableBaby());
     }
 

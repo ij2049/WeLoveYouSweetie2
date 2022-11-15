@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Photon.Pun;
 using UnityEngine;
 
 public enum Furniture
@@ -21,7 +23,13 @@ public class FurnitureType : MonoBehaviour
     private FurnitureType theFurnitureType;
     private string furnitureInfo;
     private BabyManager theBabyManager;
-
+    private PhotonView view;
+    
+    //for temp (Cradle)
+    private int cradleBabyNum;
+    private GameObject temp_player;
+    private int playerBabyNum;
+    
     public static bool isPlayerUsingFurniture;
 
     private void Awake()
@@ -29,6 +37,11 @@ public class FurnitureType : MonoBehaviour
         theFurnitureType = GetComponent<FurnitureType>();
         theBabyManager = FindObjectOfType<BabyManager>();
         isPlayerUsingFurniture = false;
+    }
+
+    private void Start()
+    {
+        theFurnitureType.view = GetComponent<PhotonView>();
     }
 
     public void TryFurniture(PlayerInventory _playerInvenotry)
@@ -75,12 +88,18 @@ public class FurnitureType : MonoBehaviour
             {
                 if (_playerInventory.playerItems[i].itemsName == "Baby")
                 {
-                    _playerInventory.playerItems[i].itemObject.SetActive(true);
+                    theFurnitureType.temp_player = _playerInventory.gameObject;
+                    theFurnitureType.playerBabyNum = i;
+                    Debug.Log(theFurnitureType.temp_player.name);
+                    Debug.Log(theFurnitureType.playerBabyNum);
+                    view.RPC("EnablePlayerBaby", RpcTarget.All);
+
                     for (int j = 0; j < theBabyManager.theBabyInfo.Length; j++)
                     {
                         if (theBabyManager.theBabyInfo[j].babyLocationName == "Cradle")
                         {
-                            theBabyManager.theBabyInfo[j].obj_baby.SetActive(false);
+                            cradleBabyNum = j;
+                            view.RPC("DisalbleCradleBaby", RpcTarget.All);
                         }
                     }
                     Debug.Log("Baby is Hold!");
@@ -108,7 +127,26 @@ public class FurnitureType : MonoBehaviour
                 }
             }
         }
-        
+    }
+
+    [PunRPC]
+    private void EnablePlayerBaby()
+    {
+        StartCoroutine(TryEnableBaby());
+    }
+
+    private IEnumerator TryEnableBaby()
+    {
+        PlayerInventory _playerInventory;
+        _playerInventory = temp_player.GetComponent<PlayerInventory>();
+        _playerInventory.playerItems[playerBabyNum].itemObject.SetActive(true);
+        yield return null;
+    }
+
+    [PunRPC]
+    private void DisalbleCradleBaby()
+    {
+        theBabyManager.theBabyInfo[cradleBabyNum].obj_baby.SetActive(false);
     }
 
     private IEnumerator TryBed(PlayerInventory _playerInventory)

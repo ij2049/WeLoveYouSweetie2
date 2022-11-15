@@ -265,6 +265,7 @@ GameObject:
   - component: {fileID: 218697769}
   - component: {fileID: 218697771}
   - component: {fileID: 218697772}
+  - component: {fileID: 218697773}
   m_Layer: 0
   m_Name: Milk Bottle
   m_TagString: Untagged
@@ -332,6 +333,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &218697773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218697768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &227673543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1245,6 +1268,7 @@ GameObject:
   - component: {fileID: 1542366776}
   - component: {fileID: 1542366777}
   - component: {fileID: 1542366778}
+  - component: {fileID: 1542366779}
   m_Layer: 0
   m_Name: bed
   m_TagString: Untagged
@@ -1332,6 +1356,28 @@ MonoBehaviour:
   - {fileID: 227673544}
   - {fileID: 121173819}
   - {fileID: 396759578}
+--- !u!114 &1542366779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542366774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 4
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1619776340
 GameObject:
   m_ObjectHideFlags: 0
@@ -1455,6 +1501,7 @@ GameObject:
   - component: {fileID: 1638291401}
   - component: {fileID: 1638291402}
   - component: {fileID: 1638291403}
+  - component: {fileID: 1638291404}
   m_Layer: 0
   m_Name: Trash Bin
   m_TagString: Untagged
@@ -1588,6 +1635,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   theFurniture: 2
   bedPos: []
+--- !u!114 &1638291404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638291398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 3
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1641202981
 GameObject:
   m_ObjectHideFlags: 0
@@ -2146,6 +2215,7 @@ GameObject:
   - component: {fileID: 2076920046}
   - component: {fileID: 2076920047}
   - component: {fileID: 2076920048}
+  - component: {fileID: 2076920049}
   m_Layer: 0
   m_Name: Cradle
   m_TagString: Untagged
@@ -2228,6 +2298,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   theFurniture: 0
   bedPos: []
+--- !u!114 &2076920049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076920044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 5
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2140510117
 GameObject:
   m_ObjectHideFlags: 0

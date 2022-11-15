@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 8823396751929818698}
   m_Layer: 0
   m_Name: Bottle
-  m_TagString: Item
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 8982682009009838853}
   m_Layer: 0
   m_Name: Artboard 3
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 379476530362252275}
   m_Layer: 0
   m_Name: Baby
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

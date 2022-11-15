@@ -40,6 +40,7 @@ public class InteractionController : MonoBehaviour
 
     
     private string itemsInfo;
+    private PhotonView view;
     private GameObject player;
     private string furnitureInfo;
     private bool isPlayerEntered;
@@ -48,6 +49,7 @@ public class InteractionController : MonoBehaviour
     private void Awake()
     {
         theInteractionController = GetComponent<InteractionController>();
+        theInteractionController.view = GetComponent<PhotonView>();
     }
 
     private void Start()
@@ -74,7 +76,10 @@ public class InteractionController : MonoBehaviour
             theInteractionController.player = other.gameObject;
             Debug.Log(theInteractionController.itemsInfo);
             theInteractionController.isPlayerEntered = true;
-            ShowBtnInfo();
+            if (theInteractionController.view.IsMine)
+            {
+                ShowBtnInfo();
+            }
         }
     }
 

@@ -13,7 +13,7 @@ public enum Furniture
     Bed
 }
 
-public class FurnitureType : MonoBehaviour
+public class FurnitureType : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Furniture theFurniture;
 
@@ -24,12 +24,8 @@ public class FurnitureType : MonoBehaviour
     private string furnitureInfo;
     private BabyManager theBabyManager;
     private PhotonView view;
-    
-    //for temp (Cradle)
-    private int cradleBabyNum;
-    private GameObject temp_player;
-    private int playerBabyNum;
-    
+    private PlayerInventory thePlayerInventory;
+
     public static bool isPlayerUsingFurniture;
 
     private void Awake()
@@ -45,7 +41,7 @@ public class FurnitureType : MonoBehaviour
     }
 
     public void TryFurniture(PlayerInventory _playerInvenotry)
-    {
+    { 
         switch (theFurnitureType.theFurniture)
         {
             case Furniture.Cradle: TryCradle(_playerInvenotry); break;
@@ -79,75 +75,86 @@ public class FurnitureType : MonoBehaviour
 
     private void TryCradle(PlayerInventory _playerInventory)
     {
+        theFurnitureType.thePlayerInventory = _playerInventory;
+        Debug.Log(_playerInventory.gameObject.name);
         //if the baby is in the cradle and no one is holding baby -> Try baby hold from cradle
-        if (BabyManager.IsBabyCradle && !BabyManager.IsBabyHold)
+        if (BabyManager.isBabyCradle && !BabyManager.isBabyHold)
         {
-
-            for (int i = 0; i < _playerInventory.playerItems.Length; i++)
+            if (!_playerInventory.holdingItems.isThisPlayerBabyHold)
             {
-                if (_playerInventory.playerItems[i].itemsName == "Baby")
+                view.RPC("CurdleBoolSetting", RpcTarget.AllBuffered, false,true);
+                _playerInventory.holdingItems.isThisPlayerBabyHold = true;
+                for (int i = 0; i < _playerInventory.playerItems.Length; i++)
                 {
-                    theFurnitureType.temp_player = _playerInventory.gameObject;
-                    theFurnitureType.playerBabyNum = i;
-                    Debug.Log(theFurnitureType.temp_player.name);
-                    Debug.Log(theFurnitureType.playerBabyNum);
-                    view.RPC("EnablePlayerBaby", RpcTarget.All);
-
-                    for (int j = 0; j < theBabyManager.theBabyInfo.Length; j++)
+                    if (_playerInventory.playerItems[i].itemsName == "Baby")
                     {
-                        if (theBabyManager.theBabyInfo[j].babyLocationName == "Cradle")
+                        string _playerName;
+                        _playerName = _playerInventory.gameObject.name;
+                        view.RPC("EnablePlayerBaby", RpcTarget.AllBuffered,i,_playerName,true);
+
+                            for (int j = 0; j < theBabyManager.theBabyInfo.Length; j++)
                         {
-                            cradleBabyNum = j;
-                            view.RPC("DisalbleCradleBaby", RpcTarget.All);
+                            if (theBabyManager.theBabyInfo[j].babyLocationName == "Cradle")
+                            {
+                                Debug.Log("Baby is Hold!");
+                                view.RPC("CradleBabyOnOff", RpcTarget.AllBuffered, j,false);
+                            }
                         }
                     }
-                    Debug.Log("Baby is Hold!");
                 }
             }
         }
-        //try to put baby inside he cradle
-        else if (!BabyManager.IsBabyCradle && BabyManager.IsBabyHold)
+        //try to put baby insidethe cradle
+        else if (!BabyManager.isBabyCradle && BabyManager.isBabyHold)
         {
-            BabyManager.IsBabyCradle = true;
-            BabyManager.IsBabyHold = false;
-            for (int i = 0; i < _playerInventory.playerItems.Length; i++)
+            if (_playerInventory.holdingItems.isThisPlayerBabyHold)
             {
-                if (_playerInventory.playerItems[i].itemsName == "Baby")
+                view.RPC("CurdleBoolSetting", RpcTarget.AllBuffered, true,false);
+                _playerInventory.holdingItems.isThisPlayerBabyHold = false;
+                for (int i = 0; i < _playerInventory.playerItems.Length; i++)
                 {
-                    _playerInventory.playerItems[i].itemObject.SetActive(false);
-                    for (int j = 0; j < theBabyManager.theBabyInfo.Length; j++)
+                    if (_playerInventory.playerItems[i].itemsName == "Baby")
                     {
-                        if (theBabyManager.theBabyInfo[j].babyLocationName == "Cradle")
+                        string _playerName;
+                        _playerName = _playerInventory.gameObject.name;
+                        view.RPC("EnablePlayerBaby", RpcTarget.AllBuffered,i,_playerName,false);
+                        
+                        for (int j = 0; j < theBabyManager.theBabyInfo.Length; j++)
                         {
-                            theBabyManager.theBabyInfo[j].obj_baby.SetActive(true);
+                            if (theBabyManager.theBabyInfo[j].babyLocationName == "Cradle")
+                            {
+                                view.RPC("CradleBabyOnOff", RpcTarget.AllBuffered, j,true);
+                            }
                         }
+                        Debug.Log("Baby is now in the cradle!");
                     }
-                    Debug.Log("Baby is now in the cradle!");
                 }
             }
         }
     }
 
     [PunRPC]
-    private void EnablePlayerBaby()
+    void CurdleBoolSetting(bool _isBabyCradle, bool isBabyHold)
     {
-        BabyManager.IsBabyCradle = false;
-        BabyManager.IsBabyHold = true;
-        StartCoroutine(TryEnableBaby());
-    }
-
-    private IEnumerator TryEnableBaby()
-    {
-        PlayerInventory _playerInventory;
-        _playerInventory = temp_player.GetComponent<PlayerInventory>();
-        _playerInventory.playerItems[playerBabyNum].itemObject.SetActive(true);
-        yield return null;
+        BabyManager.isBabyCradle = _isBabyCradle;
+        BabyManager.isBabyHold = isBabyHold;
     }
 
     [PunRPC]
-    private void DisalbleCradleBaby()
+    void EnablePlayerBaby(int _num, string _playerObjName, bool _isOn)
     {
-        theBabyManager.theBabyInfo[cradleBabyNum].obj_baby.SetActive(false);
+        Debug.Log("player baby hold");
+        GameObject _temp = GameObject.Find(_playerObjName);
+        thePlayerInventory = _temp.GetComponent<PlayerInventory>();
+        Debug.Log(thePlayerInventory.gameObject.name);
+        thePlayerInventory.playerItems[_num].itemObject.SetActive(_isOn);
+    }
+
+    [PunRPC]
+    void CradleBabyOnOff(int _cradleBabyNum, bool _isOn)
+    {
+        Debug.Log("remove baby from cradle");
+        theFurnitureType.theBabyManager.theBabyInfo[_cradleBabyNum].obj_baby.SetActive(_isOn);
     }
 
     private IEnumerator TryBed(PlayerInventory _playerInventory)

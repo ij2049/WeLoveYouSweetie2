@@ -21,7 +21,7 @@ public enum InteractableFurniture
     Bed
 }
 
-public class InteractionController : MonoBehaviour
+public class InteractionController : MonoBehaviourPunCallbacks
 {
     [Header("Item")]
     [SerializeField] private bool isItem;
@@ -49,7 +49,7 @@ public class InteractionController : MonoBehaviour
     private void Awake()
     {
         theInteractionController = GetComponent<InteractionController>();
-        theInteractionController.view = GetComponent<PhotonView>();
+        view = GetComponent<PhotonView>();
     }
 
     private void Start()
@@ -76,7 +76,7 @@ public class InteractionController : MonoBehaviour
             theInteractionController.player = other.gameObject;
             Debug.Log(theInteractionController.itemsInfo);
             theInteractionController.isPlayerEntered = true;
-            if (theInteractionController.view.IsMine)
+            if (view.IsMine)
             {
                 ShowBtnInfo();
             }
@@ -144,7 +144,7 @@ public class InteractionController : MonoBehaviour
             obj_buttonInfo.SetActive(true);
         }
     }
-
+    
     private void TryInteratcion(GameObject _player)
     {
         //Items

@@ -13,11 +13,11 @@ public class BabyInfo
 public class BabyManager : MonoBehaviour
 {
     public BabyInfo[] theBabyInfo;
-    public static bool IsBabyHold;
-    public static bool IsBabyCradle;
+    public static bool isBabyHold;
+    public static bool isBabyCradle;
 
     private void Start()
     {
-        IsBabyCradle = true;
+        isBabyCradle = true;
     }
 }

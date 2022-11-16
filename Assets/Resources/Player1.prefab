@@ -444,6 +444,9 @@ MonoBehaviour:
     itemObject: {fileID: 936393834}
   - itemsName: Baby
     itemObject: {fileID: 809317050043466511}
+  holdingItems:
+    isThisPlayerBabyHold: 0
+    isThisPlayerBottleHold: 0
   thePlayerInventory: {fileID: 0}
 --- !u!114 &7081454964877429408
 MonoBehaviour:

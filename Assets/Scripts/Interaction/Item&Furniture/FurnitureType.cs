@@ -25,14 +25,12 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     private BabyManager theBabyManager;
     private PhotonView view;
     private PlayerInventory thePlayerInventory;
-
-    public static bool isPlayerUsingFurniture;
-
+    public static bool isBedUsing;
+    
     private void Awake()
     {
         theFurnitureType = GetComponent<FurnitureType>();
         theBabyManager = FindObjectOfType<BabyManager>();
-        isPlayerUsingFurniture = false;
     }
 
     private void Start()
@@ -61,7 +59,8 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             {
                 if (_playerInventory.playerItems[i].itemsName != "Baby")
                 {
-                    _playerInventory.playerItems[i].itemObject.SetActive(false);
+                    string _playerName = _playerInventory.gameObject.name;
+                    view.RPC("TrashbinEmptyHand", RpcTarget.AllBuffered,_playerName,i);
                 }
             }
             PlayerInventory.isHolding = false;
@@ -88,8 +87,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
                 {
                     if (_playerInventory.playerItems[i].itemsName == "Baby")
                     {
-                        string _playerName;
-                        _playerName = _playerInventory.gameObject.name;
+                        string _playerName = _playerInventory.gameObject.name;
                         view.RPC("EnablePlayerBaby", RpcTarget.AllBuffered,i,_playerName,true);
 
                             for (int j = 0; j < theBabyManager.theBabyInfo.Length; j++)
@@ -115,8 +113,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
                 {
                     if (_playerInventory.playerItems[i].itemsName == "Baby")
                     {
-                        string _playerName;
-                        _playerName = _playerInventory.gameObject.name;
+                        string _playerName = _playerInventory.gameObject.name;
                         view.RPC("EnablePlayerBaby", RpcTarget.AllBuffered,i,_playerName,false);
                         
                         for (int j = 0; j < theBabyManager.theBabyInfo.Length; j++)
@@ -132,7 +129,62 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             }
         }
     }
+    
+    private IEnumerator TryBed(PlayerInventory _playerInventory)
+    {
+        PlayerStatusController _playerStatus = _playerInventory.gameObject.GetComponent<PlayerStatusController>();
+        string _playerName = _playerInventory.gameObject.name;
+        PlayerController _thePlayerController = _playerInventory.gameObject.GetComponent<PlayerController>();
 
+        Debug.Log("TryBed");
+        if (!_thePlayerController.isPlayerUsingNomoveFurniture && !isBedUsing)
+        {
+            view.RPC("BedBoolSetting", RpcTarget.AllBuffered,_playerName, true);
+            view.RPC("BedPuttingPlayerPos", RpcTarget.AllBuffered,_playerName ,0);
+            Debug.Log("Put player 0 position");
+
+        }
+        else
+        {
+            view.RPC("BedPuttingPlayerPos", RpcTarget.AllBuffered,_playerName ,1);
+
+            Debug.Log("Put player 1 position");
+        }
+        
+        yield return new WaitForSeconds(4f);
+        _playerStatus.FullSpStatus();
+        view.RPC("BedPuttingPlayerPos", RpcTarget.AllBuffered,_playerName ,2);
+
+        Debug.Log("Now false");
+        view.RPC("BedBoolSetting", RpcTarget.AllBuffered, _playerName,false);
+
+    }
+    
+    [PunRPC]
+    void BedPuttingPlayerPos(string _playerObjName, int _num)
+    {
+        GameObject _temp = GameObject.Find(_playerObjName);
+        thePlayerInventory = _temp.GetComponent<PlayerInventory>();
+        thePlayerInventory.gameObject.transform.position = bedPos[_num].position;
+    }
+
+    [PunRPC]
+    void BedBoolSetting(string _playerObjName, bool _isUsing)
+    {
+        GameObject _temp = GameObject.Find(_playerObjName);
+        PlayerController _playerController = _temp.GetComponent<PlayerController>();
+        _playerController.isPlayerUsingNomoveFurniture = _isUsing;
+        isBedUsing = _isUsing;
+    }
+
+    [PunRPC]
+    void TrashbinEmptyHand(string _playerObjName, int _num)
+    {
+        GameObject _temp = GameObject.Find(_playerObjName);
+        thePlayerInventory = _temp.GetComponent<PlayerInventory>();
+        thePlayerInventory.playerItems[_num].itemObject.SetActive(false);
+    }
+    
     [PunRPC]
     void CurdleBoolSetting(bool _isBabyCradle, bool isBabyHold)
     {
@@ -156,29 +208,5 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         Debug.Log("remove baby from cradle");
         theFurnitureType.theBabyManager.theBabyInfo[_cradleBabyNum].obj_baby.SetActive(_isOn);
     }
-
-    private IEnumerator TryBed(PlayerInventory _playerInventory)
-    {
-        PlayerStatusController _playerStatus = _playerInventory.gameObject.GetComponent<PlayerStatusController>();
-        
-        Debug.Log("TryBed");
-        if (!isPlayerUsingFurniture)
-        {
-            isPlayerUsingFurniture = true;
-            _playerInventory.gameObject.transform.position = bedPos[0].position;
-            Debug.Log("Put player 0 position");
-
-        }
-        else
-        {
-            _playerInventory.gameObject.transform.position = bedPos[1].position;
-            Debug.Log("Put player 1 position");
-        }
-        
-        yield return new WaitForSeconds(4f);
-        _playerStatus.FullSpStatus();
-        _playerInventory.gameObject.transform.position = bedPos[2].position;
-        Debug.Log("Now false");
-        isPlayerUsingFurniture = false;
-    }
+    
 }

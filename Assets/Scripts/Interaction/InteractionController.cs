@@ -158,8 +158,8 @@ public class InteractionController : MonoBehaviourPunCallbacks
                 PlayerInventory.isHolding = true;
                 obj_buttonInfo.SetActive(false);
                 Debug.Log("Player is not holding item!");
-                PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
-                HoldItem(_playerInventory);
+                string _playerObjName = _player.name;
+                view.RPC("HoldItem", RpcTarget.AllBuffered,_playerObjName);
             }
         }
         
@@ -205,9 +205,13 @@ public class InteractionController : MonoBehaviourPunCallbacks
             Debug.Log("game object name : " + theInteractionController.gameObject.name + " have multiple choices for the interactions");
         }
     }
-
-    private void HoldItem(PlayerInventory _playerInventory)
+    
+    [PunRPC]
+    void HoldItem(string _playerObjName)
     {
+        GameObject _temp = GameObject.Find(_playerObjName);
+        PlayerInventory _playerInventory = _temp.GetComponent<PlayerInventory>();
+        
         Debug.Log("Try Holditem");
 
         for (int i = 0; i < _playerInventory.thePlayerInventory.playerItems.Length; i++)

@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private Vector2 movement;
     private PhotonView view;
 
+    public bool isPlayerUsingNomoveFurniture;
     private PlayerController thePlayerController;
 
     private void Awake()
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (thePlayerController.view.IsMine && !FurnitureType.isPlayerUsingFurniture)
+        if (thePlayerController.view.IsMine && !thePlayerController.isPlayerUsingNomoveFurniture)
         {
             PlayerMovement();
         }

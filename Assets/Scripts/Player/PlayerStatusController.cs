@@ -38,7 +38,9 @@ public class PlayerStatusController : MonoBehaviour
         if (thePlayerStatusController.view.IsMine)
         {
             StartStatusCount();
-            GaugeUpdate();
+            if(view.IsMine)
+                GaugeUpdate();
+            Debug.Log(thePlayerStatusController.currentSp);
         }
     }
     

@@ -23,12 +23,10 @@ public class PlayerInventory : MonoBehaviour
     public HoldingItems holdingItems;
     public PlayerInventory thePlayerInventory;
     
-    public static bool isHolding;
+    public static bool isItemHolding;
 
     private void Awake()
     {
         thePlayerInventory = GetComponent<PlayerInventory>();
     }
-    
-    
 }

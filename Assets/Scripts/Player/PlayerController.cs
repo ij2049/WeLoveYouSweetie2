@@ -17,10 +17,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public bool isPlayerUsingNomoveFurniture;
     private PlayerController thePlayerController;
+    private PlayerInventory thePlayerInventory;
 
     private void Awake()
     {
         thePlayerController = GetComponent<PlayerController>();
+        thePlayerInventory = GetComponent<PlayerInventory>();
     }
 
     private void Start()
@@ -35,7 +37,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (thePlayerController.view.IsMine && !thePlayerController.isPlayerUsingNomoveFurniture)
         {
             PlayerMovement();
+            if (thePlayerInventory.holdingItems.isThisPlayerBottleHold)
+            {
+                if (BabyManager.isBabyHold)
+                {
+                    Debug.Log("Try baby feeding!");
+
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        Debug.Log("Try baby feeding! pressed E");
+                        FeedingBaby();
+                    }
+                }
+            }
         }
+        
+ 
     }
     
 
@@ -43,5 +60,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
         transform.position += input.normalized * moveSpeed * Time.deltaTime;
+    }
+
+    private void FeedingBaby()
+    {
+        ItemType _itemType;
+        for (int i = 0; i < thePlayerInventory.playerItems.Length; i++)
+        {
+            if (thePlayerInventory.playerItems[i].itemsName == "Bottle")
+            {
+                _itemType = thePlayerInventory.playerItems[i].itemObject.GetComponent<ItemType>();
+                if (_itemType != null)
+                {
+                    _itemType.TryFeedBaby(thePlayerInventory, i);
+                }
+            }
+        }
     }
 }

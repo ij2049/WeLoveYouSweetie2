@@ -64,4 +64,9 @@ public class BabyStatus : MonoBehaviour
             Debug.Log("Baby Hunger became 0");
         }
     }
+
+    public void FullHunger()
+    {
+        currenthunger = hunger;
+    }
 }

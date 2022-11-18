@@ -53,7 +53,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     {
         Debug.Log("Try Trashbin!");
 
-        if (PlayerInventory.isHolding)
+        if (PlayerInventory.isItemHolding)
         {
             for (int i = 0; i < _playerInventory.playerItems.Length; i++)
             {
@@ -63,7 +63,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
                     view.RPC("TrashbinEmptyHand", RpcTarget.AllBuffered,_playerName,i);
                 }
             }
-            PlayerInventory.isHolding = false;
+            PlayerInventory.isItemHolding = false;
         }
 
         else

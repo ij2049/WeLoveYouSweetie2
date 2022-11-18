@@ -74,7 +74,6 @@ public class InteractionController : MonoBehaviourPunCallbacks
         if (other.CompareTag("Player"))
         {
             theInteractionController.player = other.gameObject;
-            Debug.Log(theInteractionController.itemsInfo);
             theInteractionController.isPlayerEntered = true;
             if (view.IsMine)
             {
@@ -153,13 +152,18 @@ public class InteractionController : MonoBehaviourPunCallbacks
 
             Debug.Log("Try Item Interaction!");
 
-            if (!PlayerInventory.isHolding)
+            if (!PlayerInventory.isItemHolding)
             {
-                PlayerInventory.isHolding = true;
+                PlayerInventory.isItemHolding = true;
                 obj_buttonInfo.SetActive(false);
                 Debug.Log("Player is not holding item!");
                 string _playerObjName = _player.name;
                 view.RPC("HoldItem", RpcTarget.AllBuffered,_playerObjName);
+            }
+
+            else
+            {
+                Debug.Log("player is already holding the item");
             }
         }
         
@@ -171,7 +175,7 @@ public class InteractionController : MonoBehaviourPunCallbacks
             
             if (!theInteractionController.isHoldable)
             {
-                if (!PlayerInventory.isHolding)
+                if (!PlayerInventory.isItemHolding)
                 {
                     obj_buttonInfo.SetActive(false);
                     PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
@@ -180,13 +184,23 @@ public class InteractionController : MonoBehaviourPunCallbacks
 
                 else
                 {
-                    Debug.Log("Sth is hold");
+                    if (BabyManager.isBabyHold || theInteractionController.furnitureInfo == "Cradle")
+                    {
+                        obj_buttonInfo.SetActive(false);
+                        PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
+                        UseFurniture(_playerInventory);
+                    }
+                    else
+                    {
+                        Debug.Log("Sth is hold");
+
+                    }
                 }
             }
 
             else
             {
-                if (PlayerInventory.isHolding)
+                if (PlayerInventory.isItemHolding)
                 {
                     PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
                     UseFurniture(_playerInventory);
@@ -211,8 +225,6 @@ public class InteractionController : MonoBehaviourPunCallbacks
     {
         GameObject _temp = GameObject.Find(_playerObjName);
         PlayerInventory _playerInventory = _temp.GetComponent<PlayerInventory>();
-        
-        Debug.Log("Try Holditem");
 
         for (int i = 0; i < _playerInventory.thePlayerInventory.playerItems.Length; i++)
         {
@@ -220,6 +232,17 @@ public class InteractionController : MonoBehaviourPunCallbacks
             if (theInteractionController.itemsInfo == _playerInventory.playerItems[i].itemsName)
             {
                 _playerInventory.thePlayerInventory.playerItems[i].itemObject.SetActive(true);
+                Debug.Log("Try Holditem");
+                
+                //check this is Bottle or not
+                if (_playerInventory.thePlayerInventory.playerItems[i].itemsName == "Bottle")
+                {
+                    _playerInventory.thePlayerInventory.holdingItems.isThisPlayerBottleHold = true;
+                }
+                else
+                {
+                    Debug.Log("No list item is hold checking. Please check " + _playerInventory.gameObject.name + " this object's playerInventory");
+                }
             }
         }
     }

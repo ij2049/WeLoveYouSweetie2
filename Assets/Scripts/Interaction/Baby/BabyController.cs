@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,8 +13,15 @@ public class BabyAction
 public class BabyController : MonoBehaviour
 {
     private BabyController theBabyController;
+    private BabyManager theBabyManager;
+    public SpriteRenderer feedingGauge;
     [SerializeField] private BabyAction[] theBabyAction;
-    
+
+    private void Awake()
+    {
+        theBabyManager = FindObjectOfType<BabyManager>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +31,8 @@ public class BabyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        theBabyController.feedingGauge.size = new Vector2(theBabyManager.feedingGauge,1);
+        
         if (BabyStatus.isBabyHungry)
         {
             for (int i = 0; i < theBabyController.theBabyAction.Length; i++)

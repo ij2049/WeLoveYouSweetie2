@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class BabyInfo
@@ -15,6 +16,7 @@ public class BabyManager : MonoBehaviour
     public BabyInfo[] theBabyInfo;
     public static bool isBabyHold;
     public static bool isBabyCradle;
+    public float feedingGauge;
 
     private void Start()
     {

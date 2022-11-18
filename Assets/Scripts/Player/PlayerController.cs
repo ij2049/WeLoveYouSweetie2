@@ -18,11 +18,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public bool isPlayerUsingNomoveFurniture;
     private PlayerController thePlayerController;
     private PlayerInventory thePlayerInventory;
-
+    private BabyManager theBabyManager;
+    
     private void Awake()
     {
         thePlayerController = GetComponent<PlayerController>();
         thePlayerInventory = GetComponent<PlayerInventory>();
+        theBabyManager = FindObjectOfType<BabyManager>();
     }
 
     private void Start()
@@ -37,33 +39,43 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (thePlayerController.view.IsMine && !thePlayerController.isPlayerUsingNomoveFurniture)
         {
             PlayerMovement();
-            if (thePlayerInventory.holdingItems.isThisPlayerBottleHold)
+            if (thePlayerInventory.holdingItems.isThisPlayerBottleHold && PlayerInventory.isItemHolding)
             {
                 if (BabyManager.isBabyHold)
                 {
                     Debug.Log("Try baby feeding!");
 
-                    if (Input.GetKeyDown(KeyCode.E))
+                    if (Input.GetButtonDown("Jump"))
                     {
-                        Debug.Log("Try baby feeding! pressed E");
-                        FeedingBaby();
+                        StartCoroutine(FeedingGaugeUpdate());
+
+                        if (theBabyManager.feedingGauge == 5)
+                        {
+                            FeedingBaby();
+                        }
                     }
                 }
             }
         }
-        
- 
     }
-    
 
     private void PlayerMovement()
     {
         Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
         transform.position += input.normalized * moveSpeed * Time.deltaTime;
     }
+    
+    private IEnumerator FeedingGaugeUpdate()
+    {
+        yield return new WaitForSeconds(0.5f);
+        theBabyManager.feedingGauge++;
+        Debug.Log("Try baby feeding! pressed space");
+    }
+
 
     private void FeedingBaby()
     {
+        theBabyManager.feedingGauge = 0;
         ItemType _itemType;
         for (int i = 0; i < thePlayerInventory.playerItems.Length; i++)
         {

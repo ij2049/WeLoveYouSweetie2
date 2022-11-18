@@ -39,20 +39,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (thePlayerController.view.IsMine && !thePlayerController.isPlayerUsingNomoveFurniture)
         {
             PlayerMovement();
+            
             if (thePlayerInventory.holdingItems.isThisPlayerBottleHold && PlayerInventory.isItemHolding)
             {
-                if (BabyManager.isBabyHold)
+                if (BabyManager.isBabyHold && BabyStatus.isBabyHungry)
                 {
                     Debug.Log("Try baby feeding!");
 
                     if (Input.GetButtonDown("Jump"))
-                    {
-                        StartCoroutine(FeedingGaugeUpdate());
-
-                        if (theBabyManager.feedingGauge == 5)
-                        {
-                            FeedingBaby();
-                        }
+                    { 
+                        view.RPC("TryFeeding", RpcTarget.AllBuffered);   
                     }
                 }
             }
@@ -63,6 +59,23 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
         transform.position += input.normalized * moveSpeed * Time.deltaTime;
+    }
+
+    [PunRPC]
+    private void TryFeeding()
+    {
+
+        if (theBabyManager.feedingGauge == 5)
+        {
+            PlayerInventory.isItemHolding = false;
+            thePlayerInventory.holdingItems.isThisPlayerBottleHold = false;
+            FeedingBaby();
+        }
+        
+        else
+        {
+            StartCoroutine(FeedingGaugeUpdate());
+        }
     }
     
     private IEnumerator FeedingGaugeUpdate()
@@ -75,7 +88,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void FeedingBaby()
     {
-        theBabyManager.feedingGauge = 0;
+        theBabyManager.feedingGauge = 0.01f;
         ItemType _itemType;
         for (int i = 0; i < thePlayerInventory.playerItems.Length; i++)
         {

@@ -952,6 +952,8 @@ MonoBehaviour:
   hunger: 10000
   hungerDecreaseTime: 1
   whenHungerTelling: 6000
+  timeDuration: 30
+  babyEventsCount: 2
 --- !u!1 &627056052
 GameObject:
   m_ObjectHideFlags: 0

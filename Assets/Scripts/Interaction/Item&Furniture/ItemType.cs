@@ -42,7 +42,6 @@ public class ItemType : MonoBehaviour
     public void TryFeedBaby(PlayerInventory _playerInventory, int _num)
     {
         string _playerObjName = _playerInventory.gameObject.name;
-        PlayerInventory.isItemHolding = false;
         view.RPC("FeedBaby", RpcTarget.AllBuffered,_playerObjName, _num);
 
     }
@@ -50,6 +49,7 @@ public class ItemType : MonoBehaviour
     [PunRPC]
     void FeedBaby(string _playerObjName, int _num)
     {
+        Debug.Log("Final step of feeding baby");
         GameObject _player = GameObject.Find(_playerObjName);
         PlayerInventory _playerInventory = _player.GetComponent<PlayerInventory>();
         _playerInventory.playerItems[_num].itemObject.SetActive(false);

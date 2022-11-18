@@ -55,6 +55,13 @@ MonoBehaviour:
   - BedPuttingPlayerPos
   - BabyStatusCount
   - FeedBaby
+  - TryFeeding
+  - BabyHungryStatusCount
+  - ResetTimer
+  - Countdown
+  - StartEvent
+  - ResetEventTimer
+  - ChooseRandomEvent
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

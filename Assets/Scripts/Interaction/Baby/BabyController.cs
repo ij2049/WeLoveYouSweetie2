@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 [System.Serializable]
@@ -31,8 +32,8 @@ public class BabyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Feeding Event
         theBabyController.feedingGauge.size = new Vector2(theBabyManager.feedingGauge,1);
-        
         if (BabyStatus.isBabyHungry)
         {
             for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
@@ -43,7 +44,6 @@ public class BabyController : MonoBehaviour
                 }
             }
         }
-
         else
         {
             for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
@@ -51,6 +51,33 @@ public class BabyController : MonoBehaviour
                 if (theBabyController.theBabyAction[i].actionName == "Hungry")
                 {
                     theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
+                }
+            }
+        }
+
+        if (BabyStatus.isBabyCrying)
+        {
+            //Sleeping Event
+            if (BabyStatus.isBabySleepy)
+            {
+                for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+                {
+                    if (theBabyController.theBabyAction[i].actionName == "Sleepy")
+                    {
+                        theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
+                    }
+                }
+            }
+            
+            //Soothing Event
+            if (BabyStatus.isBabyWhining)
+            {
+                for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+                {
+                    if (theBabyController.theBabyAction[i].actionName == "Whining")
+                    {
+                        theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
+                    }
                 }
             }
         }

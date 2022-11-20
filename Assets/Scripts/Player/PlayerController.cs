@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             PlayerMovement();
             
+            //Try Feeding
             if (thePlayerInventory.holdingItems.isThisPlayerBottleHold && PlayerInventory.isItemHolding)
             {
                 if (BabyManager.isBabyHold && BabyStatus.isBabyHungry)
@@ -52,6 +53,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     }
                 }
             }
+
+            //Try Soothing
+            else if (thePlayerInventory.holdingItems.isThisPlayerBabyHold && BabyStatus.isBabyWhining &&
+                BabyStatus.isBabyCrying && BabyManager.isBabyHold)
+            {
+                Debug.Log("Try to soothe baby!");
+                
+                if (Input.GetButtonDown("Jump"))
+                { 
+                    view.RPC("TrySoothing", RpcTarget.AllBuffered);   
+                }
+            }
         }
     }
 
@@ -61,6 +74,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         transform.position += input.normalized * moveSpeed * Time.deltaTime;
     }
 
+    //Feeding
     [PunRPC]
     private void TryFeeding()
     {
@@ -85,7 +99,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         Debug.Log("Try baby feeding! pressed space");
     }
 
-
     private void FeedingBaby()
     {
         theBabyManager.feedingGauge = 0.01f;
@@ -101,5 +114,41 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
             }
         }
+    }
+    
+    //Soothing
+    [PunRPC]
+    private void TrySoothing()
+    {
+        if (BabyStatus.isBabyWhining)
+        {
+            if (theBabyManager.soothingGauge == 5)
+            {
+                view.RPC("SoothingComplete", RpcTarget.AllBuffered);   
+
+            }
+        
+            else
+            {
+                StartCoroutine(SoothingGaugeUpdate());
+            }
+        }
+    }
+    
+    private IEnumerator SoothingGaugeUpdate()
+    {
+        yield return new WaitForSeconds(0.5f);
+        theBabyManager.soothingGauge++;
+        Debug.Log("Try baby soothing! pressed space");
+    }
+
+    [PunRPC]
+    private void SoothingComplete()
+    {
+        theBabyManager.soothingGauge = 0;
+        BabyStatus.isBabyWhining = false;
+        BabyStatus.isBabyCrying = false;
+        BabyStatus.isEventStart = false;
+        Debug.Log("Soothing Complete");
     }
 }

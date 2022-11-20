@@ -121,6 +121,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
                             if (theBabyManager.theBabyInfo[j].babyLocationName == "Cradle")
                             {
                                 view.RPC("CradleBabyOnOff", RpcTarget.AllBuffered, j,true);
+                                view.RPC("CheckBabySleepy", RpcTarget.AllBuffered);
                             }
                         }
                         Debug.Log("Baby is now in the cradle!");
@@ -207,6 +208,23 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     {
         Debug.Log("remove baby from cradle");
         theFurnitureType.theBabyManager.theBabyInfo[_cradleBabyNum].obj_baby.SetActive(_isOn);
+    }
+
+    [PunRPC]
+    void CheckBabySleepy()
+    {
+        if (BabyStatus.isBabySleepy && BabyStatus.isBabyCrying)
+        {
+            BabyStatus.isBabySleepy = false;
+            BabyStatus.isBabyCrying = false;
+            BabyStatus.isEventStart = false;
+            Debug.Log("Baby is not sleepy anymore");
+        }
+        else
+        {
+            Debug.Log("Baby is not sleepy");
+
+        }
     }
     
 }

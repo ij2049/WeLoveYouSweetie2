@@ -17,6 +17,7 @@ public class BabyManager : MonoBehaviour
     public static bool isBabyHold;
     public static bool isBabyCradle;
     public float feedingGauge;
+    public int soothingGauge;
 
     private void Start()
     {

@@ -52,7 +52,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     }
                 }
             }
-<<<<<<< HEAD
 
             //Try Soothing
             else if (thePlayerInventory.holdingItems.isThisPlayerBabyHold && BabyStatus.isBabyWhining &&
@@ -65,8 +64,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     view.RPC("TrySoothing", RpcTarget.All);   
                 }
             }
-=======
->>>>>>> parent of 3b09901... Baby Status Update5
+
         }
     }
 

@@ -33,7 +33,7 @@ public class BabyStatus : MonoBehaviour
     [Tooltip("Please add the number, if you have more events")]
     [SerializeField] private int babyEventsCount;
 
-    private bool isEventStart;
+    public static bool isEventStart;
     
     void Start()
     {
@@ -49,6 +49,7 @@ public class BabyStatus : MonoBehaviour
         //view.RPC("BabyHungryStatusCount", RpcTarget.AllBuffered);
         if (PhotonNetwork.IsMasterClient)
         {
+            Debug.Log("this is master client");
             Countdown();
         }
     }
@@ -71,12 +72,22 @@ public class BabyStatus : MonoBehaviour
 
     private void Countdown()
     {
+        Debug.Log("starting countdown");
+
         if (!isEventStart)
         {
             if (timer > 0)
             {
                 timer -= Time.deltaTime;
-                Debug.Log(timer);
+                if (13 < timer && timer < 15)
+                {
+                    Debug.Log(timer);
+                }
+
+                else if (5 < timer && timer < 8)
+                {
+                    Debug.Log(timer);
+                }
             }
 
             else if(timer <= 0)
@@ -112,7 +123,6 @@ public class BabyStatus : MonoBehaviour
     void ChooseRandomEvent()
     { 
         Debug.Log("Try Random num!");
-        isBabyCrying = true;
         int _randomNum = Random.Range(0,babyEventsCount);
         view.RPC("StartRandomEvent", RpcTarget.AllBuffered, _randomNum);
     }
@@ -120,6 +130,9 @@ public class BabyStatus : MonoBehaviour
     [PunRPC]
     private void StartRandomEvent(int _randomNum)
     {
+        isBabyCrying = true;
+        Debug.Log("Start Random Event!");
+
         if (_randomNum == 0)
         {
             if (!isBabyHungry && !isBabyWhining)

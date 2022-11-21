@@ -99,6 +99,7 @@ public class MatchmakingLobbyManager : MonoBehaviourPunCallbacks
 
         foreach (RoomInfo room in list)
         {
+            Debug.Log("creating room");
             JoinRoom newRoom = Instantiate(joinRoomPrefab, contentObjects);
             newRoom.SetRoomName(room.Name);
             joinRoomList.Add(newRoom);

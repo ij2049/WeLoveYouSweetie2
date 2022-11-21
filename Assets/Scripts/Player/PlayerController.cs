@@ -115,8 +115,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
         }
     }
-<<<<<<< HEAD
-    
+
     //Soothing
     [PunRPC]
     private void TrySoothing()
@@ -154,6 +153,4 @@ public class PlayerController : MonoBehaviourPunCallbacks
         BabyStatus.isEventStart = false;
         Debug.Log("Soothing Complete");
     }
-=======
->>>>>>> parent of 3b09901... Baby Status Update5
 }

@@ -17,13 +17,10 @@ public class BabyController : MonoBehaviour
     private BabyManager theBabyManager;
     public SpriteRenderer feedingGauge;
     [SerializeField] private BabyAction[] theBabyAction;
-    
-    private PhotonView view;
 
     private void Awake()
     {
         theBabyManager = FindObjectOfType<BabyManager>();
-        view = GetComponent<PhotonView>();
     }
 
     // Start is called before the first frame update
@@ -66,57 +63,30 @@ public class BabyController : MonoBehaviour
                 }
             }
         }
-    }
 
-    [PunRPC]
-    void SleepyEventChecker()
-    {
-        //Sleeping Event
-        if (BabyStatus.isBabySleepy)
+        if (BabyStatus.isBabyCrying)
         {
-            for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+            //Sleeping Event
+            if (BabyStatus.isBabySleepy)
             {
-                if (theBabyController.theBabyAction[i].actionName == "Sleepy")
+                for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
                 {
-                    theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
+                    if (theBabyController.theBabyAction[i].actionName == "Sleepy")
+                    {
+                        theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
+                    }
                 }
             }
-        }
-
-        else
-        {
-            for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+            
+            //Soothing Event
+            if (BabyStatus.isBabyWhining)
             {
-                if (theBabyController.theBabyAction[i].actionName == "Sleepy")
+                for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
                 {
-                    theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
-                }
-            }
-        }
-    }
-
-    [PunRPC]
-    void SoothingEventChecker()
-    {
-        //Soothing Event
-        if (BabyStatus.isBabyWhining)
-        {
-            for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
-            {
-                if (theBabyController.theBabyAction[i].actionName == "Whining")
-                {
-                    theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
-                }
-            }
-        }
-
-        else
-        {
-            for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
-            {
-                if (theBabyController.theBabyAction[i].actionName == "Whining")
-                {
-                    theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
+                    if (theBabyController.theBabyAction[i].actionName == "Whining")
+                    {
+                        theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
+                    }
                 }
             }
         }

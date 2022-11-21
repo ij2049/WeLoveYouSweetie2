@@ -210,14 +210,11 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         theFurnitureType.theBabyManager.theBabyInfo[_cradleBabyNum].obj_baby.SetActive(_isOn);
     }
 
-    //complete baby sleepy event
     [PunRPC]
     void CheckBabySleepy()
     {
         if (BabyStatus.isBabySleepy && BabyStatus.isBabyCrying)
         {
-            BabyStatus _temp = FindObjectOfType<BabyStatus>();
-            _temp.TryResetEventTimer();
             BabyStatus.isBabySleepy = false;
             BabyStatus.isBabyCrying = false;
             BabyStatus.isEventStart = false;
@@ -226,6 +223,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         else
         {
             Debug.Log("Baby is not sleepy");
+
         }
     }
     

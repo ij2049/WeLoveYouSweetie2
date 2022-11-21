@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             PlayerMovement();
             
-            //Try Feeding
             if (thePlayerInventory.holdingItems.isThisPlayerBottleHold && PlayerInventory.isItemHolding)
             {
                 if (BabyManager.isBabyHold && BabyStatus.isBabyHungry)
@@ -53,6 +52,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     }
                 }
             }
+<<<<<<< HEAD
 
             //Try Soothing
             else if (thePlayerInventory.holdingItems.isThisPlayerBabyHold && BabyStatus.isBabyWhining &&
@@ -65,6 +65,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     view.RPC("TrySoothing", RpcTarget.All);   
                 }
             }
+=======
+>>>>>>> parent of 3b09901... Baby Status Update5
         }
     }
 
@@ -74,7 +76,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         transform.position += input.normalized * moveSpeed * Time.deltaTime;
     }
 
-    //Feeding
     [PunRPC]
     private void TryFeeding()
     {
@@ -99,6 +100,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         Debug.Log("Try baby feeding! pressed space");
     }
 
+
     private void FeedingBaby()
     {
         theBabyManager.feedingGauge = 0.01f;
@@ -115,6 +117,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
         }
     }
+<<<<<<< HEAD
     
     //Soothing
     [PunRPC]
@@ -153,4 +156,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         BabyStatus.isEventStart = false;
         Debug.Log("Soothing Complete");
     }
+=======
+>>>>>>> parent of 3b09901... Baby Status Update5
 }

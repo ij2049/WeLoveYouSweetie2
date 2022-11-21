@@ -27,14 +27,13 @@ public class BabyStatus : MonoBehaviour
     public static bool isBabyCrying;
     public static bool isBabySleepy;
     public static bool isBabyWhining;
-    public static bool isEventStart;
-
 
     //Baby Events Counter 
     [Header("How many Baby events?")]
     [Tooltip("Please add the number, if you have more events")]
     [SerializeField] private int babyEventsCount;
 
+    private bool isEventStart;
     
     void Start()
     {
@@ -77,15 +76,7 @@ public class BabyStatus : MonoBehaviour
             if (timer > 0)
             {
                 timer -= Time.deltaTime;
-                if (19 < timer && timer < 20)
-                {
-                    Debug.Log(timer);
-                }
-
-                else if (10 < timer && timer < 11)
-                {
-                    Debug.Log(timer);
-                }
+                Debug.Log(timer);
             }
 
             else if(timer <= 0)

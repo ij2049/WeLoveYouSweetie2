@@ -42,20 +42,21 @@ public class BabyStatus : MonoBehaviour
         view = GetComponent<PhotonView>();
         currenthunger = hunger;
         babyStatusReset();
-        ResetEventTimer();
+        TryResetEventTimer();
     }
 
     private void Update()
     {
-        if (view.IsMine)
+        //view.RPC("BabyHungryStatusCount", RpcTarget.AllBuffered);
+        if (PhotonNetwork.IsMasterClient)
         {
-            //view.RPC("BabyHungryStatusCount", RpcTarget.AllBuffered);
-            view.RPC("Countdown", RpcTarget.AllBuffered); 
+            Countdown();
         }
     }
 
     private void babyStatusReset()
     {
+        isEventStart = false;
         isBabyHungry = false;
         isBabyCrying = false;
         isBabySleepy = false;
@@ -63,14 +64,13 @@ public class BabyStatus : MonoBehaviour
     }
 
     //Status Event Countdown
-    void ResetEventTimer()
+    public void TryResetEventTimer()
     {
         timer = timeDuration;
         isBabyCrying = false;
     }
 
-    [PunRPC]
-    void Countdown()
+    private void Countdown()
     {
         if (!isEventStart)
         {
@@ -90,15 +90,12 @@ public class BabyStatus : MonoBehaviour
 
             else if(timer <= 0)
             {
-                Debug.Log("timer is equal or lower than 0");
-                view.RPC("StartEvent", RpcTarget.AllBuffered);
-
+                StartEvent();
             }  
         }
     }
-    
-    [PunRPC]
-    void StartEvent()
+
+    private void StartEvent()
     {
         isEventStart = true;
         if (timer < 0)
@@ -106,11 +103,10 @@ public class BabyStatus : MonoBehaviour
             timer = 0;
         }
 
-        if (!isBabyHungry && !isBabyCrying)
+        if (!isBabyHungry && !isBabyCrying && !isBabySleepy && !isBabyWhining)
         {
             Debug.Log("Event start!");
-            view.RPC("ChooseRandomEvent", RpcTarget.AllBuffered);
-            ResetEventTimer();
+            ChooseRandomEvent();
         }
 
         else
@@ -122,27 +118,36 @@ public class BabyStatus : MonoBehaviour
         }
     }
     
-    [PunRPC]
-    private void ChooseRandomEvent()
+    void ChooseRandomEvent()
     { 
         Debug.Log("Try Random num!");
         isBabyCrying = true;
         int _randomNum = Random.Range(0,babyEventsCount);
-
+        view.RPC("StartRandomEvent", RpcTarget.AllBuffered, _randomNum);
+    }
+    
+    [PunRPC]
+    private void StartRandomEvent(int _randomNum)
+    {
         if (_randomNum == 0)
         {
-            isBabySleepy = true;
-            Debug.Log("Baby Sleepy!");
-
+            if (!isBabyHungry && !isBabyWhining)
+            {
+                isBabySleepy = true;
+                Debug.Log("Baby Sleepy!");
+            }
         }
         
         else if (_randomNum == 1)
         {
-            Debug.Log("Baby whining!");
-            isBabyWhining = true;
+            if (!isBabyHungry && !isBabySleepy)
+            {
+                Debug.Log("Baby whining!");
+                isBabyWhining = true;
+            }
         }
     }
-    
+
     //Hunger Status Countdown
     [PunRPC]
     private void BabyHungryStatusCount()
@@ -154,7 +159,7 @@ public class BabyStatus : MonoBehaviour
             if (currenthunger == whenHungerTelling)
             {
                 //stop baby event. Baby need to feed first
-                view.RPC("ResetEventTimer", RpcTarget.AllBuffered);
+                view.RPC("ResetEventTimer", RpcTarget.All);
                 isBabyHungry = true;
             }
             else if (whenHungerTelling < currenthunger)

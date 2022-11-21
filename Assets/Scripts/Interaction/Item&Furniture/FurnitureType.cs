@@ -60,7 +60,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
                 if (_playerInventory.playerItems[i].itemsName != "Baby")
                 {
                     string _playerName = _playerInventory.gameObject.name;
-                    view.RPC("TrashbinEmptyHand", RpcTarget.AllBuffered,_playerName,i);
+                    view.RPC("TrashbinEmptyHand", RpcTarget.All,_playerName,i);
                 }
             }
             PlayerInventory.isItemHolding = false;
@@ -81,21 +81,21 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         {
             if (!_playerInventory.holdingItems.isThisPlayerBabyHold)
             {
-                view.RPC("CurdleBoolSetting", RpcTarget.AllBuffered, false,true);
+                view.RPC("CurdleBoolSetting", RpcTarget.All, false,true);
                 _playerInventory.holdingItems.isThisPlayerBabyHold = true;
                 for (int i = 0; i < _playerInventory.playerItems.Length; i++)
                 {
                     if (_playerInventory.playerItems[i].itemsName == "Baby")
                     {
                         string _playerName = _playerInventory.gameObject.name;
-                        view.RPC("EnablePlayerBaby", RpcTarget.AllBuffered,i,_playerName,true);
+                        view.RPC("EnablePlayerBaby", RpcTarget.All,i,_playerName,true);
 
                             for (int j = 0; j < theBabyManager.theBabyInfo.Length; j++)
                         {
                             if (theBabyManager.theBabyInfo[j].babyLocationName == "Cradle")
                             {
                                 Debug.Log("Baby is Hold!");
-                                view.RPC("CradleBabyOnOff", RpcTarget.AllBuffered, j,false);
+                                view.RPC("CradleBabyOnOff", RpcTarget.All, j,false);
                             }
                         }
                     }
@@ -107,21 +107,21 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         {
             if (_playerInventory.holdingItems.isThisPlayerBabyHold)
             {
-                view.RPC("CurdleBoolSetting", RpcTarget.AllBuffered, true,false);
+                view.RPC("CurdleBoolSetting", RpcTarget.All, true,false);
                 _playerInventory.holdingItems.isThisPlayerBabyHold = false;
                 for (int i = 0; i < _playerInventory.playerItems.Length; i++)
                 {
                     if (_playerInventory.playerItems[i].itemsName == "Baby")
                     {
                         string _playerName = _playerInventory.gameObject.name;
-                        view.RPC("EnablePlayerBaby", RpcTarget.AllBuffered,i,_playerName,false);
+                        view.RPC("EnablePlayerBaby", RpcTarget.All,i,_playerName,false);
                         
                         for (int j = 0; j < theBabyManager.theBabyInfo.Length; j++)
                         {
                             if (theBabyManager.theBabyInfo[j].babyLocationName == "Cradle")
                             {
-                                view.RPC("CradleBabyOnOff", RpcTarget.AllBuffered, j,true);
-                                view.RPC("CheckBabySleepy", RpcTarget.AllBuffered);
+                                view.RPC("CradleBabyOnOff", RpcTarget.All, j,true);
+                                view.RPC("CheckBabySleepy", RpcTarget.All);
                             }
                         }
                         Debug.Log("Baby is now in the cradle!");
@@ -140,24 +140,24 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         Debug.Log("TryBed");
         if (!_thePlayerController.isPlayerUsingNomoveFurniture && !isBedUsing)
         {
-            view.RPC("BedBoolSetting", RpcTarget.AllBuffered,_playerName, true);
-            view.RPC("BedPuttingPlayerPos", RpcTarget.AllBuffered,_playerName ,0);
+            view.RPC("BedBoolSetting", RpcTarget.All,_playerName, true);
+            view.RPC("BedPuttingPlayerPos", RpcTarget.All,_playerName ,0);
             Debug.Log("Put player 0 position");
 
         }
         else
         {
-            view.RPC("BedPuttingPlayerPos", RpcTarget.AllBuffered,_playerName ,1);
+            view.RPC("BedPuttingPlayerPos", RpcTarget.All,_playerName ,1);
 
             Debug.Log("Put player 1 position");
         }
         
         yield return new WaitForSeconds(4f);
         _playerStatus.FullSpStatus();
-        view.RPC("BedPuttingPlayerPos", RpcTarget.AllBuffered,_playerName ,2);
+        view.RPC("BedPuttingPlayerPos", RpcTarget.All,_playerName ,2);
 
         Debug.Log("Now false");
-        view.RPC("BedBoolSetting", RpcTarget.AllBuffered, _playerName,false);
+        view.RPC("BedBoolSetting", RpcTarget.All, _playerName,false);
 
     }
     
@@ -210,11 +210,14 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         theFurnitureType.theBabyManager.theBabyInfo[_cradleBabyNum].obj_baby.SetActive(_isOn);
     }
 
+    //complete baby sleepy event
     [PunRPC]
     void CheckBabySleepy()
     {
         if (BabyStatus.isBabySleepy && BabyStatus.isBabyCrying)
         {
+            BabyStatus _temp = FindObjectOfType<BabyStatus>();
+            _temp.TryResetEventTimer();
             BabyStatus.isBabySleepy = false;
             BabyStatus.isBabyCrying = false;
             BabyStatus.isEventStart = false;
@@ -223,7 +226,6 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         else
         {
             Debug.Log("Baby is not sleepy");
-
         }
     }
     

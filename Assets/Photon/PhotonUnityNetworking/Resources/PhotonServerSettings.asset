@@ -68,6 +68,8 @@ MonoBehaviour:
   - SleepyEventChecker
   - FeedingEventChecker
   - SoothingEventChecker
+  - ResetEventTime
+  - StartRandomEvent
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                     if (Input.GetButtonDown("Jump"))
                     { 
-                        view.RPC("TryFeeding", RpcTarget.AllBuffered);   
+                        view.RPC("TryFeeding", RpcTarget.All);   
                     }
                 }
             }
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 
                 if (Input.GetButtonDown("Jump"))
                 { 
-                    view.RPC("TrySoothing", RpcTarget.AllBuffered);   
+                    view.RPC("TrySoothing", RpcTarget.All);   
                 }
             }
         }
@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             if (theBabyManager.soothingGauge == 5)
             {
-                view.RPC("SoothingComplete", RpcTarget.AllBuffered);   
+                view.RPC("SoothingComplete", RpcTarget.All);   
 
             }
         
@@ -145,6 +145,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SoothingComplete()
     {
+        BabyStatus theBabyStatus = FindObjectOfType<BabyStatus>();
+        theBabyStatus.TryResetEventTimer();
         theBabyManager.soothingGauge = 0;
         BabyStatus.isBabyWhining = false;
         BabyStatus.isBabyCrying = false;

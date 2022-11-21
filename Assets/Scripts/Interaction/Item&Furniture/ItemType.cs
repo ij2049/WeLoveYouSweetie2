@@ -42,7 +42,7 @@ public class ItemType : MonoBehaviour
     public void TryFeedBaby(PlayerInventory _playerInventory, int _num)
     {
         string _playerObjName = _playerInventory.gameObject.name;
-        view.RPC("FeedBaby", RpcTarget.AllBuffered,_playerObjName, _num);
+        view.RPC("FeedBaby", RpcTarget.All,_playerObjName, _num);
 
     }
 

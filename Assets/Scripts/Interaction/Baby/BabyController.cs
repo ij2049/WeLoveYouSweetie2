@@ -36,8 +36,8 @@ public class BabyController : MonoBehaviour
     void Update()
     {
         //view.RPC("FeedingEventChecker",RpcTarget.AllBuffered);
-        view.RPC("SleepyEventChecker",RpcTarget.AllBuffered);
-        view.RPC("SoothingEventChecker",RpcTarget.AllBuffered);
+        view.RPC("SleepyEventChecker",RpcTarget.All);
+        view.RPC("SoothingEventChecker",RpcTarget.All);
        
 
     }

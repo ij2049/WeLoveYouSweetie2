@@ -28,18 +28,17 @@ public class PlayerStatusController : MonoBehaviour
     private void Start()
     {
         thePlayerStatusController.img_spGauge = thePlayerManager.GetImage_SpGauge();
-        thePlayerStatusController.view = GetComponent<PhotonView>();
+        view = GetComponent<PhotonView>();
         thePlayerStatusController.currentSp = thePlayerStatusController.sp;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (thePlayerStatusController.view.IsMine)
+        if (view.IsMine)
         {
             StartStatusCount();
-            if(view.IsMine)
-                GaugeUpdate();
+            GaugeUpdate();
         }
     }
     

@@ -19,7 +19,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private PlayerController thePlayerController;
     private PlayerInventory thePlayerInventory;
     private BabyManager theBabyManager;
-    
+
+    private bool soothingActivate;
     private void Awake()
     {
         thePlayerController = GetComponent<PlayerController>();
@@ -122,35 +123,44 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         if (BabyStatus.isBabyWhining)
         {
-            if (theBabyManager.soothingGauge == 5)
+            if (theBabyManager.soothingGauge >= 5)
             {
-                view.RPC("SoothingComplete", RpcTarget.All);   
-
+                view.RPC("StartCoroutine(SoothingComplete())", RpcTarget.All);
             }
         
             else
             {
-                StartCoroutine(SoothingGaugeUpdate());
+                if (!soothingActivate)
+                {
+                    view.RPC("StartCoroutine(SoothingGaugeUpdate())", RpcTarget.All);
+                }
             }
         }
     }
-    
-    private IEnumerator SoothingGaugeUpdate()
+
+    public IEnumerator SoothingGaugeUpdate()
     {
-        yield return new WaitForSeconds(0.5f);
+        soothingActivate = true;
+        yield return new WaitForSeconds(0.3f);
         theBabyManager.soothingGauge++;
+        soothingActivate = false;
         Debug.Log("Try baby soothing! pressed space");
     }
 
-    [PunRPC]
-    private void SoothingComplete()
+    public IEnumerator SoothingComplete()
     {
-        BabyStatus theBabyStatus = FindObjectOfType<BabyStatus>();
-        theBabyStatus.TryResetEventTimer();
-        theBabyManager.soothingGauge = 0;
-        BabyStatus.isBabyWhining = false;
+        //soothing complete
+        Debug.Log("soothing is complete");
         BabyStatus.isBabyCrying = false;
+        BabyController.isStatusTurnedOff = true;
+        BabyStatus.isBabyWhining = false;
+        BabyStatus theBabyStatus = FindObjectOfType<BabyStatus>();
+        theBabyManager.soothingGauge = 0;
         BabyStatus.isEventStart = false;
+        theBabyStatus.TryResetEventTimer();
+        soothingActivate = false;
         Debug.Log("Soothing Complete");
+        yield return null;
     }
+    
 }

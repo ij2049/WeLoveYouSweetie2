@@ -13,13 +13,15 @@ public class BabyAction
 
 public class BabyController : MonoBehaviourPunCallbacks
 {
+    private PhotonView view;
     private BabyController theBabyController;
     private BabyManager theBabyManager;
     public SpriteRenderer feedingGauge;
     [SerializeField] private BabyAction[] theBabyAction;
     
-    private PhotonView view;
+    public static bool isStatusTurnedOff;
     
+    public static int whichStatusTurnedOff;
     private void Awake()
     {
         theBabyManager = FindObjectOfType<BabyManager>();
@@ -36,65 +38,74 @@ public class BabyController : MonoBehaviourPunCallbacks
     void Update()
     {
         //view.RPC("FeedingEventChecker",RpcTarget.AllBuffered);
-        if (BabyStatus.isBabyCrying)
+        if (BabyStatus.isBabyCrying && !isStatusTurnedOff)
         {
+            view = GetComponent<PhotonView>();
+
             if (BabyStatus.isBabySleepy)
             {
                 Debug.Log("Sleepy");
-                view = GetComponent<PhotonView>();
-                view.RPC("EventChecker", RpcTarget.All, "Sleepy");
+                if (view != null)
+                {                
+                    view.RPC("EventChecker", RpcTarget.All, "Sleepy");
+                }
+                else
+                {
+                    Debug.Log("view is empty!");
+                }
             }
 
             if (BabyStatus.isBabyWhining)
             {
                 Debug.Log("Whining");
-                view = GetComponent<PhotonView>();
-                view.RPC("EventChecker", RpcTarget.All, "Whining");
-            }
-        }
-        
-        else if (!BabyStatus.isBabySleepy || !BabyStatus.isBabyWhining)
-        {
-            if (BabyStatus.isBabyCrying)
-                BabyStatus.isBabyCrying = false;
-            else
-            {
-                if (!BabyStatus.isBabySleepy)
+                if (view != null)
                 {
-                    EventTurnOff("Sleepy");
+                    view.RPC("EventChecker", RpcTarget.All, "Whining");
+                    Debug.Log("Try whining turn on");
+
                 }
-                else if(!BabyStatus.isBabyWhining)
+                else
                 {
-                    EventTurnOff("Whining");
+                    Debug.Log("view is empty!");
                 }
             }
         }
-        
+
         else
         {
-            for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+            if (!BabyStatus.isBabySleepy || !BabyStatus.isBabyWhining)
             {
-                if (theBabyController.theBabyAction[i].actionName == "Sleepy")
+                if (isStatusTurnedOff)
                 {
-                    theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
-                }
-            }
-            
-            for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
-            {
-                if (theBabyController.theBabyAction[i].actionName == "Whining")
-                {
-                    theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
+                    view = GetComponent<PhotonView>();
+
+                    if (!BabyStatus.isBabySleepy)
+                    {
+                        Debug.Log("Try sleeping turn off");
+                        view.RPC("EventTurnOff", RpcTarget.All, "Sleepy");
+                    }
+                    
+                    if(!BabyStatus.isBabyWhining)
+                    {
+                        Debug.Log("Try whining turn off");
+                        view.RPC("EventTurnOff", RpcTarget.All, "Whining");
+                    }
                 }
             }
         }
     }
-
-    private void EventTurnOff(string _eventName)
+    
+    [PunRPC]
+    void EventTurnOff(string _eventName)
     {
+        if (BabyStatus.isBabyCrying)
+            BabyStatus.isBabyCrying = false;
+        
+        theBabyController = GetComponent<BabyController>();
         Debug.Log("Turning off events");
         for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
         {
+            Debug.Log("turning off events : " + _eventName);
             if (theBabyController.theBabyAction[i].actionName == _eventName)
             {
                 theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
@@ -110,6 +121,8 @@ public class BabyController : MonoBehaviourPunCallbacks
         {
             if (theBabyController.theBabyAction[i].actionName == _eventName)
             {
+                Debug.Log("turning on events : " + _eventName);
+
                 theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
             }
         }

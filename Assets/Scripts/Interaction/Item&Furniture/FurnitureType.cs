@@ -75,7 +75,6 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     private void TryCradle(PlayerInventory _playerInventory)
     {
         theFurnitureType.thePlayerInventory = _playerInventory;
-        Debug.Log(_playerInventory.gameObject.name);
         //if the baby is in the cradle and no one is holding baby -> Try baby hold from cradle
         if (BabyManager.isBabyCradle && !BabyManager.isBabyHold)
         {
@@ -161,6 +160,8 @@ public class FurnitureType : MonoBehaviourPunCallbacks
 
     }
     
+    //RPC Bed
+
     [PunRPC]
     void BedPuttingPlayerPos(string _playerObjName, int _num)
     {
@@ -178,6 +179,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         isBedUsing = _isUsing;
     }
 
+    //RPC Trashbin
     [PunRPC]
     void TrashbinEmptyHand(string _playerObjName, int _num)
     {
@@ -186,6 +188,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         thePlayerInventory.playerItems[_num].itemObject.SetActive(false);
     }
     
+    //RPC Curdle
     [PunRPC]
     void CurdleBoolSetting(bool _isBabyCradle, bool isBabyHold)
     {
@@ -218,6 +221,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         {
             BabyStatus _temp = FindObjectOfType<BabyStatus>();
             _temp.TryResetEventTimer();
+            BabyController.isStatusTurnedOff = true;
             BabyStatus.isBabySleepy = false;
             BabyStatus.isBabyCrying = false;
             BabyStatus.isEventStart = false;

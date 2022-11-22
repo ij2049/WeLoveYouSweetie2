@@ -49,7 +49,6 @@ public class BabyStatus : MonoBehaviour
         //view.RPC("BabyHungryStatusCount", RpcTarget.AllBuffered);
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("this is master client");
             Countdown();
         }
     }
@@ -61,6 +60,7 @@ public class BabyStatus : MonoBehaviour
         isBabyCrying = false;
         isBabySleepy = false;
         isBabyWhining = false;
+        BabyController.isStatusTurnedOff = false;
     }
 
     //Status Event Countdown
@@ -79,14 +79,9 @@ public class BabyStatus : MonoBehaviour
             if (timer > 0)
             {
                 timer -= Time.deltaTime;
-                if (13 < timer && timer < 15)
+                if (13 < timer && timer < 14)
                 {
-                    Debug.Log(timer);
-                }
-
-                else if (5 < timer && timer < 8)
-                {
-                    Debug.Log(timer);
+                    Debug.Log("timer is working"!);
                 }
             }
 
@@ -137,6 +132,7 @@ public class BabyStatus : MonoBehaviour
         {
             if (!isBabyHungry && !isBabyWhining)
             {
+                BabyController.isStatusTurnedOff = false;
                 isBabySleepy = true;
                 Debug.Log("Baby Sleepy!");
             }
@@ -146,6 +142,7 @@ public class BabyStatus : MonoBehaviour
         {
             if (!isBabyHungry && !isBabySleepy)
             {
+                BabyController.isStatusTurnedOff = false;
                 Debug.Log("Baby whining!");
                 isBabyWhining = true;
             }

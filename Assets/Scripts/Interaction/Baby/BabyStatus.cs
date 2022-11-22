@@ -47,7 +47,7 @@ public class BabyStatus : MonoBehaviour
     private void Update()
     {
         //view.RPC("BabyHungryStatusCount", RpcTarget.AllBuffered);
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient && !isEventStart)
         {
             Countdown();
         }
@@ -74,21 +74,18 @@ public class BabyStatus : MonoBehaviour
     {
         Debug.Log("starting countdown");
 
-        if (!isEventStart)
+        if (timer > 0)
         {
-            if (timer > 0)
+            timer -= Time.deltaTime;
+            if (13 < timer && timer < 14)
             {
-                timer -= Time.deltaTime;
-                if (13 < timer && timer < 14)
-                {
-                    Debug.Log("timer is working"!);
-                }
+                Debug.Log("timer is working"!);
             }
+        }
 
-            else if(timer <= 0)
-            {
-                StartEvent();
-            }  
+        else if(timer <= 0)
+        {
+            StartEvent();
         }
     }
 

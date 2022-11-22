@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
 
             //Try Soothing
-            else if (thePlayerInventory.holdingItems.isThisPlayerBabyHold && BabyStatus.isBabyWhining &&
+            if (thePlayerInventory.holdingItems.isThisPlayerBabyHold && BabyStatus.isBabyWhining &&
                 BabyStatus.isBabyCrying && BabyManager.isBabyHold)
             {
                 Debug.Log("Try to soothe baby!");
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void TryFeeding()
+    public void TryFeeding()
     {
 
         if (theBabyManager.feedingGauge == 5)
@@ -119,26 +119,28 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     //Soothing
     [PunRPC]
-    private void TrySoothing()
+    public void TrySoothing()
     {
         if (BabyStatus.isBabyWhining)
         {
             if (theBabyManager.soothingGauge >= 5)
             {
-                view.RPC("StartCoroutine(SoothingComplete())", RpcTarget.All);
+                StartCoroutine(SoothingGaugeUpdate());
             }
         
             else
             {
                 if (!soothingActivate)
                 {
-                    view.RPC("StartCoroutine(SoothingGaugeUpdate())", RpcTarget.All);
+                    StartCoroutine(SoothingComplete());
                 }
             }
         }
     }
-
-    public IEnumerator SoothingGaugeUpdate()
+    
+    
+    
+    IEnumerator SoothingGaugeUpdate()
     {
         soothingActivate = true;
         yield return new WaitForSeconds(0.3f);
@@ -147,6 +149,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         Debug.Log("Try baby soothing! pressed space");
     }
 
+    [PunRPC]
     public IEnumerator SoothingComplete()
     {
         //soothing complete

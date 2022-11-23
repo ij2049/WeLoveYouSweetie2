@@ -203,6 +203,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         GameObject _temp = GameObject.Find(_playerObjName);
         thePlayerInventory = _temp.GetComponent<PlayerInventory>();
         Debug.Log(thePlayerInventory.gameObject.name);
+        thePlayerInventory.holdingItems.isThisPlayerBabyHold = true;
         thePlayerInventory.playerItems[_num].itemObject.SetActive(_isOn);
     }
 
@@ -230,6 +231,8 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         else
         {
             Debug.Log("Baby is not sleepy");
+            Debug.Log("BabyStatus.isBabySleepy : " + BabyStatus.isBabySleepy);
+            Debug.Log("BabyStatus.isBabyCrying : " + BabyStatus.isBabyCrying);
         }
     }
     

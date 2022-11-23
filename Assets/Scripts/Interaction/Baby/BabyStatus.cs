@@ -34,6 +34,7 @@ public class BabyStatus : MonoBehaviour
     [SerializeField] private int babyEventsCount;
 
     public static bool isEventStart;
+    public static bool isCountdownStart;
     
     void Start()
     {
@@ -70,10 +71,21 @@ public class BabyStatus : MonoBehaviour
         isBabyCrying = false;
     }
 
+    [PunRPC]
+    void CheckCountdownStart()
+    {
+        isCountdownStart = true;
+    }
+
     private void Countdown()
     {
         Debug.Log("starting countdown");
-
+        
+        if (!isCountdownStart)
+        {
+         view.RPC("CheckCountdownStart", RpcTarget.All);   
+        }
+        
         if (timer > 0)
         {
             timer -= Time.deltaTime;
@@ -122,12 +134,15 @@ public class BabyStatus : MonoBehaviour
     [PunRPC]
     private void StartRandomEvent(int _randomNum)
     {
+        Debug.Log("random num : " + _randomNum);
+
         isBabyCrying = true;
+        isCountdownStart = false;
         Debug.Log("Start Random Event!");
 
         if (_randomNum == 0)
         {
-            if (!isBabyHungry && !isBabyWhining)
+            if (!isBabyHungry && !isBabyWhining && !isBabySleepy)
             {
                 BabyController.isStatusTurnedOff = false;
                 isBabySleepy = true;
@@ -137,12 +152,17 @@ public class BabyStatus : MonoBehaviour
         
         else if (_randomNum == 1)
         {
-            if (!isBabyHungry && !isBabySleepy)
+            if (!isBabyHungry && !isBabySleepy && !isBabyWhining)
             {
                 BabyController.isStatusTurnedOff = false;
                 Debug.Log("Baby whining!");
                 isBabyWhining = true;
             }
+        }
+
+        else
+        {
+            Debug.Log("is baby sleepy : " + isBabySleepy + ", is baby whining : " + isBabyWhining + ", is baby hungry : " + isBabyHungry);
         }
     }
 

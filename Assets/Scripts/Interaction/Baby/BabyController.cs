@@ -38,85 +38,91 @@ public class BabyController : MonoBehaviourPunCallbacks
     void Update()
     {
         //view.RPC("FeedingEventChecker",RpcTarget.AllBuffered);
-        if (BabyStatus.isBabyCrying && !isStatusTurnedOff)
+        
+        if (!BabyStatus.isCountdownStart)
         {
-            view = GetComponent<PhotonView>();
-
-            if (BabyStatus.isBabySleepy)
+            if (BabyStatus.isBabyCrying && !isStatusTurnedOff)
             {
-                Debug.Log("Sleepy");
-                if (view != null)
-                {                
-                    view.RPC("EventChecker", RpcTarget.All, "Sleepy");
-                }
-                else
-                {
-                    Debug.Log("view is empty!");
-                }
-            }
+                view = GetComponent<PhotonView>();
 
-            if (BabyStatus.isBabyWhining)
-            {
-                Debug.Log("Whining");
-                if (view != null)
+                if (BabyStatus.isBabySleepy)
                 {
-                    view.RPC("EventChecker", RpcTarget.All, "Whining");
-                    Debug.Log("Try whining turn on");
-
-                }
-                else
-                {
-                    Debug.Log("view is empty!");
-                }
-            }
-        }
-
-        else
-        {
-            if (!BabyStatus.isBabySleepy || !BabyStatus.isBabyWhining)
-            {
-                if (isStatusTurnedOff)
-                {
-                    view = GetComponent<PhotonView>();
-
-                    if (!BabyStatus.isBabySleepy)
-                    {
-                        Debug.Log("Try sleeping turn off");
-                        view.RPC("EventTurnOff", RpcTarget.All, "Sleepy");
+                    Debug.Log("Sleepy");
+                    if (view != null)
+                    {                
+                        view.RPC("EventChecker", RpcTarget.All, "Sleepy");
                     }
+                    else
+                    {
+                        Debug.Log("view is empty!");
+                    }
+                }
+
+                if (BabyStatus.isBabyWhining)
+                {
+                    Debug.Log("Whining");
+                    if (view != null)
+                    {
+                        view.RPC("EventChecker", RpcTarget.All, "Whining");
+                        Debug.Log("Try whining turn on");
+
+                    }
+                    else
+                    {
+                        Debug.Log("view is empty!");
+                    }
+                }
+            }
+
+            else
+            {
+                if (!BabyStatus.isBabySleepy || !BabyStatus.isBabyWhining)
+                {
+                    if (isStatusTurnedOff)
+                    {
+                        view = GetComponent<PhotonView>();
+
+                        if (!BabyStatus.isBabySleepy)
+                        {
+                            view.RPC("EventTurnOff", RpcTarget.All, "Sleepy");
+                        }
                     
-                    if(!BabyStatus.isBabyWhining)
-                    {
-                        Debug.Log("Try whining turn off");
-                        view.RPC("EventTurnOff", RpcTarget.All, "Whining");
+                        if(!BabyStatus.isBabyWhining)
+                        {
+                            view.RPC("EventTurnOff", RpcTarget.All, "Whining");
+                        }
                     }
                 }
             }
         }
+        
     }
-    
+
     [PunRPC]
     void EventTurnOff(string _eventName)
     {
         if (BabyStatus.isBabyCrying)
             BabyStatus.isBabyCrying = false;
-        
+
         theBabyController = GetComponent<BabyController>();
-        Debug.Log("Turning off events");
         for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
         {
-            Debug.Log("turning off events : " + _eventName);
             if (theBabyController.theBabyAction[i].actionName == _eventName)
             {
+                Debug.Log("turning off events : " + theBabyController.theBabyAction[i].actionSpeechBubble.name);
                 theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
+               
+                if (!BabyStatus.isBabyWhining && !BabyStatus.isBabySleepy)
+                    isStatusTurnedOff = true;
             }
         }
+        
+
     }
 
     [PunRPC]
     void EventChecker(string _eventName)
     {
-        Debug.Log("It's inside the Event Checker");
         for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
         {
             if (theBabyController.theBabyAction[i].actionName == _eventName)

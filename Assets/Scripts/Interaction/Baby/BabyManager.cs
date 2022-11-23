@@ -21,6 +21,7 @@ public class BabyManager : MonoBehaviour
 
     private void Start()
     {
+        soothingGauge = 0;
         isBabyCradle = true;
     }
 }

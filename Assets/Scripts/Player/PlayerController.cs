@@ -66,6 +66,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
             }
 
+            else
+            {
+                if (BabyStatus.isBabyCrying)
+                {
+                    Debug.Log(thePlayerInventory.holdingItems.isThisPlayerBabyHold);
+                    Debug.Log("some bool status is not working");
+                }
+
+            }
+
         }
     }
 
@@ -125,14 +135,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             if (theBabyManager.soothingGauge >= 5)
             {
-                StartCoroutine(SoothingGaugeUpdate());
+                StartCoroutine(SoothingComplete());
             }
         
             else
             {
                 if (!soothingActivate)
                 {
-                    StartCoroutine(SoothingComplete());
+                    StartCoroutine(SoothingGaugeUpdate());
                 }
             }
         }
@@ -148,12 +158,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         soothingActivate = false;
         Debug.Log("Try baby soothing! pressed space");
     }
-
-    [PunRPC]
-    public IEnumerator SoothingComplete()
+    
+    IEnumerator SoothingComplete()
     {
         //soothing complete
-        Debug.Log("soothing is complete");
         BabyStatus.isBabyCrying = false;
         BabyController.isStatusTurnedOff = true;
         BabyStatus.isBabyWhining = false;

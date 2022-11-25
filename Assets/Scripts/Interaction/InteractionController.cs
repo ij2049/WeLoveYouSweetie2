@@ -172,7 +172,6 @@ public class InteractionController : MonoBehaviourPunCallbacks
         {
             Debug.Log("Try furniture Interaction!");
 
-            
             if (!theInteractionController.isHoldable)
             {
                 if (!PlayerInventory.isItemHolding)
@@ -197,7 +196,6 @@ public class InteractionController : MonoBehaviourPunCallbacks
                     }
                 }
             }
-
             else
             {
                 if (PlayerInventory.isItemHolding)
@@ -210,10 +208,8 @@ public class InteractionController : MonoBehaviourPunCallbacks
                 {
                     Debug.Log("To use trashbin player need to hold sth");
                 }
-
             }
         }
-
         else
         {
             Debug.Log("game object name : " + theInteractionController.gameObject.name + " have multiple choices for the interactions");

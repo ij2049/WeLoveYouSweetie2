@@ -18,9 +18,7 @@ public class BabyController : MonoBehaviourPunCallbacks
     private BabyManager theBabyManager;
     public SpriteRenderer feedingGauge;
     [SerializeField] private BabyAction[] theBabyAction;
-    
-    public static bool isStatusTurnedOff;
-    
+
     public static int whichStatusTurnedOff;
     private void Awake()
     {
@@ -41,8 +39,10 @@ public class BabyController : MonoBehaviourPunCallbacks
         
         if (!BabyStatus.isCountdownStart)
         {
-            if (BabyStatus.isBabyCrying && !isStatusTurnedOff)
+            if (BabyStatus.isBabyCrying)
             {
+                Debug.Log("isBabyCrying true");
+
                 view = GetComponent<PhotonView>();
 
                 if (BabyStatus.isBabySleepy)
@@ -76,24 +76,28 @@ public class BabyController : MonoBehaviourPunCallbacks
 
             else
             {
+                Debug.Log("isBabyCrying false, isStatusTurnedOff true");
+
                 if (!BabyStatus.isBabySleepy || !BabyStatus.isBabyWhining)
                 {
-                    if (isStatusTurnedOff)
-                    {
-                        view = GetComponent<PhotonView>();
+                    view = GetComponent<PhotonView>();
 
-                        if (!BabyStatus.isBabySleepy)
-                        {
-                            view.RPC("EventTurnOff", RpcTarget.All, "Sleepy");
-                        }
-                    
-                        if(!BabyStatus.isBabyWhining)
-                        {
-                            view.RPC("EventTurnOff", RpcTarget.All, "Whining");
-                        }
+                    if (!BabyStatus.isBabySleepy)
+                    {
+                        view.RPC("EventTurnOff", RpcTarget.All, "Sleepy");
+                    }
+                
+                    if(!BabyStatus.isBabyWhining)
+                    {
+                        view.RPC("EventTurnOff", RpcTarget.All, "Whining");
                     }
                 }
             }
+        }
+
+        else
+        {
+            Debug.Log("countdown start is true!");
         }
         
     }
@@ -105,18 +109,16 @@ public class BabyController : MonoBehaviourPunCallbacks
             BabyStatus.isBabyCrying = false;
 
         theBabyController = GetComponent<BabyController>();
+        
         for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
         {
             if (theBabyController.theBabyAction[i].actionName == _eventName)
             {
-                Debug.Log("turning off events : " + theBabyController.theBabyAction[i].actionSpeechBubble.name);
                 theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
-               
-                if (!BabyStatus.isBabyWhining && !BabyStatus.isBabySleepy)
-                    isStatusTurnedOff = true;
+                Debug.Log("turning off events : " + theBabyController.theBabyAction[i].actionSpeechBubble.name);
+                Debug.Log("the object name : " + theBabyController.gameObject.transform.parent.gameObject.transform.parent);
             }
         }
-        
 
     }
 

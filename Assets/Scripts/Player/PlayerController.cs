@@ -7,7 +7,6 @@ using Photon.Pun;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
-
     [Header("Player Movement")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private Rigidbody2D rigidBody;
@@ -32,7 +31,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         thePlayerController.view = GetComponent<PhotonView>();
     }
-    
 
     // Update is called once per frame
     void Update()
@@ -73,9 +71,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     Debug.Log(thePlayerInventory.holdingItems.isThisPlayerBabyHold);
                     Debug.Log("some bool status is not working");
                 }
-
             }
-
         }
     }
 
@@ -129,7 +125,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     //Soothing
     [PunRPC]
-    public void TrySoothing()
+    void TrySoothing()
     {
         if (BabyStatus.isBabyWhining)
         {
@@ -148,8 +144,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
     
-    
-    
     IEnumerator SoothingGaugeUpdate()
     {
         soothingActivate = true;
@@ -162,16 +156,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
     IEnumerator SoothingComplete()
     {
         //soothing complete
+        soothingActivate = false;
         BabyStatus.isBabyCrying = false;
-        BabyController.isStatusTurnedOff = true;
         BabyStatus.isBabyWhining = false;
         BabyStatus theBabyStatus = FindObjectOfType<BabyStatus>();
         theBabyManager.soothingGauge = 0;
-        BabyStatus.isEventStart = false;
         theBabyStatus.TryResetEventTimer();
-        soothingActivate = false;
-        Debug.Log("Soothing Complete");
-        yield return null;
+        yield return new WaitForSeconds(0.2f);
+        BabyStatus.isEventStart = false;
+        Debug.Log("Soothing Complet, isEventStart bool : " + BabyStatus.isEventStart);
     }
     
 }

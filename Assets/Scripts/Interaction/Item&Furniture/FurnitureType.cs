@@ -35,7 +35,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        theFurnitureType.view = GetComponent<PhotonView>();
+        view = GetComponent<PhotonView>();
     }
 
     public void TryFurniture(PlayerInventory _playerInvenotry)
@@ -74,12 +74,17 @@ public class FurnitureType : MonoBehaviourPunCallbacks
 
     private void TryCradle(PlayerInventory _playerInventory)
     {
+        Debug.Log(BabyManager.isBabyCradle);
+        Debug.Log(BabyManager.isBabyHold);
+        
         theFurnitureType.thePlayerInventory = _playerInventory;
         //if the baby is in the cradle and no one is holding baby -> Try baby hold from cradle
         if (BabyManager.isBabyCradle && !BabyManager.isBabyHold)
         {
+            view = GetComponent<PhotonView>();
             if (!_playerInventory.holdingItems.isThisPlayerBabyHold)
             {
+                Debug.Log("Baby is not holding by player");
                 view.RPC("CurdleBoolSetting", RpcTarget.All, false,true);
                 _playerInventory.holdingItems.isThisPlayerBabyHold = true;
                 for (int i = 0; i < _playerInventory.playerItems.Length; i++)
@@ -104,29 +109,36 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         //try to put baby insidethe cradle
         else if (!BabyManager.isBabyCradle && BabyManager.isBabyHold)
         {
+            view = GetComponent<PhotonView>();
             if (_playerInventory.holdingItems.isThisPlayerBabyHold)
             {
-                view.RPC("CurdleBoolSetting", RpcTarget.All, true,false);
+                view.RPC("CurdleBoolSetting", RpcTarget.All, true, false);
                 _playerInventory.holdingItems.isThisPlayerBabyHold = false;
                 for (int i = 0; i < _playerInventory.playerItems.Length; i++)
                 {
                     if (_playerInventory.playerItems[i].itemsName == "Baby")
                     {
                         string _playerName = _playerInventory.gameObject.name;
-                        view.RPC("EnablePlayerBaby", RpcTarget.All,i,_playerName,false);
-                        
+                        view.RPC("EnablePlayerBaby", RpcTarget.All, i, _playerName, false);
+
                         for (int j = 0; j < theBabyManager.theBabyInfo.Length; j++)
                         {
                             if (theBabyManager.theBabyInfo[j].babyLocationName == "Cradle")
                             {
-                                view.RPC("CradleBabyOnOff", RpcTarget.All, j,true);
-                                view.RPC("CheckBabySleepy", RpcTarget.All);
+                                view.RPC("CradleBabyOnOff", RpcTarget.All, j, true);
+                                view.RPC("TryCheckBabySleepy", RpcTarget.All);
                             }
                         }
+
                         Debug.Log("Baby is now in the cradle!");
                     }
                 }
             }
+        }
+
+        else
+        {
+            Debug.Log("Cradle bool is wrong please check it");
         }
     }
     
@@ -203,30 +215,35 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         GameObject _temp = GameObject.Find(_playerObjName);
         thePlayerInventory = _temp.GetComponent<PlayerInventory>();
         Debug.Log(thePlayerInventory.gameObject.name);
-        thePlayerInventory.holdingItems.isThisPlayerBabyHold = true;
+        thePlayerInventory.holdingItems.isThisPlayerBabyHold = _isOn;
         thePlayerInventory.playerItems[_num].itemObject.SetActive(_isOn);
     }
 
     [PunRPC]
     void CradleBabyOnOff(int _cradleBabyNum, bool _isOn)
     {
-        Debug.Log("remove baby from cradle");
+        Debug.Log("baby cradle on or off : " + _isOn);
         theFurnitureType.theBabyManager.theBabyInfo[_cradleBabyNum].obj_baby.SetActive(_isOn);
     }
 
     //complete baby sleepy event
     [PunRPC]
-    void CheckBabySleepy()
+    void TryCheckBabySleepy()
+    {
+        StartCoroutine(SleepyComplete());
+    }
+
+    IEnumerator SleepyComplete()
     {
         if (BabyStatus.isBabySleepy && BabyStatus.isBabyCrying)
         {
             BabyStatus _temp = FindObjectOfType<BabyStatus>();
             _temp.TryResetEventTimer();
-            BabyController.isStatusTurnedOff = true;
             BabyStatus.isBabySleepy = false;
             BabyStatus.isBabyCrying = false;
+            Debug.Log("Baby sleeping complete : " + BabyStatus.isBabySleepy);
+            yield return new WaitForSeconds(0.2f);
             BabyStatus.isEventStart = false;
-            Debug.Log("Baby is not sleepy anymore");
         }
         else
         {
@@ -235,5 +252,6 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             Debug.Log("BabyStatus.isBabyCrying : " + BabyStatus.isBabyCrying);
         }
     }
+    
     
 }

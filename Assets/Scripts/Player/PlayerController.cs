@@ -162,7 +162,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         BabyStatus theBabyStatus = FindObjectOfType<BabyStatus>();
         theBabyManager.soothingGauge = 0;
         theBabyStatus.TryResetEventTimer();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         BabyStatus.isEventStart = false;
         Debug.Log("Soothing Complet, isEventStart bool : " + BabyStatus.isEventStart);
     }

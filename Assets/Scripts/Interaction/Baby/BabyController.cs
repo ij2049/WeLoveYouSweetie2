@@ -99,6 +99,8 @@ public class BabyController : MonoBehaviourPunCallbacks
         {
             Debug.Log("countdown start is true!");
         }
+
+        UpdateSpeechballoonStatus();
         
     }
 
@@ -161,6 +163,71 @@ public class BabyController : MonoBehaviourPunCallbacks
             }
         }
     }
-    
+
+    //this is local void for checking the status of speechballoon separately
+    private void UpdateSpeechballoonStatus()
+    {
+        //Turn off the speechballoon
+        if (!BabyStatus.isBabySleepy || !BabyStatus.isBabyWhining)
+        {
+            view = GetComponent<PhotonView>();
+
+            if (!BabyStatus.isBabySleepy)
+            {
+                for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+                {
+                    if (theBabyController.theBabyAction[i].actionName == "Sleepy")
+                    {
+                        theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
+                        Debug.Log("local sleepy turn off");
+
+                    }
+                }
+            }
+                
+            if(!BabyStatus.isBabyWhining)
+            {
+                for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+                {
+                    if (theBabyController.theBabyAction[i].actionName == "Whining")
+                    {
+                        theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
+                        Debug.Log("local Whining turn off");
+
+                    }
+                }
+            }
+        }
+        //Turn on the speechballoon
+        else if (BabyStatus.isBabySleepy || BabyStatus.isBabyWhining)
+        {
+            view = GetComponent<PhotonView>();
+
+            if (BabyStatus.isBabySleepy)
+            {
+                for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+                {
+                    if (theBabyController.theBabyAction[i].actionName == "Sleepy")
+                    {
+                        theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
+                        Debug.Log("local sleepy turn on");
+                    }
+                }
+            }
+
+            else if (BabyStatus.isBabyWhining)
+            {
+                for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+                {
+                    if (theBabyController.theBabyAction[i].actionName == "Whining")
+                    {
+                        theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
+                        Debug.Log("local Whining turn on");
+
+                    }
+                }
+            }
+        }
+    }
 
 }

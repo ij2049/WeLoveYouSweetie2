@@ -242,7 +242,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             BabyStatus.isBabySleepy = false;
             BabyStatus.isBabyCrying = false;
             Debug.Log("Baby sleeping complete : " + BabyStatus.isBabySleepy);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.3f);
             BabyStatus.isEventStart = false;
         }
         else

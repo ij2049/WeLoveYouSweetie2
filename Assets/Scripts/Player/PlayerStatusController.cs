@@ -9,9 +9,7 @@ public class PlayerStatusController : MonoBehaviour
     
     [Header("Player Stamina")] 
     [SerializeField] private int sp;
-    private int currentSp;
-    [SerializeField] private int spDecreaseTime;
-    private int currentSpDecreaseTime;
+    private float currentSp;
     private Image img_spGauge;
 
 
@@ -22,7 +20,7 @@ public class PlayerStatusController : MonoBehaviour
     private void Awake()
     {
         thePlayerStatusController = GetComponent<PlayerStatusController>();
-        thePlayerManager = FindObjectOfType<PlayerManager>();
+        thePlayerStatusController.thePlayerManager = FindObjectOfType<PlayerManager>();
     }
     
     private void Start()
@@ -33,7 +31,7 @@ public class PlayerStatusController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (view.IsMine)
         {
@@ -47,15 +45,7 @@ public class PlayerStatusController : MonoBehaviour
         //Sp
         if (thePlayerStatusController.currentSp > 0)
         {
-            if (thePlayerStatusController.currentSpDecreaseTime <= thePlayerStatusController.spDecreaseTime)
-            {
-                thePlayerStatusController.currentSpDecreaseTime++;
-            }
-            else
-            {
-                thePlayerStatusController.currentSp--;
-                thePlayerStatusController.currentSpDecreaseTime = 0;
-            }
+            thePlayerStatusController.currentSp -= Time.deltaTime;
         }
         else
         {
@@ -70,6 +60,6 @@ public class PlayerStatusController : MonoBehaviour
 
     private void GaugeUpdate()
     {
-        thePlayerStatusController.img_spGauge.fillAmount = (float)thePlayerStatusController.currentSp / thePlayerStatusController.sp;
+        thePlayerStatusController.img_spGauge.fillAmount = thePlayerStatusController.currentSp / thePlayerStatusController.sp;
     }
 }

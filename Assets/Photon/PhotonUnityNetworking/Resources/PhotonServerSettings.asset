@@ -76,6 +76,7 @@ MonoBehaviour:
   - AddBabyToList
   - CheckCountdownStart
   - TryCheckBabySleepy
+  - CheckBabyStatus
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

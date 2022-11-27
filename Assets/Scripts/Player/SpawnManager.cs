@@ -20,7 +20,6 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     private void TryPlayerSpawn()
     {
         int randomNum = Random.Range(0, playerSpawnPos.Length);
-        Debug.Log(randomNum);
         Transform spawnPoint = playerSpawnPos[randomNum];
         GameObject playerToSpawn;
         if (PhotonNetwork.LocalPlayer.CustomProperties["playerAvatar"] == null)

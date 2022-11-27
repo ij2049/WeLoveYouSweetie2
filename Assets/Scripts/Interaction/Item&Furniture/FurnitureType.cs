@@ -110,8 +110,10 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         else if (!BabyManager.isBabyCradle && BabyManager.isBabyHold)
         {
             view = GetComponent<PhotonView>();
+            
             if (_playerInventory.holdingItems.isThisPlayerBabyHold)
             {
+
                 view.RPC("CurdleBoolSetting", RpcTarget.All, true, false);
                 _playerInventory.holdingItems.isThisPlayerBabyHold = false;
                 for (int i = 0; i < _playerInventory.playerItems.Length; i++)
@@ -217,6 +219,13 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         Debug.Log(thePlayerInventory.gameObject.name);
         thePlayerInventory.holdingItems.isThisPlayerBabyHold = _isOn;
         thePlayerInventory.playerItems[_num].itemObject.SetActive(_isOn);
+        
+        //check baby status first for baby speechballoon turn On and Off
+        BabyController theBabyController = thePlayerInventory.playerItems[_num].itemObject.gameObject.transform.GetComponent<BabyController>();
+        if(theBabyController != null)
+            theBabyController.TryCheckBabyStatus();
+        else
+            Debug.Log("theBabyController is null");
     }
 
     [PunRPC]
@@ -224,6 +233,13 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     {
         Debug.Log("baby cradle on or off : " + _isOn);
         theFurnitureType.theBabyManager.theBabyInfo[_cradleBabyNum].obj_baby.SetActive(_isOn);
+        
+        //check baby status first for baby speechballoon turn On and Off
+        BabyController theBabyController =theFurnitureType.theBabyManager.theBabyInfo[_cradleBabyNum].obj_baby.GetComponent<BabyController>();
+        if(theBabyController != null)
+            theBabyController.TryCheckBabyStatus();
+        else
+            Debug.Log("theBabyController is null");
     }
 
     //complete baby sleepy event

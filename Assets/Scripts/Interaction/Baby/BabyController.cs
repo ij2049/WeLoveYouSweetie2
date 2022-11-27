@@ -100,8 +100,6 @@ public class BabyController : MonoBehaviourPunCallbacks
             Debug.Log("countdown start is true!");
         }
 
-        UpdateSpeechballoonStatus();
-        
     }
 
     [PunRPC]
@@ -127,15 +125,24 @@ public class BabyController : MonoBehaviourPunCallbacks
     [PunRPC]
     void EventChecker(string _eventName)
     {
-        for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+        if (theBabyController != null)
         {
-            if (theBabyController.theBabyAction[i].actionName == _eventName)
+            for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
             {
-                Debug.Log("turning on events : " + _eventName);
+                if (theBabyController.theBabyAction[i].actionName == _eventName)
+                {
+                    Debug.Log("turning on events : " + _eventName);
 
-                theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
+                    theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
+                }
             }
         }
+
+        else
+        {
+            Debug.Log("ThebabyController null");
+        }
+        
     }
 
     [PunRPC]
@@ -164,70 +171,68 @@ public class BabyController : MonoBehaviourPunCallbacks
         }
     }
 
-    //this is local void for checking the status of speechballoon separately
-    private void UpdateSpeechballoonStatus()
+    public void TryCheckBabyStatus()
     {
-        //Turn off the speechballoon
-        if (!BabyStatus.isBabySleepy || !BabyStatus.isBabyWhining)
+        Debug.Log("TryCheckBabyStatus");
+        view = GetComponent<PhotonView>();
+        view.RPC("CheckBabyStatus", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void CheckBabyStatus()
+    {
+        Debug.Log("CheckBabyStatus");
+        if (BabyStatus.isBabyCrying)
         {
-            view = GetComponent<PhotonView>();
-
-            if (!BabyStatus.isBabySleepy)
+            Debug.Log("isBabyCrying true");
+            
+            if (BabyStatus.isBabySleepy)
             {
-                for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+                Debug.Log("Sleepy");
+                if (view != null)
+                {                
+                    view.RPC("EventChecker", RpcTarget.All, "Sleepy");
+                }
+                else
                 {
-                    if (theBabyController.theBabyAction[i].actionName == "Sleepy")
-                    {
-                        theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
-                        Debug.Log("local sleepy turn off");
-
-                    }
+                    Debug.Log("view is empty!");
                 }
             }
-                
-            if(!BabyStatus.isBabyWhining)
-            {
-                for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
-                {
-                    if (theBabyController.theBabyAction[i].actionName == "Whining")
-                    {
-                        theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
-                        Debug.Log("local Whining turn off");
 
-                    }
+            if (BabyStatus.isBabyWhining)
+            {
+                Debug.Log("Whining");
+                if (view != null)
+                {
+                    view.RPC("EventChecker", RpcTarget.All, "Whining");
+                    Debug.Log("Try whining turn on");
+
+                }
+                else
+                {
+                    Debug.Log("view is empty!");
                 }
             }
         }
-        //Turn on the speechballoon
-        else if (BabyStatus.isBabySleepy || BabyStatus.isBabyWhining)
+
+        else
         {
-            view = GetComponent<PhotonView>();
+            Debug.Log("isBabyCrying false, isStatusTurnedOff true");
 
-            if (BabyStatus.isBabySleepy)
+            if (!BabyStatus.isBabySleepy || !BabyStatus.isBabyWhining)
             {
-                for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+                if (!BabyStatus.isBabySleepy)
                 {
-                    if (theBabyController.theBabyAction[i].actionName == "Sleepy")
-                    {
-                        theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
-                        Debug.Log("local sleepy turn on");
-                    }
+                    view.RPC("EventTurnOff", RpcTarget.All, "Sleepy");
                 }
-            }
-
-            else if (BabyStatus.isBabyWhining)
-            {
-                for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+                
+                if(!BabyStatus.isBabyWhining)
                 {
-                    if (theBabyController.theBabyAction[i].actionName == "Whining")
-                    {
-                        theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
-                        Debug.Log("local Whining turn on");
-
-                    }
+                    view.RPC("EventTurnOff", RpcTarget.All, "Whining");
                 }
             }
         }
     }
+    
 
 }

@@ -73,6 +73,7 @@ public class InteractionController : MonoBehaviourPunCallbacks
     {
         if (other.CompareTag("Player"))
         {
+            view = other.gameObject.GetComponent<PhotonView>();
             theInteractionController.player = other.gameObject;
             theInteractionController.isPlayerEntered = true;
             if (view.IsMine)
@@ -82,14 +83,12 @@ public class InteractionController : MonoBehaviourPunCallbacks
         }
     }
 
-
     private void OnTriggerExit2D(Collider2D other)
     {
         obj_buttonInfo.SetActive(false);
         theInteractionController.isPlayerEntered = false;
     }
-
-
+    
     private void ItemInfo()
     {
         if (theInteractionController.isItem && !theInteractionController.isFurniture)
@@ -130,12 +129,14 @@ public class InteractionController : MonoBehaviourPunCallbacks
 
     private void ShowBtnInfo()
     {
+        //if interaction is for item
         if (theInteractionController.isItem && !theInteractionController.isFurniture)
         {
             txt_buttonInfo.text = "Press (E) to hold " + theInteractionController.itemsInfo;
             obj_buttonInfo.SetActive(true);
         }
         
+        //if interaction is for furniture
         else if (theInteractionController.isFurniture && !theInteractionController.isItem)
         {
                         

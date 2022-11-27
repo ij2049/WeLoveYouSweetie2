@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
 
 [System.Serializable]
 public class PlayerItems
@@ -18,11 +21,15 @@ public class HoldingItems
 }
 
 public class PlayerInventory : MonoBehaviour
-{ 
+{
+    //Please don't put data at the Unity
+    [Header("Item Data")]
     public PlayerItems[] playerItems;
     public HoldingItems holdingItems;
-    public PlayerInventory thePlayerInventory;
     
+    [Header("Inventory Data")]
+    public PlayerInventory thePlayerInventory;
+
     public static bool isItemHolding;
 
     private void Awake()

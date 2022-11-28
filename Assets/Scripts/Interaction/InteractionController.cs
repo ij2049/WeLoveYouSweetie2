@@ -147,6 +147,8 @@ public class InteractionController : MonoBehaviourPunCallbacks
     
     private void TryInteratcion(GameObject _player)
     {
+        view = GetComponent<PhotonView>();
+
         //Items
         if (theInteractionController.isItem && !theInteractionController.isFurniture)
         {

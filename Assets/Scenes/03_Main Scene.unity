@@ -950,9 +950,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 393fa24d0145bb64493c0fd66e485f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hunger: 10000
+  hunger: 1000
   hungerDecreaseTime: 1
-  whenHungerTelling: 6000
+  whenHungerTelling: 600
   timeDuration: 30
   babyEventsCount: 2
 --- !u!1 &627056052

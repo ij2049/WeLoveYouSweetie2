@@ -16,6 +16,7 @@ public class BabyStatus : MonoBehaviour
     [SerializeField] private int hungerDecreaseTime;
     [SerializeField] private int whenHungerTelling;
     private int currenthungerDecreaseTime;
+    public static bool isHungryCountDone;
 
     //Event time counting
     [Header("Timer")]
@@ -36,6 +37,7 @@ public class BabyStatus : MonoBehaviour
     public static bool isEventStart;
     public static bool isCountdownStart;
     
+    
     void Start()
     {
         thePlayerManager = GetComponent<PlayerManager>();
@@ -51,18 +53,27 @@ public class BabyStatus : MonoBehaviour
 
     private void Update()
     {
-        //view.RPC("BabyHungryStatusCount", RpcTarget.AllBuffered);
         if (PhotonNetwork.IsMasterClient && !isEventStart)
         {
-            if (!isCountdownStart)
+            //Hunger Event
+            if (!isHungryCountDone)
             {
-                view.RPC("CheckCountdownStart", RpcTarget.All, true);
+                view.RPC("BabyHungryStatusCount", RpcTarget.All);
             }
-            Countdown();
-        }
-        else
-        {
-            Debug.Log("is not client or isEvent start true : " + isEventStart);
+
+            if (isHungryCountDone) //after hungry countdown
+            {
+                //Random Event
+                if (!isCountdownStart)
+                {
+                    view.RPC("CheckCountdownStart", RpcTarget.All, true);
+                }
+                Countdown();
+            }
+            else
+            {
+                Debug.Log("is not client or isEvent start true : " + isEventStart);
+            }
         }
     }
 
@@ -123,9 +134,9 @@ public class BabyStatus : MonoBehaviour
         else
         {
             if(isBabyHungry)
-                Debug.Log("Baby is already hungry");
+                Debug.LogError("Baby is already hungry");
             else if(isBabyCrying)
-                Debug.Log("Baby is already crying");
+                Debug.LogError("Baby is already crying");
         }
     }
     
@@ -171,19 +182,21 @@ public class BabyStatus : MonoBehaviour
     [PunRPC]
     private void BabyHungryStatusCount()
     {
+        Debug.Log("BabyHungerCountDownStart!");
         //Hunger
         if (currenthunger > 0)
         {
             //when do you want to tell the player that the baby is hungry
             if (currenthunger == whenHungerTelling)
             {
-                //stop baby event. Baby need to feed first
-                view.RPC("ResetEventTimer", RpcTarget.All);
                 isBabyHungry = true;
+                Debug.Log("Baby is hungry now");
             }
+            
             else if (whenHungerTelling < currenthunger)
             {
                 isBabyHungry = false;
+                Debug.Log("Baby is not hungry now");
             }
             
             if (currenthungerDecreaseTime <= hungerDecreaseTime)
@@ -208,6 +221,7 @@ public class BabyStatus : MonoBehaviour
     public void FullHunger()
     {
         currenthunger = hunger;
-        Debug.Log("Full hunger");
+        Debug.Log("Full hunger : " + isHungryCountDone);
+        isHungryCountDone = true;
     }
 }

@@ -35,8 +35,8 @@ public class BabyController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        //view.RPC("FeedingEventChecker",RpcTarget.AllBuffered);
-        
+        view.RPC("CheckBabyHunger", RpcTarget.All);
+
         if (!BabyStatus.isCountdownStart)
         {
             if (BabyStatus.isBabyCrying)
@@ -103,6 +103,33 @@ public class BabyController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
+    void CheckBabyHunger()
+    {
+        theBabyController.feedingGauge.size = new Vector2(theBabyManager.feedingGauge,1);
+        
+        if (BabyStatus.isBabyHungry)
+        {
+            for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+            {
+                if (theBabyController.theBabyAction[i].actionName == "Hungry")
+                {
+                    theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+            {
+                if (theBabyController.theBabyAction[i].actionName == "Hungry")
+                {
+                    theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
+                }
+            }
+        }
+    }
+
+    [PunRPC]
     void EventTurnOff(string _eventName)
     {
         if (BabyStatus.isBabyCrying)
@@ -145,32 +172,6 @@ public class BabyController : MonoBehaviourPunCallbacks
         
     }
 
-    [PunRPC]
-    void FeedingEventChecker()
-    {
-        theBabyController.feedingGauge.size = new Vector2(theBabyManager.feedingGauge,1);
-        if (BabyStatus.isBabyHungry)
-        {
-            for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
-            {
-                if (theBabyController.theBabyAction[i].actionName == "Hungry")
-                {
-                    theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
-                }
-            }
-        }
-        else
-        {
-            for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
-            {
-                if (theBabyController.theBabyAction[i].actionName == "Hungry")
-                {
-                    theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
-                }
-            }
-        }
-    }
-
     public void TryCheckBabyStatus()
     {
         Debug.Log("TryCheckBabyStatus");
@@ -181,6 +182,29 @@ public class BabyController : MonoBehaviourPunCallbacks
     [PunRPC]
     void CheckBabyStatus()
     {
+        if (BabyStatus.isBabyHungry)
+        {
+            theBabyController.feedingGauge.size = new Vector2(theBabyManager.feedingGauge,1);
+            for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+            {
+                if (theBabyController.theBabyAction[i].actionName == "Hungry")
+                {
+                    theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(true);
+                }
+            }
+        }
+        else
+        {
+            theBabyController.feedingGauge.size = new Vector2(theBabyManager.feedingGauge,1);
+            for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
+            {
+                if (theBabyController.theBabyAction[i].actionName == "Hungry")
+                {
+                    theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
+                }
+            }
+        }
+        
         Debug.Log("CheckBabyStatus");
         if (BabyStatus.isBabyCrying)
         {

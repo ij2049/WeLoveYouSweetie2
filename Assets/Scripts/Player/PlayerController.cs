@@ -85,10 +85,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void TryFeeding()
     {
 
-        if (theBabyManager.feedingGauge == 5)
+        if (theBabyManager.feedingGauge >= 5)
         {
             PlayerInventory.isItemHolding = false;
             thePlayerInventory.holdingItems.isThisPlayerBottleHold = false;
+            theBabyManager.feedingGauge = 0.01f;
             FeedingBaby();
         }
         
@@ -162,6 +163,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         BabyStatus theBabyStatus = FindObjectOfType<BabyStatus>();
         theBabyManager.soothingGauge = 0;
         theBabyStatus.TryResetEventTimer();
+        BabyStatus.isHungryCountDone = false; //start feeding countdown
         yield return new WaitForSeconds(0.3f);
         BabyStatus.isEventStart = false;
         Debug.Log("Soothing Complet, isEventStart bool : " + BabyStatus.isEventStart);

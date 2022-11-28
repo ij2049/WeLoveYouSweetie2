@@ -50,12 +50,26 @@ public class ItemType : MonoBehaviour
     void FeedBaby(string _playerObjName, int _num)
     {
         Debug.Log("Final step of feeding baby");
+        BabyStatus.isBabyHungry = false;
+        //get player object
         GameObject _player = GameObject.Find(_playerObjName);
+        //get player inventory
         PlayerInventory _playerInventory = _player.GetComponent<PlayerInventory>();
         _playerInventory.playerItems[_num].itemObject.SetActive(false);
+        //This player is holding baby bool 
         _playerInventory.thePlayerInventory.holdingItems.isThisPlayerBottleHold = false;
+        //Baby is now full
         BabyStatus babyStatus = FindObjectOfType<BabyStatus>();
         babyStatus.FullHunger();
+        //try check baby status separately
+        for (int i = 0; i < _playerInventory.playerItems.Length; i++)
+        {
+            if (_playerInventory.playerItems[i].itemsName == "Baby")
+            {
+                BabyController theBabyController = _playerInventory.playerItems[i].itemObject.GetComponent<BabyController>();
+                theBabyController.TryCheckBabyStatus();
+            }
+        }
     }
     
 }

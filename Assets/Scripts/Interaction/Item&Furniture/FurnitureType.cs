@@ -257,6 +257,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             _temp.TryResetEventTimer();
             BabyStatus.isBabySleepy = false;
             BabyStatus.isBabyCrying = false;
+            BabyStatus.isHungryCountDone = false; //start feeding countdown
             Debug.Log("Baby sleeping complete : " + BabyStatus.isBabySleepy);
             yield return new WaitForSeconds(0.3f);
             BabyStatus.isEventStart = false;

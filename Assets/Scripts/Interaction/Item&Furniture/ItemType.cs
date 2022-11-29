@@ -76,7 +76,8 @@ public class ItemType : MonoBehaviour
 
     public void TryVacuum()
     {
-        
+        view.RPC("HoldVacuum", RpcTarget.All);
+
     }
 
     [PunRPC]

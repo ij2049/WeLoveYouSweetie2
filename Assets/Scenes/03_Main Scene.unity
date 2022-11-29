@@ -644,75 +644,6 @@ MonoBehaviour:
   sceneViewId: 21
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!1001 &166504946
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 636848201, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: sceneViewId
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338682700707210145, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338682700707210145, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338682700707210145, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338682700707210145, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338682700707210145, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338682700707210145, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338682700707210145, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338682700707210145, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338682700707210145, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338682700707210145, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338682700707210145, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338682700707210146, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: m_Name
-      value: Player1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7087047862057061594, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: sceneViewId
-      value: 24
-      objectReference: {fileID: 0}
-    - target: {fileID: 7194494022451449934, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
-      propertyPath: sceneViewId
-      value: 23
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b1f4a39942068cc45a12f42ee6374295, type: 3}
 --- !u!1 &201092562
 GameObject:
   m_ObjectHideFlags: 0
@@ -3117,6 +3048,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1457969473}
   - component: {fileID: 1457969474}
+  - component: {fileID: 1457969475}
   m_Layer: 0
   m_Name: Dirtness
   m_TagString: Untagged
@@ -3166,7 +3098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4369d98ba0943d4aa6eaf39ba2c6dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeDuration: 10
+  timeDuration: 100
   obj_dirts:
   - {fileID: 304758271}
   - {fileID: 10557603}
@@ -3183,6 +3115,29 @@ MonoBehaviour:
   - {fileID: 651723756}
   - {fileID: 285414963}
   - {fileID: 1747896884}
+  countDirtObj: 0
+--- !u!114 &1457969475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457969472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 22
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1505405457
 GameObject:
   m_ObjectHideFlags: 0

@@ -57,7 +57,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         {
             for (int i = 0; i < _playerInventory.playerItems.Length; i++)
             {
-                if (_playerInventory.playerItems[i].itemsName != "Baby")
+                if (_playerInventory.playerItems[i].itemsName != "Baby" && _playerInventory.playerItems[i].itemsName != "Vacuum")
                 {
                     string _playerName = _playerInventory.gameObject.name;
                     view.RPC("TrashbinEmptyHand", RpcTarget.All,_playerName,i);

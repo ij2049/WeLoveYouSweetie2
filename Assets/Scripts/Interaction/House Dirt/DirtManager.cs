@@ -14,7 +14,8 @@ public class DirtManager : MonoBehaviour
     //dirts objects
     [Header("Dirts Objects")]
     [SerializeField] private GameObject[] obj_dirts;
-    private GameObject tempGO;
+    public int countDirtObj;
+        private GameObject tempGO;
     //data
     private PhotonView view;
     //bool
@@ -22,24 +23,37 @@ public class DirtManager : MonoBehaviour
 
     private void Start()
     {
+        isClean = true;
         view = GetComponent<PhotonView>();
         ResetTimer();
     }
 
     private void Update()
     {
-        if (!isClean)
+        if (isClean)
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                Countdown();
+                isClean = false;
+                view.RPC("Countdown",RpcTarget.All);
+                if(countDirtObj <= 0)
+                {
+                    CompleteClean();
+                }
             }
+        }
+
+        else
+        {
+            Debug.Log("IsClean false : " + isClean);
         }
     }
 
     //Countdown
-    private void Countdown()
+    [PunRPC]
+    void Countdown()
     {
+        Debug.Log(timer);
         if (timer > 0)
         {
             timer -= Time.deltaTime;
@@ -57,6 +71,7 @@ public class DirtManager : MonoBehaviour
 
     private void ResetTimer()
     {
+        countDirtObj = 0;
         timer = timeDuration;
     }
     
@@ -82,6 +97,7 @@ public class DirtManager : MonoBehaviour
             obj_dirts[i].SetActive(true);
             Debug.Log("dirt obj name : " + obj_dirts[i].name);
             yield return new WaitForSeconds(2f);
+            countDirtObj++;
         }
     }
 

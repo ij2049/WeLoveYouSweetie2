@@ -7,15 +7,18 @@ using Photon.Pun;
 public class DirtController : MonoBehaviour
 {
     private DirtController theDirtController;
+    private DirtManager theDirtManager;
     private PhotonView view;
  
     private string playerName;
+    private PlayerInventory thePlayerInventory;
     private bool isPlayerEntered;
     private bool possibleToClean;
     private void Start()
     {
         theDirtController = GetComponent<DirtController>();
-        //view = GetComponent<PhotonView>();
+        theDirtManager = FindObjectOfType<DirtManager>();
+        view = GetComponent<PhotonView>();
     }
 
     private void Update()
@@ -25,12 +28,23 @@ public class DirtController : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             { 
                 Debug.Log("Pressed Space");
-                //view.RPC("TryClean", RpcTarget.All);   
-                TryClean();
+                //Try Vacuum
+                if (theDirtController.thePlayerInventory.holdingItems.isThisPlayerVacuumHold && PlayerInventory.isItemHolding)
+                {
+                    view.RPC("TryClean", RpcTarget.All);
+                }
+
+                else
+                {
+                    Debug.Log("bool is wrong");
+                    Debug.Log("isThisPlayerVacuumHold : " + theDirtController.thePlayerInventory.holdingItems.isThisPlayerVacuumHold);
+                    Debug.Log("PlayerInventory.isItemHolding : " + PlayerInventory.isItemHolding);
+                }
             }
         }
     }
 
+    
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -42,10 +56,10 @@ public class DirtController : MonoBehaviour
             if (!theDirtController.isPlayerEntered)
             {
                 theDirtController.playerName = other.gameObject.transform.parent.name;
+                theDirtController.thePlayerInventory = other.GetComponent<PlayerInventory>();
                 theDirtController.isPlayerEntered = true;
             }
         }
-        
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -60,7 +74,7 @@ public class DirtController : MonoBehaviour
             }
             else
             {
-                ResetBool();
+                view.RPC("ResetBool", RpcTarget.All);
             }
         }
     }
@@ -71,19 +85,23 @@ public class DirtController : MonoBehaviour
         {
             if (other.gameObject.transform.parent.name == theDirtController.playerName)
             {
-                ResetBool();
+                view.RPC("ResetBool", RpcTarget.All);
             }
         }
     }
 
-    //[PunRPC]
+    [PunRPC]
     void TryClean()
     {
         gameObject.SetActive(false);
+        
+        if(theDirtManager == null) theDirtManager = FindObjectOfType<DirtManager>();
+        else theDirtManager.countDirtObj--;
     }
 
     //reset all bool(not possible to interact with dirts)
-    private void ResetBool()
+    [PunRPC]
+    void ResetBool()
     {
         theDirtController.playerName = null;
         theDirtController.isPlayerEntered = false;

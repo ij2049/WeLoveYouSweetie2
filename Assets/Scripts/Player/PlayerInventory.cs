@@ -18,6 +18,7 @@ public class HoldingItems
 {
     public bool isThisPlayerBabyHold;
     public bool isThisPlayerBottleHold;
+    public bool isThisPlayerVacuumHold;
 }
 
 public class PlayerInventory : MonoBehaviour

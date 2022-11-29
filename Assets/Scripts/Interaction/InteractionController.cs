@@ -242,6 +242,14 @@ public class InteractionController : MonoBehaviourPunCallbacks
                 {
                     _playerInventory.thePlayerInventory.holdingItems.isThisPlayerBottleHold = true;
                 }
+                
+                //check this is vacuum or not
+                else if (_playerInventory.thePlayerInventory.playerItems[i].itemsName == "Vacuum")
+                {
+
+                    _playerInventory.thePlayerInventory.holdingItems.isThisPlayerVacuumHold = true;
+                }
+                
                 else
                 {
                     Debug.Log("No list item is hold checking. Please check " + _playerInventory.gameObject.name + " this object's playerInventory");

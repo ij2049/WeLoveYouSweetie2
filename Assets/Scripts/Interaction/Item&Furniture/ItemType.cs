@@ -7,7 +7,8 @@ using UnityEngine;
 public enum Item
 {
     Bottle,
-    Diaper
+    Diaper,
+    Vacuum
 }
 public class ItemType : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class ItemType : MonoBehaviour
         {
             case Item.Bottle: theItemType.itemInfo = "Bottle"; break;
             case Item.Diaper: theItemType.itemInfo = "Diaper"; break;
+            case Item.Vacuum: theItemType.itemInfo = "Vacuum"; break;
         }
     }
 
@@ -70,6 +72,17 @@ public class ItemType : MonoBehaviour
                 theBabyController.TryCheckBabyStatus();
             }
         }
+    }
+
+    public void TryVacuum()
+    {
+        
+    }
+
+    [PunRPC]
+    void HoldVacuum()
+    {
+        
     }
     
 }

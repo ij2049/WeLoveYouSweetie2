@@ -184,6 +184,7 @@ public class BabyController : MonoBehaviourPunCallbacks
     {
         if (BabyStatus.isBabyHungry)
         {
+            theBabyController = GetComponent<BabyController>();
             theBabyController.feedingGauge.size = new Vector2(theBabyManager.feedingGauge,1);
             for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
             {
@@ -195,6 +196,7 @@ public class BabyController : MonoBehaviourPunCallbacks
         }
         else
         {
+            theBabyController = GetComponent<BabyController>();
             theBabyController.feedingGauge.size = new Vector2(theBabyManager.feedingGauge,1);
             for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
             {

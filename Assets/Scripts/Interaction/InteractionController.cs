@@ -10,7 +10,8 @@ using TMPro;
 public enum InteractableItems
 {
     Bottle,
-    Diaper
+    Diaper,
+    Vacuum
 }
 
 public enum InteractableFurniture
@@ -100,6 +101,9 @@ public class InteractionController : MonoBehaviourPunCallbacks
                     break;
                 case InteractableItems.Diaper:
                     theInteractionController.itemsInfo = "Diaper";
+                    break;
+                case InteractableItems.Vacuum:
+                    theInteractionController.itemsInfo = "Vacuum";
                     break;
             }
         }

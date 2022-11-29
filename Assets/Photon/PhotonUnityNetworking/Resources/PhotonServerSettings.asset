@@ -77,6 +77,10 @@ MonoBehaviour:
   - CheckCountdownStart
   - TryCheckBabySleepy
   - CheckBabyStatus
+  - CheckBabyHunger
+  - TryShuffleDirts
+  - TryClean
+  - HoldVacuum
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

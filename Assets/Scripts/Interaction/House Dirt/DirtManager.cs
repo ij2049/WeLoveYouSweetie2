@@ -98,8 +98,7 @@ public class DirtManager : MonoBehaviour
         
         for (int i = 0; i < obj_dirts.Length; i++)
         {
-            int rnd;
-            rnd = Random.Range(0, obj_dirts.Length);
+            int rnd = Random.Range(0, obj_dirts.Length);
             view.RPC("AddShuffleObj", RpcTarget.All, i, rnd);
         }
         

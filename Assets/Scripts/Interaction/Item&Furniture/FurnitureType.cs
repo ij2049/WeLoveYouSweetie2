@@ -194,7 +194,8 @@ public class FurnitureType : MonoBehaviourPunCallbacks
                 if (_playerInventory.playerItems[i].itemsName == "Vacuum")
                 {
                     string _playerName = _playerInventory.gameObject.name;
-                    view.RPC("TryPutBackVacuum", RpcTarget.All,_playerName,i);
+                    Debug.Log("TryVacuumHolder");
+                    view.RPC("TryPutBackVacuum", RpcTarget.All,_playerName, i);
                 }
             }
         }
@@ -277,10 +278,17 @@ public class FurnitureType : MonoBehaviourPunCallbacks
 
     IEnumerator PutBackVacuum(string _playerObjName, int _num)
     {
-        GameObject _temp = GameObject.Find(_playerObjName);
-        thePlayerInventory = _temp.GetComponent<PlayerInventory>();
+        Debug.Log("Put Back Vacuum");
+        //get player info
+        GameObject _player = GameObject.Find(_playerObjName);
+        thePlayerInventory = _player.GetComponent<PlayerInventory>();
+        //turn on and off objs
         thePlayerInventory.playerItems[_num].itemObject.SetActive(false);
         theFurnitureType.theVacuumInfo.obj_vacuum.SetActive(true);
+        //bool status
+        PlayerInventory.isItemHolding = false;
+        thePlayerInventory.thePlayerInventory.holdingItems.isThisPlayerVacuumHold = false;
+        //turn off this trigger
         gameObject.SetActive(false);
         yield return null;
     }

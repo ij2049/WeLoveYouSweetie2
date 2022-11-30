@@ -201,10 +201,17 @@ public class InteractionController : MonoBehaviourPunCallbacks
                         PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
                         UseFurniture(_playerInventory);
                     }
+                    
+                    else if (PlayerInventory.isItemHolding && theInteractionController.furnitureInfo == "VacuumHolder")
+                    {
+                        obj_buttonInfo.SetActive(false);
+                        PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
+                        UseFurniture(_playerInventory);
+                    }
+                    
                     else
                     {
                         Debug.Log("Sth is hold");
-
                     }
                 }
             }
@@ -253,6 +260,8 @@ public class InteractionController : MonoBehaviourPunCallbacks
                 else if (_playerInventory.thePlayerInventory.playerItems[i].itemsName == "Vacuum")
                 {
                     _playerInventory.thePlayerInventory.holdingItems.isThisPlayerVacuumHold = true;
+                    DirtManager theDirtManager = FindObjectOfType<DirtManager>();
+                    theDirtManager.obj_vacuumHolder.SetActive(true);
                     gameObject.SetActive(false);
                 }
                 

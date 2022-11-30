@@ -23,6 +23,7 @@ public class DirtManager : MonoBehaviour
     public int countDirtObj;
     
     private GameObject tempGO;
+
     //data
     private PhotonView view;
     //bool
@@ -42,8 +43,8 @@ public class DirtManager : MonoBehaviour
             if (PhotonNetwork.IsMasterClient)
             {
                 Debug.Log("counting start");
-                //Countdown();
-                view.RPC("Countdown",RpcTarget.All);
+                Countdown();
+                //view.RPC("Countdown",RpcTarget.All);
                 if(countDirtObj <= 0)
                 {
                     view.RPC("CompleteClean",RpcTarget.All);
@@ -58,7 +59,6 @@ public class DirtManager : MonoBehaviour
     }
 
     //Countdown
-    [PunRPC]
     void Countdown()
     {
         if (timer > 0)
@@ -72,7 +72,8 @@ public class DirtManager : MonoBehaviour
 
         else if(timer <= 0)
         {
-            view.RPC("TryShuffleDirts",RpcTarget.All);
+            //view.RPC("TryShuffleDirts",RpcTarget.All);
+            StartCoroutine(ShuffleDirts());
         }
     }
 
@@ -97,13 +98,21 @@ public class DirtManager : MonoBehaviour
         
         for (int i = 0; i < obj_dirts.Length; i++)
         {
-            int rnd = Random.Range(0, obj_dirts.Length);
-            tempGO = obj_dirts[rnd];
-            obj_dirts[rnd] = obj_dirts[i];
-            obj_dirts[i] = tempGO;
+            int rnd;
+            rnd = Random.Range(0, obj_dirts.Length);
+            view.RPC("AddShuffleObj", RpcTarget.All, i, rnd);
         }
+        
         yield return new WaitForSeconds(1f);
         view.RPC("TryTurOnDirts", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void AddShuffleObj(int _num, int _rnd)
+    {
+        tempGO = obj_dirts[_rnd];
+        obj_dirts[_rnd] = obj_dirts[_num];
+        obj_dirts[_num] = tempGO;
     }
 
     [PunRPC]

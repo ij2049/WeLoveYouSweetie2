@@ -69,7 +69,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 if (BabyStatus.isBabyCrying)
                 {
-                    Debug.Log(thePlayerInventory.holdingItems.isThisPlayerBabyHold);
                     Debug.Log("some bool status is not working");
                 }
             }

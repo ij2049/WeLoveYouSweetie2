@@ -19,7 +19,8 @@ public enum InteractableFurniture
     Cradle,
     Bathtub,
     Trash,
-    Bed
+    Bed,
+    VacuumHolder,
 }
 
 public class InteractionController : MonoBehaviourPunCallbacks
@@ -127,6 +128,9 @@ public class InteractionController : MonoBehaviourPunCallbacks
                 case InteractableFurniture.Bed:
                     theInteractionController.furnitureInfo = "Bed";
                     break;
+                case InteractableFurniture.VacuumHolder:
+                    theInteractionController.furnitureInfo = "VacuumHolder";
+                    break;
             }
         }
     }
@@ -190,6 +194,7 @@ public class InteractionController : MonoBehaviourPunCallbacks
 
                 else
                 {
+                    //using cradle
                     if (BabyManager.isBabyHold || theInteractionController.furnitureInfo == "Cradle")
                     {
                         obj_buttonInfo.SetActive(false);
@@ -234,6 +239,7 @@ public class InteractionController : MonoBehaviourPunCallbacks
             //if the one of the player's items' name is samw as a interactable item, make item set active true
             if (theInteractionController.itemsInfo == _playerInventory.playerItems[i].itemsName)
             {
+                //holding item
                 _playerInventory.thePlayerInventory.playerItems[i].itemObject.SetActive(true);
                 Debug.Log("Try Holditem");
                 
@@ -246,8 +252,8 @@ public class InteractionController : MonoBehaviourPunCallbacks
                 //check this is vacuum or not
                 else if (_playerInventory.thePlayerInventory.playerItems[i].itemsName == "Vacuum")
                 {
-
                     _playerInventory.thePlayerInventory.holdingItems.isThisPlayerVacuumHold = true;
+                    gameObject.SetActive(false);
                 }
                 
                 else

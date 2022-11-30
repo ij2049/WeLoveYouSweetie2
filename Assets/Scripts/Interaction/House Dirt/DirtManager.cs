@@ -11,16 +11,23 @@ public class DirtManager : MonoBehaviour
     [Header("Countdown")] 
     [SerializeField] private float timeDuration;
     private float timer;
+    
     //dirts objects
     [Header("Dirts Objects")]
     [SerializeField] private GameObject[] obj_dirts;
+    
+    [Header("Vacuum Info")]
+    public GameObject obj_vacuumHolder;
+    
+    [HideInInspector]
     public int countDirtObj;
-        private GameObject tempGO;
+    
+    private GameObject tempGO;
     //data
     private PhotonView view;
     //bool
     private static bool isClean;
-
+    
     private void Start()
     {
         isClean = true;
@@ -34,11 +41,12 @@ public class DirtManager : MonoBehaviour
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                isClean = false;
+                Debug.Log("counting start");
+                //Countdown();
                 view.RPC("Countdown",RpcTarget.All);
                 if(countDirtObj <= 0)
                 {
-                    CompleteClean();
+                    view.RPC("CompleteClean",RpcTarget.All);
                 }
             }
         }
@@ -53,7 +61,6 @@ public class DirtManager : MonoBehaviour
     [PunRPC]
     void Countdown()
     {
-        Debug.Log(timer);
         if (timer > 0)
         {
             timer -= Time.deltaTime;
@@ -71,7 +78,7 @@ public class DirtManager : MonoBehaviour
 
     private void ResetTimer()
     {
-        countDirtObj = 0;
+        countDirtObj = obj_dirts.Length;
         timer = timeDuration;
     }
     
@@ -84,6 +91,10 @@ public class DirtManager : MonoBehaviour
 
     IEnumerator ShuffleDirts()
     {
+        isClean = false;
+        countDirtObj = obj_dirts.Length;
+        Debug.Log(countDirtObj);
+        
         for (int i = 0; i < obj_dirts.Length; i++)
         {
             int rnd = Random.Range(0, obj_dirts.Length);
@@ -91,18 +102,31 @@ public class DirtManager : MonoBehaviour
             obj_dirts[rnd] = obj_dirts[i];
             obj_dirts[i] = tempGO;
         }
-        
+        yield return new WaitForSeconds(1f);
+        view.RPC("TryTurOnDirts", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void TryTurOnDirts()
+    {
+        Debug.Log("start turn on");
+        StartCoroutine(TurOnDirts());
+    }
+    
+    IEnumerator TurOnDirts()
+    {
         for (int i = 0; i < obj_dirts.Length; i++)
         {
             obj_dirts[i].SetActive(true);
             Debug.Log("dirt obj name : " + obj_dirts[i].name);
             yield return new WaitForSeconds(2f);
-            countDirtObj++;
         }
     }
-
-    public void CompleteClean()
+    
+    [PunRPC]
+    void CompleteClean()
     {
+        Debug.Log("complete");
         ResetTimer();
         timer = timeDuration;
         isClean = true;

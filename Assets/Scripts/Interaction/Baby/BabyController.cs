@@ -41,8 +41,6 @@ public class BabyController : MonoBehaviourPunCallbacks
         {
             if (BabyStatus.isBabyCrying)
             {
-                Debug.Log("isBabyCrying true");
-
                 view = GetComponent<PhotonView>();
 
                 if (BabyStatus.isBabySleepy)
@@ -60,7 +58,6 @@ public class BabyController : MonoBehaviourPunCallbacks
 
                 if (BabyStatus.isBabyWhining)
                 {
-                    Debug.Log("Whining");
                     if (view != null)
                     {
                         view.RPC("EventChecker", RpcTarget.All, "Whining");
@@ -142,8 +139,6 @@ public class BabyController : MonoBehaviourPunCallbacks
             if (theBabyController.theBabyAction[i].actionName == _eventName)
             {
                 theBabyController.theBabyAction[i].actionSpeechBubble.SetActive(false);
-                Debug.Log("turning off events : " + theBabyController.theBabyAction[i].actionSpeechBubble.name);
-                Debug.Log("the object name : " + theBabyController.gameObject.transform.parent.gameObject.transform.parent);
             }
         }
 
@@ -207,7 +202,6 @@ public class BabyController : MonoBehaviourPunCallbacks
             }
         }
         
-        Debug.Log("CheckBabyStatus");
         if (BabyStatus.isBabyCrying)
         {
             Debug.Log("isBabyCrying true");

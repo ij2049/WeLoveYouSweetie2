@@ -10,7 +10,14 @@ public enum Furniture
     Cradle,
     Bathtub,
     Trash,
-    Bed
+    Bed,
+    VacuumHolder,
+}
+
+[System.Serializable]
+public class VacuumInfo
+{
+    public GameObject obj_vacuum;  
 }
 
 public class FurnitureType : MonoBehaviourPunCallbacks
@@ -19,7 +26,10 @@ public class FurnitureType : MonoBehaviourPunCallbacks
 
     [Space(10)] [Header("Bed Info")] 
     [SerializeField] private Transform[] bedPos;
-    
+
+    [Space(10)] [Header("Vacuum Info")] 
+    [SerializeField] private VacuumInfo theVacuumInfo; //if the furniture is not a vacuum holder ignore it
+
     private FurnitureType theFurnitureType;
     private string furnitureInfo;
     private BabyManager theBabyManager;
@@ -46,6 +56,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             case Furniture.Bathtub: theFurnitureType.furnitureInfo = "Bathtub"; break;
             case Furniture.Trash: TryTrashbin(_playerInvenotry); break;
             case Furniture.Bed: StartCoroutine(TryBed(_playerInvenotry)); break;
+            case Furniture.VacuumHolder: TryVacuumHolder(_playerInvenotry); break;
         }
     }
 
@@ -173,6 +184,21 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         view.RPC("BedBoolSetting", RpcTarget.All, _playerName,false);
 
     }
+
+    private void TryVacuumHolder(PlayerInventory _playerInventory)
+    {
+        if (PlayerInventory.isItemHolding)
+        {
+            for (int i = 0; i < _playerInventory.playerItems.Length; i++)
+            {
+                if (_playerInventory.playerItems[i].itemsName == "Vacuum")
+                {
+                    string _playerName = _playerInventory.gameObject.name;
+                    view.RPC("TryPutBackVacuum", RpcTarget.All,_playerName,i);
+                }
+            }
+        }
+    }
     
     //RPC Bed
 
@@ -242,6 +268,23 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             Debug.Log("theBabyController is null");
     }
 
+    //RPC Vacuum Holder
+    [PunRPC]
+    void TryPutBackVacuum(string _playerObjName, int _num)
+    {
+        StartCoroutine(PutBackVacuum(_playerObjName, _num));
+    }
+
+    IEnumerator PutBackVacuum(string _playerObjName, int _num)
+    {
+        GameObject _temp = GameObject.Find(_playerObjName);
+        thePlayerInventory = _temp.GetComponent<PlayerInventory>();
+        thePlayerInventory.playerItems[_num].itemObject.SetActive(false);
+        theFurnitureType.theVacuumInfo.obj_vacuum.SetActive(true);
+        gameObject.SetActive(false);
+        yield return null;
+    }
+    
     //complete baby sleepy event
     [PunRPC]
     void TryCheckBabySleepy()

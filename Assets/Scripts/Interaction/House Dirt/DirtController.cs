@@ -93,10 +93,18 @@ public class DirtController : MonoBehaviour
     [PunRPC]
     void TryClean()
     {
-        gameObject.SetActive(false);
+        if (theDirtManager == null)
+        {
+            theDirtManager = FindObjectOfType<DirtManager>(); theDirtManager.countDirtObj--;
+        }
         
-        if(theDirtManager == null) theDirtManager = FindObjectOfType<DirtManager>();
-        else theDirtManager.countDirtObj--;
+        else
+        {
+            theDirtManager.countDirtObj--;
+        }
+        
+        Debug.Log(theDirtManager.countDirtObj);
+        gameObject.SetActive(false);
     }
 
     //reset all bool(not possible to interact with dirts)

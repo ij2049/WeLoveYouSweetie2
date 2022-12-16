@@ -2061,7 +2061,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hunger: 1000
   hungerDecreaseTime: 1
-  whenHungerTelling: 500
+  whenHungerTelling: 450
   timeDuration: 25
   babyEventsCount: 2
 --- !u!1 &591032874

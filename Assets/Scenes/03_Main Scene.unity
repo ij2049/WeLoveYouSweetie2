@@ -2061,8 +2061,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hunger: 1000
   hungerDecreaseTime: 1
-  whenHungerTelling: 600
-  timeDuration: 30
+  whenHungerTelling: 500
+  timeDuration: 25
   babyEventsCount: 2
 --- !u!1 &591032874
 GameObject:
@@ -3879,7 +3879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4369d98ba0943d4aa6eaf39ba2c6dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeDuration: 70
+  timeDuration: 50
   obj_dirts:
   - {fileID: 304758271}
   - {fileID: 10557603}

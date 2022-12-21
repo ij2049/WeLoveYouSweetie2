@@ -18,6 +18,7 @@ public class ItemType : MonoBehaviour
     private string itemInfo;
 
     private bool isBottleHold;
+    public static bool isSomePlayerHoldVacuum;
     private PhotonView view;
 
     private void Awake()
@@ -73,17 +74,6 @@ public class ItemType : MonoBehaviour
             }
         }
     }
-
-    public void TryVacuum()
-    {
-        view.RPC("HoldVacuum", RpcTarget.All);
-
-    }
-
-    [PunRPC]
-    void HoldVacuum()
-    {
-        
-    }
+    
     
 }

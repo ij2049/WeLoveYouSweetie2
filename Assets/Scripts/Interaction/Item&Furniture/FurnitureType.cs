@@ -288,6 +288,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         //bool status
         PlayerInventory.isItemHolding = false;
         thePlayerInventory.thePlayerInventory.holdingItems.isThisPlayerVacuumHold = false;
+        ItemType.isSomePlayerHoldVacuum = false;
         //turn off this trigger
         gameObject.SetActive(false);
         yield return null;

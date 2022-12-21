@@ -87,7 +87,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (theBabyManager.feedingGauge >= 5)
         {
-            PlayerInventory.isItemHolding = false;
+            if (!ItemType.isSomePlayerHoldVacuum)
+            {
+                PlayerInventory.isItemHolding = false;
+            }
             thePlayerInventory.holdingItems.isThisPlayerBottleHold = false;
             theBabyManager.feedingGauge = 0.01f;
             FeedingBaby();

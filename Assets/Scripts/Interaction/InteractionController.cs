@@ -260,6 +260,7 @@ public class InteractionController : MonoBehaviourPunCallbacks
                 else if (_playerInventory.thePlayerInventory.playerItems[i].itemsName == "Vacuum")
                 {
                     _playerInventory.thePlayerInventory.holdingItems.isThisPlayerVacuumHold = true;
+                    ItemType.isSomePlayerHoldVacuum = true;
                     DirtManager theDirtManager = FindObjectOfType<DirtManager>();
                     theDirtManager.obj_vacuumHolder.SetActive(true);
                     gameObject.SetActive(false);

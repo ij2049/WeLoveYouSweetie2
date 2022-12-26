@@ -21,6 +21,7 @@ public enum InteractableFurniture
     Trash,
     Bed,
     VacuumHolder,
+    Door,
 }
 
 public class InteractionController : MonoBehaviourPunCallbacks
@@ -62,7 +63,7 @@ public class InteractionController : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (theInteractionController.isPlayerEntered)
+        if (theInteractionController.isPlayerEntered && view.IsMine)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -130,6 +131,9 @@ public class InteractionController : MonoBehaviourPunCallbacks
                     break;
                 case InteractableFurniture.VacuumHolder:
                     theInteractionController.furnitureInfo = "VacuumHolder";
+                    break;
+                case InteractableFurniture.Door:
+                    theInteractionController.furnitureInfo = "Door";
                     break;
             }
         }

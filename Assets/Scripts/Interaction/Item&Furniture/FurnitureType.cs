@@ -12,12 +12,19 @@ public enum Furniture
     Trash,
     Bed,
     VacuumHolder,
+    Door
 }
 
 [System.Serializable]
 public class VacuumInfo
 {
     public GameObject obj_vacuum;  
+}
+
+[System.Serializable]
+public class DoorInfo
+{
+    public Transform PlayerWorkPos;  
 }
 
 public class FurnitureType : MonoBehaviourPunCallbacks
@@ -29,6 +36,9 @@ public class FurnitureType : MonoBehaviourPunCallbacks
 
     [Space(10)] [Header("Vacuum Info")] 
     [SerializeField] private VacuumInfo theVacuumInfo; //if the furniture is not a vacuum holder ignore it
+    
+    [Space(10)] [Header("Door Info")] 
+    [SerializeField] private DoorInfo theDoorInfo; //if not door ignore it
 
     private FurnitureType theFurnitureType;
     private string furnitureInfo;
@@ -36,7 +46,8 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     private PhotonView view;
     private PlayerInventory thePlayerInventory;
     public static bool isBedUsing;
-    
+    public static bool isPlayerWorking;
+
     private void Awake()
     {
         theFurnitureType = GetComponent<FurnitureType>();
@@ -57,6 +68,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             case Furniture.Trash: TryTrashbin(_playerInvenotry); break;
             case Furniture.Bed: StartCoroutine(TryBed(_playerInvenotry)); break;
             case Furniture.VacuumHolder: TryVacuumHolder(_playerInvenotry); break;
+            case Furniture.Door: TryDoor(_playerInvenotry); break;
         }
     }
 
@@ -200,9 +212,29 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             }
         }
     }
+
+    private void TryDoor(PlayerInventory _playerInventory)
+    {
+        PlayerStatusController _playerStatus = _playerInventory.gameObject.GetComponent<PlayerStatusController>();
+        string _playerName = _playerInventory.gameObject.name;
+        PlayerController _thePlayerController = _playerInventory.gameObject.GetComponent<PlayerController>();
+        if (!isPlayerWorking)
+        {
+            view.RPC("PlayerMoveToWork", RpcTarget.All,_playerName);
+        }
+    }
+    
+    //RPC Door
+    [PunRPC]
+    void PlayerMoveToWork(string _playerObjName)
+    {
+        GameObject _temp = GameObject.Find(_playerObjName);
+        PlayerController _playerController = _temp.GetComponent<PlayerController>();
+        _temp.transform.localPosition = theFurnitureType.theDoorInfo.PlayerWorkPos.localPosition;
+        _playerController.isWorking = true;
+    }
     
     //RPC Bed
-
     [PunRPC]
     void BedPuttingPlayerPos(string _playerObjName, int _num)
     {

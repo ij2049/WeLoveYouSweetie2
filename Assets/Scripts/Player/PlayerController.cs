@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private BabyManager theBabyManager;
 
     private bool soothingActivate;
+    public bool isWorking;
     private void Awake()
     {
         thePlayerController = GetComponent<PlayerController>();
@@ -35,7 +36,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (thePlayerController.view.IsMine && !thePlayerController.isPlayerUsingNomoveFurniture)
+        if (thePlayerController.view.IsMine && !thePlayerController.isPlayerUsingNomoveFurniture &&!isWorking)
         {
             PlayerMovement();
             

@@ -239,6 +239,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         theFurnitureType.theDoorInfo.WorkingBG.SetActive(true);
         theFurnitureType.theDoorInfo.BGCollider.SetActive(false);
         theFurnitureType.theDoorInfo.BGFurniture.SetActive(false);
+        //start robot assemble
     }
     
     //RPC Door

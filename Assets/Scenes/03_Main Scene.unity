@@ -3436,6 +3436,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1018544588}
+  - component: {fileID: 1018544589}
   m_Layer: 0
   m_Name: Working
   m_TagString: Untagged
@@ -3459,6 +3460,18 @@ Transform:
   m_Father: {fileID: 2140510118}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1018544589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018544587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf99e6f120ecb4488ba8353923d5099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1043381165
 GameObject:
   m_ObjectHideFlags: 0
@@ -4058,7 +4071,7 @@ MonoBehaviour:
   theDoorInfo:
     PlayerWorkPos: {fileID: 1530182675}
     WorkingBG: {fileID: 1018544587}
-    BGCollider: {fileID: 1680369898}
+    BGCollider: {fileID: 0}
     BGFurniture: {fileID: 475931037}
 --- !u!114 &1368109560
 MonoBehaviour:

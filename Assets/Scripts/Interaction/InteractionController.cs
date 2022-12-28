@@ -63,7 +63,7 @@ public class InteractionController : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (theInteractionController.isPlayerEntered && view.IsMine)
+        if (theInteractionController.isPlayerEntered && view.IsMine && !FurnitureType.isPlayerWorking)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {

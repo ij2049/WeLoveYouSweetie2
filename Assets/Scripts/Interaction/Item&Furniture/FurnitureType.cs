@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Photon.Pun;
+using Photon.Pun.Demo.PunBasics;
 using UnityEngine;
 
 public enum Furniture
@@ -24,7 +25,10 @@ public class VacuumInfo
 [System.Serializable]
 public class DoorInfo
 {
-    public Transform PlayerWorkPos;  
+    public Transform PlayerWorkPos;
+    public GameObject WorkingBG;
+    public GameObject BGCollider;
+    public GameObject BGFurniture;
 }
 
 public class FurnitureType : MonoBehaviourPunCallbacks
@@ -43,6 +47,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     private FurnitureType theFurnitureType;
     private string furnitureInfo;
     private BabyManager theBabyManager;
+    private GameManager theGameManager;
     private PhotonView view;
     private PlayerInventory thePlayerInventory;
     public static bool isBedUsing;
@@ -50,6 +55,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        theGameManager = FindObjectOfType<GameManager>();
         theFurnitureType = GetComponent<FurnitureType>();
         theBabyManager = FindObjectOfType<BabyManager>();
     }
@@ -220,8 +226,19 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         PlayerController _thePlayerController = _playerInventory.gameObject.GetComponent<PlayerController>();
         if (!isPlayerWorking)
         {
+            StartWorking();
             view.RPC("PlayerMoveToWork", RpcTarget.All,_playerName);
         }
+    }
+
+    //player minigame start. This is not RPC. It's only happening on the playing player's view not the other player.
+    private void StartWorking()
+    {
+        //starting bool for the minigame
+        theFurnitureType.theGameManager.UI.SetActive(false);
+        theFurnitureType.theDoorInfo.WorkingBG.SetActive(true);
+        theFurnitureType.theDoorInfo.BGCollider.SetActive(false);
+        theFurnitureType.theDoorInfo.BGFurniture.SetActive(false);
     }
     
     //RPC Door

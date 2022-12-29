@@ -337,6 +337,7 @@ MonoBehaviour:
   moveSpeed: 5
   rigidBody: {fileID: 1761923749}
   isPlayerUsingNomoveFurniture: 0
+  isWorking: 0
 --- !u!114 &3483699039477421041
 MonoBehaviour:
   m_ObjectHideFlags: 0

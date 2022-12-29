@@ -235,6 +235,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     private void StartWorking()
     {
         //starting bool for the minigame
+        FurnitureType.isPlayerWorking = true;
         theFurnitureType.theGameManager.UI.SetActive(false);
         theFurnitureType.theDoorInfo.WorkingBG.SetActive(true);
         theFurnitureType.theDoorInfo.BGCollider.SetActive(false);
@@ -246,6 +247,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     [PunRPC]
     void PlayerMoveToWork(string _playerObjName)
     {
+        Debug.Log("Rpc Door working");
         GameObject _temp = GameObject.Find(_playerObjName);
         PlayerController _playerController = _temp.GetComponent<PlayerController>();
         _temp.transform.localPosition = theFurnitureType.theDoorInfo.PlayerWorkPos.localPosition;

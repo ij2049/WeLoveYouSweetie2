@@ -470,6 +470,7 @@ GameObject:
   m_Component:
   - component: {fileID: 106525482}
   - component: {fileID: 106525483}
+  - component: {fileID: 106525484}
   m_Layer: 0
   m_Name: Catalog_card7
   m_TagString: Untagged
@@ -544,6 +545,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &106525484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106525481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theCatalogCardController: {fileID: 106525484}
+  cardType: 
+  headType: 
+  bodyType: 
+  legType: 
 --- !u!1 &108547604
 GameObject:
   m_ObjectHideFlags: 0
@@ -3690,6 +3708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 985589791}
   - component: {fileID: 985589792}
+  - component: {fileID: 985589793}
   m_Layer: 0
   m_Name: Catalog_card3
   m_TagString: Untagged
@@ -3764,6 +3783,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &985589793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985589790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theCatalogCardController: {fileID: 985589793}
+  cardType: 
+  headType: 
+  bodyType: 
+  legType: 
 --- !u!1 &997330305
 GameObject:
   m_ObjectHideFlags: 0
@@ -4195,6 +4231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1087526212}
   - component: {fileID: 1087526213}
+  - component: {fileID: 1087526214}
   m_Layer: 0
   m_Name: Catalog_card8
   m_TagString: Untagged
@@ -4269,6 +4306,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1087526214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087526211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theCatalogCardController: {fileID: 1087526214}
+  cardType: 
+  headType: 
+  bodyType: 
+  legType: 
 --- !u!1 &1107511623
 GameObject:
   m_ObjectHideFlags: 0
@@ -4510,6 +4564,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1196129219}
   - component: {fileID: 1196129220}
+  - component: {fileID: 1196129221}
   m_Layer: 0
   m_Name: Catalog_card6
   m_TagString: Untagged
@@ -4584,6 +4639,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1196129221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196129218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theCatalogCardController: {fileID: 1196129221}
+  cardType: 
+  headType: 
+  bodyType: 
+  legType: 
 --- !u!1 &1205336122
 GameObject:
   m_ObjectHideFlags: 0
@@ -4729,6 +4801,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1212092136}
   - component: {fileID: 1212092137}
+  - component: {fileID: 1212092138}
   m_Layer: 0
   m_Name: Catalog_card5
   m_TagString: Untagged
@@ -4803,6 +4876,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1212092138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212092135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theCatalogCardController: {fileID: 1212092138}
+  cardType: 
+  headType: 
+  bodyType: 
+  legType: 
 --- !u!1 &1368109557
 GameObject:
   m_ObjectHideFlags: 0
@@ -6003,10 +6093,65 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardsInfo:
-  - img_card: {fileID: 0}
+  - cardType: A
+    img_card: {fileID: 21300000, guid: 9712a6d8e8854154abfa47be6febee94, type: 3}
     head: 0
-    body: 0
+    body: 2
+    leg: 7
+  - cardType: B
+    img_card: {fileID: 21300000, guid: 9a30a1037ebedfb45a69759e81f52079, type: 3}
+    head: 10
+    body: 4
+    leg: 6
+  - cardType: C
+    img_card: {fileID: 21300000, guid: d4b3f23904eb4bc4c86d6d714685bc2a, type: 3}
+    head: 14
+    body: 5
+    leg: 8
+  - cardType: D
+    img_card: {fileID: 21300000, guid: 076928c9705f6f841a6a11ae1117648a, type: 3}
+    head: 1
+    body: 9
+    leg: 12
+  - cardType: E
+    img_card: {fileID: 21300000, guid: 06f48c72530123c4f8a983b09c493c22, type: 3}
+    head: 14
+    body: 5
+    leg: 9
+  - cardType: F
+    img_card: {fileID: 21300000, guid: 5101e4bc32c00bf45abd32b1b5465e89, type: 3}
+    head: 11
+    body: 8
+    leg: 12
+  - cardType: G
+    img_card: {fileID: 21300000, guid: 7e4c413ec2c3037469ef15acffb9caa8, type: 3}
+    head: 2
+    body: 11
+    leg: 13
+  - cardType: H
+    img_card: {fileID: 21300000, guid: fe61f2881801ba344a87d5c287d199f7, type: 3}
+    head: 8
+    body: 6
+    leg: 14
+  - cardType: I
+    img_card: {fileID: 21300000, guid: 9190989b56bca2a41866408bdc915d40, type: 3}
+    head: 5
+    body: 12
+    leg: 10
+  - cardType: J
+    img_card: {fileID: 21300000, guid: 3bed523bd35d4df479ee9f6e16795198, type: 3}
+    head: 7
+    body: 4
     leg: 0
+  cardController:
+  - {fileID: 1948068351}
+  - {fileID: 1754585674}
+  - {fileID: 985589793}
+  - {fileID: 2008223229}
+  - {fileID: 1212092138}
+  - {fileID: 1196129221}
+  - {fileID: 106525484}
+  - {fileID: 1087526214}
 --- !u!1 &1641202981
 GameObject:
   m_ObjectHideFlags: 0
@@ -6891,6 +7036,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1754585672}
   - component: {fileID: 1754585673}
+  - component: {fileID: 1754585674}
   m_Layer: 0
   m_Name: Catalog_card2
   m_TagString: Untagged
@@ -6965,6 +7111,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1754585674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754585671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theCatalogCardController: {fileID: 1754585674}
+  cardType: 
+  headType: 
+  bodyType: 
+  legType: 
 --- !u!1 &1778495487
 GameObject:
   m_ObjectHideFlags: 0
@@ -7237,6 +7400,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1948068349}
   - component: {fileID: 1948068350}
+  - component: {fileID: 1948068351}
   m_Layer: 0
   m_Name: Catalog_card
   m_TagString: Untagged
@@ -7311,6 +7475,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1948068351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948068348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theCatalogCardController: {fileID: 1948068351}
+  cardType: 
+  headType: 
+  bodyType: 
+  legType: 
 --- !u!1 &1960880097
 GameObject:
   m_ObjectHideFlags: 0
@@ -7468,6 +7649,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2008223227}
   - component: {fileID: 2008223228}
+  - component: {fileID: 2008223229}
   m_Layer: 0
   m_Name: Catalog_card4
   m_TagString: Untagged
@@ -7542,6 +7724,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2008223229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008223226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theCatalogCardController: {fileID: 2008223229}
+  cardType: 
+  headType: 
+  bodyType: 
+  legType: 
 --- !u!1 &2028442675
 GameObject:
   m_ObjectHideFlags: 0

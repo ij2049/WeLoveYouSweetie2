@@ -41,9 +41,11 @@ public class CatalogManager : MonoBehaviour
     private CatalogCardInfo[] cardsInfo;
 
     //randomize cards that is choice from cards infos
-    public CatalogCardInfo[] randomnizeChoicesCards;
+    [Tooltip("Don't touch this. It's auto put in")]
+    [SerializeField] 
+    private CatalogCardInfo[] randomnizeChoicesCards;
 
-    //each of the cards in the unity
+    //each of the cards that is put from the unity
     [SerializeField] 
     private CatalogCardController[] cardController;
     
@@ -60,19 +62,37 @@ public class CatalogManager : MonoBehaviour
 
     private void Start()
     {
-        //put card info to the each card
-        RandomCardsChoice();
-        //instantiate cards img on the list
+        TryCardsShuffleAndUpdate();
+    }
 
+    public void TryCardsShuffleAndUpdate()
+    {
+        StartCoroutine(CardsShuffleAndUpdate());
+    }
+
+    private IEnumerator CardsShuffleAndUpdate()
+    {
+        //choose random num and pick cards
+        RandomCardsChoice();
+        
+        //put card info to the each card controller
         for (int i = 0; i < randomnizeChoicesCards.Length; i++)
         {
             cardController[i].cardType = randomnizeChoicesCards[i].cardType;
+            cardController[i].img_card = randomnizeChoicesCards[i].img_card;
             cardInfoInterpret(i, "head");
             cardInfoInterpret(i, "body");
             cardInfoInterpret(i, "leg");
         }
-    }
 
+        for (int i = 0; i < cardController.Length; i++)
+        {
+            cardController[i].theCatalogCardController.theSpriteRenderer.sprite = cardController[i].theCatalogCardController.img_card;
+        }
+
+        yield return null;
+    }
+    
     private void RandomCardsChoice()
     {
         for (int i = 0; i < cardsInfo.Length; i++)

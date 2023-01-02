@@ -557,11 +557,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theCatalogCardController: {fileID: 106525484}
+  theSpriteRenderer: {fileID: 0}
+  img_card: {fileID: 0}
   cardType: 
   headType: 
   bodyType: 
   legType: 
+  theCatalogCardController: {fileID: 106525484}
 --- !u!1 &108547604
 GameObject:
   m_ObjectHideFlags: 0
@@ -3795,11 +3797,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theCatalogCardController: {fileID: 985589793}
+  theSpriteRenderer: {fileID: 0}
+  img_card: {fileID: 0}
   cardType: 
   headType: 
   bodyType: 
   legType: 
+  theCatalogCardController: {fileID: 985589793}
 --- !u!1 &997330305
 GameObject:
   m_ObjectHideFlags: 0
@@ -4318,11 +4322,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theCatalogCardController: {fileID: 1087526214}
+  theSpriteRenderer: {fileID: 0}
+  img_card: {fileID: 0}
   cardType: 
   headType: 
   bodyType: 
   legType: 
+  theCatalogCardController: {fileID: 1087526214}
 --- !u!1 &1107511623
 GameObject:
   m_ObjectHideFlags: 0
@@ -4651,11 +4657,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theCatalogCardController: {fileID: 1196129221}
+  theSpriteRenderer: {fileID: 0}
+  img_card: {fileID: 0}
   cardType: 
   headType: 
   bodyType: 
   legType: 
+  theCatalogCardController: {fileID: 1196129221}
 --- !u!1 &1205336122
 GameObject:
   m_ObjectHideFlags: 0
@@ -4888,11 +4896,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theCatalogCardController: {fileID: 1212092138}
+  theSpriteRenderer: {fileID: 0}
+  img_card: {fileID: 0}
   cardType: 
   headType: 
   bodyType: 
   legType: 
+  theCatalogCardController: {fileID: 1212092138}
 --- !u!1 &1368109557
 GameObject:
   m_ObjectHideFlags: 0
@@ -5999,7 +6009,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1638854157
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6143,6 +6153,7 @@ MonoBehaviour:
     head: 7
     body: 4
     leg: 0
+  randomnizeChoicesCards: []
   cardController:
   - {fileID: 1948068351}
   - {fileID: 1754585674}
@@ -7123,11 +7134,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theCatalogCardController: {fileID: 1754585674}
+  theSpriteRenderer: {fileID: 0}
+  img_card: {fileID: 0}
   cardType: 
   headType: 
   bodyType: 
   legType: 
+  theCatalogCardController: {fileID: 1754585674}
 --- !u!1 &1778495487
 GameObject:
   m_ObjectHideFlags: 0
@@ -7487,11 +7500,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theCatalogCardController: {fileID: 1948068351}
+  theSpriteRenderer: {fileID: 0}
+  img_card: {fileID: 0}
   cardType: 
   headType: 
   bodyType: 
   legType: 
+  theCatalogCardController: {fileID: 1948068351}
 --- !u!1 &1960880097
 GameObject:
   m_ObjectHideFlags: 0
@@ -7736,11 +7751,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d62c66a9b70e1c4d9140e2f5f468baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theCatalogCardController: {fileID: 2008223229}
+  theSpriteRenderer: {fileID: 0}
+  img_card: {fileID: 0}
   cardType: 
   headType: 
   bodyType: 
   legType: 
+  theCatalogCardController: {fileID: 2008223229}
 --- !u!1 &2028442675
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,8 +46,7 @@ public class CatalogManager : MonoBehaviour
     private CatalogCardInfo[] randomnizeChoicesCards;
 
     //each of the cards that is put from the unity
-    [SerializeField] 
-    private CatalogCardController[] cardController;
+    public CatalogCardController[] cardController;
     
     //reset cardInfo
     private CatalogCardInfo[] resetCardInfo;
@@ -90,6 +89,9 @@ public class CatalogManager : MonoBehaviour
             cardController[i].theCatalogCardController.theSpriteRenderer.sprite = cardController[i].theCatalogCardController.img_card;
         }
 
+        RobotPartsManager _tempPartsManager = FindObjectOfType<RobotPartsManager>();
+        //update card Shuffle info as a parts
+        _tempPartsManager.SetCardInfoForParts();
         yield return null;
     }
     
@@ -372,6 +374,7 @@ public class CatalogManager : MonoBehaviour
             Debug.LogError("card part type is not right");
         }
     }
+    
 
 }
 

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class RobotAssembleController : MonoBehaviour
 {
     [SerializeField] private GameObject catalogPanel;

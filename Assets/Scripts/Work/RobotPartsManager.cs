@@ -4,24 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public enum PartsType
-{
-    Star_Yellow,
-    Star_Purple,
-    OppTriangle_Green,
-    OppTriangle_Purple,
-    Triangle_Green,
-    Triangle_Yellow,
-    Square_Yellow,
-    Square_Purple,
-    Infinite_Purple,
-    Infinite_Yellow,
-    Moon_Purple,
-    Moon_Yellow,
-    Cloud_Green,
-    Cloud_purple,
-    Circle_Green,
-}
 
 [System.Serializable]
 public class PartsInfo
@@ -115,6 +97,31 @@ public class RobotPartsManager : MonoBehaviour
         }
 
         ShuffleParts();
+        AddImgToEachParts(1);        
+        
         yield return null;
+    }
+
+    //_num == 1 -> less than 7(give 1-7 parts info), _num == 2 -> less than 14....etc
+    private void AddImgToEachParts(int _num)
+    {
+
+        if (_num == 1)
+        {
+            for (int i = 0; i < robotPartsControllers.Length; i++)
+            {
+                robotPartsControllers[i].thePartsInfo = randomPartsInfo[i];
+                robotPartsControllers[i].img_part.sprite = robotPartsControllers[i].thePartsInfo.img_parts;
+            }
+        }
+        
+        else if (_num == 2)
+        {
+            for (int i = 0; i < robotPartsControllers.Length; i++)
+            {
+                robotPartsControllers[i].thePartsInfo = randomPartsInfo[i+7];
+                robotPartsControllers[i].img_part.sprite = robotPartsControllers[i].thePartsInfo.img_parts;
+            }  
+        }
     }
 }

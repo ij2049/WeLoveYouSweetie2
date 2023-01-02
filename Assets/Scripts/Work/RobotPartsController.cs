@@ -1,18 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RobotPartsController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Image img_part;
 
-    // Update is called once per frame
-    void Update()
+    [HideInInspector]
+    public PartsInfo thePartsInfo;
+
+    private RobotPartsController theRobotPartsController;
+
+    private void Awake()
     {
-        
+        theRobotPartsController = GetComponent<RobotPartsController>();
     }
 }

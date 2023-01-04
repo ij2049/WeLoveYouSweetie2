@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class SelectedPartsManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI txt_Info;
     [SerializeField] private Image[] selectedParts;
 
     //[HideInInspector]
@@ -15,13 +14,7 @@ public class SelectedPartsManager : MonoBehaviour
     
     //Data
     private int choosePart; // 0 == leg, 1 == body, 2 == head
-
-
-    private void Update()
-    {
-       
-    }
-
+    
     public void ResetParts()
     {
         choosePart = 0;
@@ -42,16 +35,11 @@ public class SelectedPartsManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(TextInfoAdjust("All the parts are filled. Try Trashbin"));
+            TextManager.instance.TryTextInfoInput("All the parts are filled. Try Trashbin");
         }
     }
 
-    private IEnumerator TextInfoAdjust(string _txt_Info)
-    {
-        txt_Info.text = _txt_Info;
-        yield return new WaitForSeconds(2f);
-        txt_Info.text = null;
-    }
+
     
     private void checkChooseParts(PartsInfo _partsInfo) //Head? Body? Leg?
     {

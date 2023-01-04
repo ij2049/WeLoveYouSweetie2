@@ -22,8 +22,7 @@ public class RobotPartsManager : MonoBehaviour
     
 
     [Tooltip("image parts")]
-    [SerializeField]
-    private RobotPartsController[] robotPartsControllers;
+    public RobotPartsController[] robotPartsControllers;
     
     public List<PartsInfo> randomPartsInfo = new List<PartsInfo>();
     private PartsInfo tempParsInfo; // 1~4

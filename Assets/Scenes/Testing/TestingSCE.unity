@@ -1864,6 +1864,7 @@ GameObject:
   - component: {fileID: 531188402}
   - component: {fileID: 531188404}
   - component: {fileID: 531188403}
+  - component: {fileID: 531188405}
   m_Layer: 5
   m_Name: Txt_Info
   m_TagString: Untagged
@@ -1988,6 +1989,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 531188401}
   m_CullTransparentMesh: 1
+--- !u!114 &531188405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531188401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46d5bd74c3921884e92ff1a6c08060e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  txt_Info: {fileID: 531188403}
 --- !u!1 &573602335
 GameObject:
   m_ObjectHideFlags: 0
@@ -2192,6 +2206,7 @@ MonoBehaviour:
   thePartsInfo:
     partsName: 
     img_parts: {fileID: 0}
+  isEmpty: 0
 --- !u!1 &601324029
 GameObject:
   m_ObjectHideFlags: 0
@@ -2731,6 +2746,7 @@ MonoBehaviour:
   thePartsInfo:
     partsName: 
     img_parts: {fileID: 0}
+  isEmpty: 0
 --- !u!1 &799436532
 GameObject:
   m_ObjectHideFlags: 0
@@ -3858,6 +3874,7 @@ MonoBehaviour:
   thePartsInfo:
     partsName: 
     img_parts: {fileID: 0}
+  isEmpty: 0
 --- !u!1 &1058861103
 GameObject:
   m_ObjectHideFlags: 0
@@ -4099,6 +4116,7 @@ MonoBehaviour:
   thePartsInfo:
     partsName: 
     img_parts: {fileID: 0}
+  isEmpty: 0
 --- !u!1 &1189446319
 GameObject:
   m_ObjectHideFlags: 0
@@ -4535,6 +4553,7 @@ MonoBehaviour:
   thePartsInfo:
     partsName: 
     img_parts: {fileID: 0}
+  isEmpty: 0
 --- !u!1 &1312409131
 GameObject:
   m_ObjectHideFlags: 0
@@ -5188,7 +5207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499fae3ab82a6c6409da900d1dd14946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  txt_Info: {fileID: 531188403}
   selectedParts:
   - {fileID: 1781152563}
   - {fileID: 1040704867}
@@ -5293,6 +5311,7 @@ MonoBehaviour:
   thePartsInfo:
     partsName: 
     img_parts: {fileID: 0}
+  isEmpty: 0
 --- !u!1 &1781152561
 GameObject:
   m_ObjectHideFlags: 0
@@ -5514,6 +5533,7 @@ MonoBehaviour:
   thePartsInfo:
     partsName: 
     img_parts: {fileID: 0}
+  isEmpty: 0
 --- !u!1 &1972129885
 GameObject:
   m_ObjectHideFlags: 0

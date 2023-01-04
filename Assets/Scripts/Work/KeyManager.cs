@@ -159,9 +159,17 @@ public class KeyManager : MonoBehaviour
                 } 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
-                    Debug.Log(theRobotPartsManager.randomPartsInfo[thePartsSelectCursorController.slectedPartsInfoNum]
-                        .partsName);
-                    theSelectedPartsManager.SetPickedPartsInfo(theRobotPartsManager.randomPartsInfo[thePartsSelectCursorController.slectedPartsInfoNum]);
+                    if (!theRobotPartsManager.robotPartsControllers[thePartsSelectCursorController.countSelection].isEmpty)
+                    {
+                        Debug.Log("This part is not empty!");
+                        theSelectedPartsManager.SetPickedPartsInfo(theRobotPartsManager.randomPartsInfo[thePartsSelectCursorController.slectedPartsInfoNum]);
+                        theRobotPartsManager.robotPartsControllers[thePartsSelectCursorController.countSelection].CheckParts(true);
+                    }
+
+                    else
+                    {
+                        TextManager.instance.TryTextInfoInput("This is empty slot");
+                    }
                 }
             }
             

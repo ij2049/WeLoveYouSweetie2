@@ -12,6 +12,7 @@ public class KeyManager : MonoBehaviour
     private RobotPartsManager theRobotPartsManager;
     private SelectedPartsManager theSelectedPartsManager;
     private PartsSelectCursorController thePartsSelectCursorController;
+    public List<int> selectedPartsNum = new List<int>();
     
     public static bool isCatalogOpened;
 
@@ -162,13 +163,29 @@ public class KeyManager : MonoBehaviour
                     if (!theRobotPartsManager.robotPartsControllers[thePartsSelectCursorController.countSelection].isEmpty)
                     {
                         Debug.Log("This part is not empty!");
-                        theSelectedPartsManager.SetPickedPartsInfo(theRobotPartsManager.randomPartsInfo[thePartsSelectCursorController.slectedPartsInfoNum]);
-                        theRobotPartsManager.robotPartsControllers[thePartsSelectCursorController.countSelection].CheckParts(true);
+                        if (selectedPartsNum.Count < 3)
+                        {
+                            theSelectedPartsManager.SetPickedPartsInfo(theRobotPartsManager.randomPartsInfo[thePartsSelectCursorController.slectedPartsInfoNum]);
+                            selectedPartsNum.Add(thePartsSelectCursorController.slectedPartsInfoNum);
+                            theRobotPartsManager.robotPartsControllers[thePartsSelectCursorController.countSelection].CheckParts(true);
+                        }
+                        else
+                        {
+                            TextManager.instance.TryTextInfoInput("All the parts are filled. Try Trashbin");
+
+                        }
                     }
 
                     else
                     {
                         TextManager.instance.TryTextInfoInput("This is empty slot");
+                    }
+                }
+                if (Input.GetKeyDown(KeyCode.Z))
+                {
+                    for (int i = 0; i < selectedPartsNum.Count; i++)
+                    {
+                        
                     }
                 }
             }

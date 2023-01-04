@@ -27,6 +27,7 @@ public class RobotPartsManager : MonoBehaviour
     
     public List<PartsInfo> randomPartsInfo = new List<PartsInfo>();
     private PartsInfo tempParsInfo;
+    public int countPartsStack;
     
     //Catalog Data
     private CatalogManager theCatalogManager;
@@ -97,13 +98,14 @@ public class RobotPartsManager : MonoBehaviour
         }
 
         ShuffleParts();
-        AddImgToEachParts(1);        
+        AddImgToEachParts(1);
+        countPartsStack = 1;
         
         yield return null;
     }
 
     //_num == 1 -> less than 7(give 1-7 parts info), _num == 2 -> less than 14....etc
-    private void AddImgToEachParts(int _num)
+    public void AddImgToEachParts(int _num)
     {
 
         if (_num == 1)
@@ -122,6 +124,24 @@ public class RobotPartsManager : MonoBehaviour
                 robotPartsControllers[i].thePartsInfo = randomPartsInfo[i+7];
                 robotPartsControllers[i].img_part.sprite = robotPartsControllers[i].thePartsInfo.img_parts;
             }  
+        }
+        
+        else if (_num == 3)
+        {
+            for (int i = 0; i < robotPartsControllers.Length; i++)
+            {
+                robotPartsControllers[i].thePartsInfo = randomPartsInfo[i+14];
+                robotPartsControllers[i].img_part.sprite = robotPartsControllers[i].thePartsInfo.img_parts;
+            } 
+        }
+        
+        else if (_num == 4)
+        {
+            for (int i = 0; i < robotPartsControllers.Length; i++)
+            {
+                robotPartsControllers[i].thePartsInfo = randomPartsInfo[i+21];
+                robotPartsControllers[i].img_part.sprite = robotPartsControllers[i].thePartsInfo.img_parts;
+            } 
         }
     }
 }

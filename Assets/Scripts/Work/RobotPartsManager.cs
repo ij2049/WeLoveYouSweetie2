@@ -26,7 +26,7 @@ public class RobotPartsManager : MonoBehaviour
     private RobotPartsController[] robotPartsControllers;
     
     public List<PartsInfo> randomPartsInfo = new List<PartsInfo>();
-    private PartsInfo tempParsInfo;
+    private PartsInfo tempParsInfo; // 1~4
     public int countPartsStack;
     
     //Catalog Data

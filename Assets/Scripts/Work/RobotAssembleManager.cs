@@ -89,14 +89,14 @@ public class RobotAssembleManager : MonoBehaviour
 
                     if (thePartsSelectionController.countSelection < 7)
                     {
-                        thePartsSelectionController.selection_rectTransform.localPosition =
+                        thePartsSelectionController.selection_rectTransform.anchoredPosition =
                             thePartsSelectionController.selection_Pos[thePartsSelectionController.countSelection];
                     }
 
                     else
                     {
                         thePartsSelectionController.countSelection = 0;
-                        thePartsSelectionController.selection_rectTransform.localPosition =
+                        thePartsSelectionController.selection_rectTransform.anchoredPosition =
                             thePartsSelectionController.selection_Pos[thePartsSelectionController.countSelection];
                     }
 
@@ -106,17 +106,16 @@ public class RobotAssembleManager : MonoBehaviour
                     thePartsSelectionController.countSelection--; 
                     if (0 <= thePartsSelectionController.countSelection)
                     {
-                        thePartsSelectionController.selection_rectTransform.localPosition =
+                        thePartsSelectionController.selection_rectTransform.anchoredPosition =
                             thePartsSelectionController.selection_Pos[thePartsSelectionController.countSelection];
                     }
                     
                     else
                     {
                         thePartsSelectionController.countSelection = 6;
-                        thePartsSelectionController.selection_rectTransform.localPosition = 
+                        thePartsSelectionController.selection_rectTransform.anchoredPosition = 
                             thePartsSelectionController.selection_Pos[thePartsSelectionController.countSelection]; 
                     }
-
                 } 
             }
             

@@ -13,6 +13,8 @@ public class RobotPartsController : MonoBehaviour
 
     [HideInInspector] 
     public bool isEmpty;
+
+
     
     private RobotPartsController theRobotPartsController;
 

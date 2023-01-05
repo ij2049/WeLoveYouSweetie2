@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 public class SelectedPartsManager : MonoBehaviour
 {
-    [SerializeField] private Image[] selectedParts;
+    [SerializeField] private Image[] img_SelectedParts;
 
     //[HideInInspector]
-    public PartsInfo[] thePartsInfo;
+    public PartsInfo[] theSelectedPartsInfo;
     
     //Data
     private int choosePart; // 0 == leg, 1 == body, 2 == head
@@ -18,10 +18,10 @@ public class SelectedPartsManager : MonoBehaviour
     public void ResetParts()
     {
         choosePart = 0;
-        thePartsInfo = null;
-        for (int i = 0; i < selectedParts.Length; i++)
+        theSelectedPartsInfo = null;
+        for (int i = 0; i < img_SelectedParts.Length; i++)
         {
-            selectedParts[i].sprite = null;
+            img_SelectedParts[i].sprite = null;
         }
     }
 
@@ -29,7 +29,7 @@ public class SelectedPartsManager : MonoBehaviour
     {
         if (choosePart < 3 && 0 <= choosePart)
         {
-            thePartsInfo[choosePart] = _partsInfo;
+            theSelectedPartsInfo[choosePart] = _partsInfo;
             checkChooseParts(_partsInfo);
             Debug.Log(choosePart);
         }
@@ -46,21 +46,21 @@ public class SelectedPartsManager : MonoBehaviour
         if (choosePart == 0)
         {
             choosePart++;
-            selectedParts[0].sprite = _partsInfo.img_parts;
+            img_SelectedParts[0].sprite = _partsInfo.img_parts;
 
         }
 
         else if (choosePart == 1)
         {
             choosePart++;
-            selectedParts[1].sprite = _partsInfo.img_parts;
+            img_SelectedParts[1].sprite = _partsInfo.img_parts;
 
         }
 
         else if(choosePart == 2)
         {
             choosePart++;
-            selectedParts[2].sprite = _partsInfo.img_parts;
+            img_SelectedParts[2].sprite = _partsInfo.img_parts;
         }
 
         else

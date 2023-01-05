@@ -26,15 +26,18 @@ public class RobotPartsManager : MonoBehaviour
     
     public List<PartsInfo> randomPartsInfo = new List<PartsInfo>();
     private PartsInfo tempParsInfo; // 1~4
+    [HideInInspector]
     public int countPartsStack;
     
     //Catalog Data
     private CatalogManager theCatalogManager;
+    private KeyManager theKeyManager;
     private CatalogCardController[] theCatalogCardController;
 
     private void Awake()
     {
         theCatalogManager = FindObjectOfType<CatalogManager>();
+        theKeyManager = FindObjectOfType<KeyManager>();
     }
 
     public void SetCardInfoForParts()
@@ -106,13 +109,24 @@ public class RobotPartsManager : MonoBehaviour
     //_num == 1 -> less than 7(give 1-7 parts info), _num == 2 -> less than 14....etc
     public void AddImgToEachParts(int _num)
     {
-
         if (_num == 1)
         {
             for (int i = 0; i < robotPartsControllers.Length; i++)
             {
                 robotPartsControllers[i].thePartsInfo = randomPartsInfo[i];
                 robotPartsControllers[i].img_part.sprite = robotPartsControllers[i].thePartsInfo.img_parts;
+                if (theKeyManager.selectedPartsNum != null)
+                {
+                    for (int j = 0; j < theKeyManager.selectedPartsNum.Count; j++)
+                    {
+                        if (i == theKeyManager.selectedPartsNum[j])
+                        {
+                            robotPartsControllers[i].img_part.color = new Color(1, 1, 1, 0);
+                            robotPartsControllers[i].img_part.sprite = null;
+                            robotPartsControllers[i].isEmpty = true;
+                        }
+                    }
+                }
             }
         }
         
@@ -122,6 +136,18 @@ public class RobotPartsManager : MonoBehaviour
             {
                 robotPartsControllers[i].thePartsInfo = randomPartsInfo[i+7];
                 robotPartsControllers[i].img_part.sprite = robotPartsControllers[i].thePartsInfo.img_parts;
+                if (theKeyManager.selectedPartsNum != null)
+                {
+                    for (int j = 0; j < theKeyManager.selectedPartsNum.Count; j++)
+                    {
+                        if (i+7 == theKeyManager.selectedPartsNum[j])
+                        {
+                            robotPartsControllers[i].img_part.color = new Color(1, 1, 1, 0);
+                            robotPartsControllers[i].img_part.sprite = null;
+                            robotPartsControllers[i].isEmpty = true;
+                        }
+                    }
+                }
             }  
         }
         
@@ -131,7 +157,19 @@ public class RobotPartsManager : MonoBehaviour
             {
                 robotPartsControllers[i].thePartsInfo = randomPartsInfo[i+14];
                 robotPartsControllers[i].img_part.sprite = robotPartsControllers[i].thePartsInfo.img_parts;
-            } 
+                if (theKeyManager.selectedPartsNum != null)
+                {
+                    for (int j = 0; j < theKeyManager.selectedPartsNum.Count; j++)
+                    {
+                        if (i+14 == theKeyManager.selectedPartsNum[j])
+                        {
+                            robotPartsControllers[i].img_part.color = new Color(1, 1, 1, 0);
+                            robotPartsControllers[i].img_part.sprite = null;
+                            robotPartsControllers[i].isEmpty = true;
+                        }
+                    }
+                }
+            }
         }
         
         else if (_num == 4)
@@ -140,7 +178,36 @@ public class RobotPartsManager : MonoBehaviour
             {
                 robotPartsControllers[i].thePartsInfo = randomPartsInfo[i+21];
                 robotPartsControllers[i].img_part.sprite = robotPartsControllers[i].thePartsInfo.img_parts;
+                if (theKeyManager.selectedPartsNum != null)
+                {
+                    for (int j = 0; j < theKeyManager.selectedPartsNum.Count; j++)
+                    {
+                        if (i+21 == theKeyManager.selectedPartsNum[j])
+                        {
+                            robotPartsControllers[theKeyManager.selectedPartsNum[j]].img_part.color = new Color(1, 1, 1, 0);
+                            robotPartsControllers[theKeyManager.selectedPartsNum[j]].img_part.sprite = null;
+                            robotPartsControllers[theKeyManager.selectedPartsNum[j]].isEmpty = true;
+                        }
+                    }
+                }
             } 
         }
+    }
+
+    public void ResetPartsImageAlpha()
+    {
+        Debug.Log("ResetPartsImageAlpha");
+
+        for (int i = 0; i < robotPartsControllers.Length; i++)
+        {
+            robotPartsControllers[i].img_part.color = new Color(1, 1, 1, 1);
+            robotPartsControllers[i].isEmpty = false;
+        }
+    }
+
+    public void autoEmptyParts(int _num)
+    {        
+        Debug.Log("autoEmptyParts");
+        robotPartsControllers[_num].CheckParts(true);
     }
 }

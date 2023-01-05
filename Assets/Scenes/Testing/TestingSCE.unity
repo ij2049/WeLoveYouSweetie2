@@ -5133,6 +5133,7 @@ MonoBehaviour:
   catalogPanel: {fileID: 289270646}
   btn_parts: {fileID: 1214965789}
   obj_partsImg: {fileID: 901100355}
+  selectedPartsNum: 
 --- !u!4 &1629466417
 Transform:
   m_ObjectHideFlags: 0
@@ -5285,11 +5286,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499fae3ab82a6c6409da900d1dd14946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedParts:
+  img_SelectedParts:
   - {fileID: 1781152563}
   - {fileID: 1040704867}
   - {fileID: 174241213}
-  thePartsInfo:
+  theSelectedPartsInfo:
   - partsName: 
     img_parts: {fileID: 0}
   - partsName: 

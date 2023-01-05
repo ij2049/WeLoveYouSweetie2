@@ -32,6 +32,7 @@ public class KeyManager : MonoBehaviour
             { 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    StartCoroutine(CheckSlot());
                     SelectedCursorReset();
                     
                     Debug.Log("Right");
@@ -44,7 +45,7 @@ public class KeyManager : MonoBehaviour
                     if (theRobotPartsManager.countPartsStack < 5 && 0 < theRobotPartsManager.countPartsStack) 
                     { 
                         theRobotPartsManager.AddImgToEachParts(theRobotPartsManager.countPartsStack); 
-                        Debug.Log(theRobotPartsManager.countPartsStack); 
+                        Debug.Log(theRobotPartsManager.countPartsStack);
                     }
                 
                     else
@@ -67,9 +68,11 @@ public class KeyManager : MonoBehaviour
                 } 
                 if (Input.GetKeyDown(KeyCode.Q))
                 {
+                    StartCoroutine(CheckSlot());
+
                     Debug.Log(thePartsSelectCursorController.slectedPartsInfoNum);
                     SelectedCursorReset();
-                    
+
                     //Stack counting
                     theRobotPartsManager.countPartsStack--;
                     CheckStacksForPartsCount();
@@ -79,6 +82,7 @@ public class KeyManager : MonoBehaviour
                     { 
                         theRobotPartsManager.AddImgToEachParts(theRobotPartsManager.countPartsStack); 
                         Debug.Log(theRobotPartsManager.countPartsStack); 
+
                     }
                     else 
                     { 
@@ -218,6 +222,8 @@ public class KeyManager : MonoBehaviour
         
     }
 
+
+
     private void CheckStacksForPartsCount()
     {
         if (theRobotPartsManager.countPartsStack == 1)
@@ -241,8 +247,8 @@ public class KeyManager : MonoBehaviour
         else if (theRobotPartsManager.countPartsStack == 4)
         {
             thePartsSelectCursorController.slectedPartsInfoNum = 21;
-
         }
+
     }
 
     private void SelectedCursorReset()
@@ -251,5 +257,14 @@ public class KeyManager : MonoBehaviour
         thePartsSelectCursorController.countSelection = 0;
         thePartsSelectCursorController.selection_rectTransform.anchoredPosition =
             thePartsSelectCursorController.selection_Pos[thePartsSelectCursorController.countSelection];
+    }
+
+
+    private IEnumerator CheckSlot()
+    {
+        Debug.Log("CheckSlot");
+        theRobotPartsManager.ResetPartsImageAlpha();
+        //CheckSelectedParts();
+        yield return null;
     }
 }

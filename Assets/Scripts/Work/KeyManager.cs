@@ -9,8 +9,10 @@ public class KeyManager : MonoBehaviour
     [SerializeField] private GameObject btn_parts;
     [SerializeField] private GameObject obj_partsImg;
     
+    //Data
     private RobotPartsManager theRobotPartsManager;
     private SelectedPartsManager theSelectedPartsManager;
+    private CatalogManager theCatalogManager;
     private PartsSelectCursorController thePartsSelectCursorController;
     public List<int> selectedPartsNum = new List<int>();
     
@@ -21,6 +23,7 @@ public class KeyManager : MonoBehaviour
         theRobotPartsManager = FindObjectOfType<RobotPartsManager>();
         thePartsSelectCursorController = FindObjectOfType<PartsSelectCursorController>();
         theSelectedPartsManager = FindObjectOfType<SelectedPartsManager>();
+        theCatalogManager = FindObjectOfType<CatalogManager>();
         FurnitureType.isPlayerWorking = true; //delete this later it's for test
     }
 
@@ -32,7 +35,7 @@ public class KeyManager : MonoBehaviour
             { 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    StartCoroutine(CheckSlot());
+                    CheckSlot();
                     SelectedCursorReset();
                     
                     Debug.Log("Right");
@@ -68,7 +71,7 @@ public class KeyManager : MonoBehaviour
                 } 
                 if (Input.GetKeyDown(KeyCode.Q))
                 {
-                    StartCoroutine(CheckSlot());
+                    CheckSlot();
 
                     Debug.Log(thePartsSelectCursorController.slectedPartsInfoNum);
                     SelectedCursorReset();
@@ -162,7 +165,7 @@ public class KeyManager : MonoBehaviour
                             thePartsSelectCursorController.selection_Pos[thePartsSelectCursorController.countSelection]; 
                     }
                 } 
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     if (!theRobotPartsManager.robotPartsControllers[thePartsSelectCursorController.countSelection].isEmpty)
                     {
@@ -187,10 +190,16 @@ public class KeyManager : MonoBehaviour
                 }
                 if (Input.GetKeyDown(KeyCode.Z))
                 {
-                    for (int i = 0; i < selectedPartsNum.Count; i++)
-                    {
-                        
-                    }
+                    theSelectedPartsManager.ResetParts();
+                    SelectedCursorReset();
+                    CheckStacksForPartsCount();
+                    selectedPartsNum.Clear();
+                    theRobotPartsManager.AddImgToEachParts(theRobotPartsManager.countPartsStack);
+                    CheckSlot();
+                }
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    CheckAssembledParts();
                 }
             }
             
@@ -217,7 +226,6 @@ public class KeyManager : MonoBehaviour
         else
         {
             Debug.Log("isPlayerWorking false");
-
         }
         
     }
@@ -258,13 +266,64 @@ public class KeyManager : MonoBehaviour
         thePartsSelectCursorController.selection_rectTransform.anchoredPosition =
             thePartsSelectCursorController.selection_Pos[thePartsSelectCursorController.countSelection];
     }
-
-
-    private IEnumerator CheckSlot()
+    
+    private void CheckSlot()
     {
-        Debug.Log("CheckSlot");
+        //make all the parts alpha 1(visible), all parts controller's isEmpty is now false
         theRobotPartsManager.ResetPartsImageAlpha();
-        //CheckSelectedParts();
-        yield return null;
+    }
+
+    private void CheckAssembledParts()
+    {
+
+        //check what parts player choose
+        //check what parts that catalog have
+        for (int i = 0; i < theCatalogManager.cardController.Length; i++)
+        {
+            //Leg
+            if (theSelectedPartsManager.theSelectedPartsInfo[0].partsName == theCatalogManager.cardController[i].legType)
+            {
+                //body
+                if (theSelectedPartsManager.theSelectedPartsInfo[1].partsName == theCatalogManager.cardController[i].bodyType)
+                {
+                    if(theSelectedPartsManager.theSelectedPartsInfo[2].partsName == theCatalogManager.cardController[i].headType)
+                    {
+                        if (!theCatalogManager.cardController[i].isComplete)
+                        {
+                            theCatalogManager.cardController[i].isComplete = true;
+                            theCatalogManager.cardController[i].img_Complete.SetActive(true);
+                            theRobotPartsManager.AddImgToEachParts(theRobotPartsManager.countPartsStack);
+                            theSelectedPartsManager.ResetParts();
+                            SelectedCursorReset();
+                            selectedPartsNum.Clear();
+
+                        }
+                        else
+                        {
+                            TextManager.instance.TryTextInfoInput("This card is already complete");
+                        }
+                    }
+                    else
+                    {
+                        TextManager.instance.TryTextInfoInput("Wrong head!");
+                    }
+                }
+                else
+                {
+                    TextManager.instance.TryTextInfoInput("Wrong body!");
+                }
+            }
+            
+            else
+            {
+                TextManager.instance.TryTextInfoInput("Wrong leg!");
+            }
+            
+                
+                
+        }
+        
+        //compare player's choice parts and catalog parts
+        //if there is right one get rif of the card that is on the catalog(complete)
     }
 }

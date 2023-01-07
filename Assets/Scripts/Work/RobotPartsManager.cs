@@ -184,9 +184,9 @@ public class RobotPartsManager : MonoBehaviour
                     {
                         if (i+21 == theKeyManager.selectedPartsNum[j])
                         {
-                            robotPartsControllers[theKeyManager.selectedPartsNum[j]].img_part.color = new Color(1, 1, 1, 0);
-                            robotPartsControllers[theKeyManager.selectedPartsNum[j]].img_part.sprite = null;
-                            robotPartsControllers[theKeyManager.selectedPartsNum[j]].isEmpty = true;
+                            robotPartsControllers[i].img_part.color = new Color(1, 1, 1, 0);
+                            robotPartsControllers[i].img_part.sprite = null;
+                            robotPartsControllers[i].isEmpty = true;
                         }
                     }
                 }
@@ -203,11 +203,5 @@ public class RobotPartsManager : MonoBehaviour
             robotPartsControllers[i].img_part.color = new Color(1, 1, 1, 1);
             robotPartsControllers[i].isEmpty = false;
         }
-    }
-
-    public void autoEmptyParts(int _num)
-    {        
-        Debug.Log("autoEmptyParts");
-        robotPartsControllers[_num].CheckParts(true);
     }
 }

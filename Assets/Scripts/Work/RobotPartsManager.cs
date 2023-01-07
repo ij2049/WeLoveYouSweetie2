@@ -28,6 +28,7 @@ public class RobotPartsManager : MonoBehaviour
     private PartsInfo tempParsInfo; // 1~4
     [HideInInspector]
     public int countPartsStack;
+    private int donePartsCheckNum;
     
     //Catalog Data
     private CatalogManager theCatalogManager;
@@ -115,6 +116,7 @@ public class RobotPartsManager : MonoBehaviour
             {
                 robotPartsControllers[i].thePartsInfo = randomPartsInfo[i];
                 robotPartsControllers[i].img_part.sprite = robotPartsControllers[i].thePartsInfo.img_parts;
+                CheckDoneParts(_num, i);
                 if (theKeyManager.selectedPartsNum != null)
                 {
                     for (int j = 0; j < theKeyManager.selectedPartsNum.Count; j++)
@@ -136,6 +138,7 @@ public class RobotPartsManager : MonoBehaviour
             {
                 robotPartsControllers[i].thePartsInfo = randomPartsInfo[i+7];
                 robotPartsControllers[i].img_part.sprite = robotPartsControllers[i].thePartsInfo.img_parts;
+                CheckDoneParts(_num, i);
                 if (theKeyManager.selectedPartsNum != null)
                 {
                     for (int j = 0; j < theKeyManager.selectedPartsNum.Count; j++)
@@ -157,6 +160,7 @@ public class RobotPartsManager : MonoBehaviour
             {
                 robotPartsControllers[i].thePartsInfo = randomPartsInfo[i+14];
                 robotPartsControllers[i].img_part.sprite = robotPartsControllers[i].thePartsInfo.img_parts;
+                CheckDoneParts(_num, i);
                 if (theKeyManager.selectedPartsNum != null)
                 {
                     for (int j = 0; j < theKeyManager.selectedPartsNum.Count; j++)
@@ -178,6 +182,7 @@ public class RobotPartsManager : MonoBehaviour
             {
                 robotPartsControllers[i].thePartsInfo = randomPartsInfo[i+21];
                 robotPartsControllers[i].img_part.sprite = robotPartsControllers[i].thePartsInfo.img_parts;
+                CheckDoneParts(_num, i);
                 if (theKeyManager.selectedPartsNum != null)
                 {
                     for (int j = 0; j < theKeyManager.selectedPartsNum.Count; j++)
@@ -191,6 +196,43 @@ public class RobotPartsManager : MonoBehaviour
                     }
                 }
             } 
+        }
+    }
+
+    //stack 1~4
+    private void CheckDoneParts(int stackNum, int _i)
+    {
+        if (stackNum == 1)
+        {
+            donePartsCheckNum = 0;
+        }
+        
+        else if (stackNum == 2)
+        {
+            donePartsCheckNum = 7;
+        }
+        
+        else if (stackNum == 3)
+        {
+            donePartsCheckNum = 14;
+        }
+        
+        else if (stackNum == 4)
+        {
+            donePartsCheckNum = 21;
+        }
+            
+        if (theKeyManager.usedPartsNum != null)
+        {
+            for (int j = 0; j < theKeyManager.usedPartsNum.Count; j++)
+            {
+                if (_i + donePartsCheckNum == theKeyManager.usedPartsNum[j])
+                {
+                    robotPartsControllers[_i].img_part.color = new Color(1, 1, 1, 0);
+                    robotPartsControllers[_i].img_part.sprite = null;
+                    robotPartsControllers[_i].isEmpty = true;
+                }
+            }
         }
     }
 

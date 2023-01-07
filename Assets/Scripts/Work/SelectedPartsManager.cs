@@ -14,7 +14,7 @@ public class SelectedPartsManager : MonoBehaviour
 
     [Tooltip("Auto refill. don't touch")]
     public PartsInfo[] theSelectedPartsInfo;
-    
+
     //Data
     private int choosePart; // 0 == leg, 1 == body, 2 == head
     

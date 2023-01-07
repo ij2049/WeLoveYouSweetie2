@@ -15,6 +15,7 @@ public class KeyManager : MonoBehaviour
     private CatalogManager theCatalogManager;
     private PartsSelectCursorController thePartsSelectCursorController;
     public List<int> selectedPartsNum = new List<int>();
+    public List<int> usedPartsNum = new List<int>();
     
     public static bool isCatalogOpened;
 
@@ -290,13 +291,7 @@ public class KeyManager : MonoBehaviour
                     {
                         if (!theCatalogManager.cardController[i].isComplete)
                         {
-                            theCatalogManager.cardController[i].isComplete = true;
-                            theCatalogManager.cardController[i].img_Complete.SetActive(true);
-                            theRobotPartsManager.AddImgToEachParts(theRobotPartsManager.countPartsStack);
-                            theSelectedPartsManager.ResetParts();
-                            SelectedCursorReset();
-                            selectedPartsNum.Clear();
-
+                            StartCoroutine(RobotAssembleComplete(i));
                         }
                         else
                         {
@@ -318,12 +313,24 @@ public class KeyManager : MonoBehaviour
             {
                 TextManager.instance.TryTextInfoInput("Wrong leg!");
             }
-            
-                
-                
         }
-        
         //compare player's choice parts and catalog parts
         //if there is right one get rif of the card that is on the catalog(complete)
+    }
+
+    private IEnumerator RobotAssembleComplete(int _num)
+    {
+        theCatalogManager.cardController[_num].isComplete = true;
+        theCatalogManager.cardController[_num].img_Complete.SetActive(true);
+        for (int i = 0; i < selectedPartsNum.Count; i++)
+        {
+            usedPartsNum.Add(selectedPartsNum[i]);
+        }
+        
+        theRobotPartsManager.AddImgToEachParts(theRobotPartsManager.countPartsStack);
+        theSelectedPartsManager.ResetParts();
+        SelectedCursorReset();
+        selectedPartsNum.Clear();
+        yield return null;
     }
 }

@@ -38,7 +38,7 @@ public class DirtManager : MonoBehaviour
 
     private void Update()
     {
-        if (isClean)
+        if (isClean && !FurnitureType.isPlayerWorking)
         {
             if (PhotonNetwork.IsMasterClient)
             {

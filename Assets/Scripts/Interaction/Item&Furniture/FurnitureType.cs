@@ -13,7 +13,8 @@ public enum Furniture
     Trash,
     Bed,
     VacuumHolder,
-    Door
+    Door,
+    Work
 }
 
 [System.Serializable]
@@ -23,12 +24,13 @@ public class VacuumInfo
 }
 
 [System.Serializable]
-public class DoorInfo
+public class WorkInfo
 {
-    public Transform PlayerWorkPos;
-    public GameObject WorkingBG;
+    public Transform playerWorkPos;
+    public GameObject workingBG;
     public GameObject BGCollider;
     public GameObject BGFurniture;
+    public GameObject working_UI;
 }
 
 public class FurnitureType : MonoBehaviourPunCallbacks
@@ -41,8 +43,8 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     [Space(10)] [Header("Vacuum Info")] 
     [SerializeField] private VacuumInfo theVacuumInfo; //if the furniture is not a vacuum holder ignore it
     
-    [Space(10)] [Header("Door Info")] 
-    [SerializeField] private DoorInfo theDoorInfo; //if not door ignore it
+    [Space(10)] [Header("Work Info")] 
+    [SerializeField] private WorkInfo theWorkInfo; //if not door ignore it
 
     private FurnitureType theFurnitureType;
     private string furnitureInfo;
@@ -75,6 +77,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             case Furniture.Bed: StartCoroutine(TryBed(_playerInvenotry)); break;
             case Furniture.VacuumHolder: TryVacuumHolder(_playerInvenotry); break;
             case Furniture.Door: TryDoor(_playerInvenotry); break;
+            case Furniture.Work: TryWork(_playerInvenotry); break;
         }
     }
 
@@ -221,6 +224,11 @@ public class FurnitureType : MonoBehaviourPunCallbacks
 
     private void TryDoor(PlayerInventory _playerInventory)
     {
+        //Try Door
+    }
+
+    private void TryWork(PlayerInventory _playerInventory)
+    {
         PlayerStatusController _playerStatus = _playerInventory.gameObject.GetComponent<PlayerStatusController>();
         string _playerName = _playerInventory.gameObject.name;
         PlayerController _thePlayerController = _playerInventory.gameObject.GetComponent<PlayerController>();
@@ -230,16 +238,16 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             view.RPC("PlayerMoveToWork", RpcTarget.All,_playerName);
         }
     }
-
     //player minigame start. This is not RPC. It's only happening on the playing player's view not the other player.
     private void StartWorking()
     {
         //starting bool for the minigame
         FurnitureType.isPlayerWorking = true;
         theFurnitureType.theGameManager.UI.SetActive(false);
-        theFurnitureType.theDoorInfo.WorkingBG.SetActive(true);
-        theFurnitureType.theDoorInfo.BGCollider.SetActive(false);
-        theFurnitureType.theDoorInfo.BGFurniture.SetActive(false);
+        theFurnitureType.theWorkInfo.workingBG.SetActive(true);
+        theFurnitureType.theWorkInfo.BGCollider.SetActive(false);
+        theFurnitureType.theWorkInfo.BGFurniture.SetActive(false);
+        theFurnitureType.theWorkInfo.working_UI.SetActive(true);
         //start robot assemble
     }
     
@@ -250,7 +258,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         Debug.Log("Rpc Door working");
         GameObject _temp = GameObject.Find(_playerObjName);
         PlayerController _playerController = _temp.GetComponent<PlayerController>();
-        _temp.transform.localPosition = theFurnitureType.theDoorInfo.PlayerWorkPos.localPosition;
+        _temp.transform.localPosition = theFurnitureType.theWorkInfo.playerWorkPos.localPosition;
         _playerController.isWorking = true;
     }
     

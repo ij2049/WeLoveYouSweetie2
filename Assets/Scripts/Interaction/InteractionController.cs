@@ -21,6 +21,7 @@ public enum InteractableFurniture
     Trash,
     Bed,
     VacuumHolder,
+    Work,
     Door,
 }
 
@@ -135,6 +136,9 @@ public class InteractionController : MonoBehaviourPunCallbacks
                 case InteractableFurniture.Door:
                     theInteractionController.furnitureInfo = "Door";
                     break;
+                case InteractableFurniture.Work:
+                    theInteractionController.furnitureInfo = "Work";
+                    break;
             }
         }
     }
@@ -151,9 +155,17 @@ public class InteractionController : MonoBehaviourPunCallbacks
         //if interaction is for furniture
         else if (theInteractionController.isFurniture && !theInteractionController.isItem)
         {
-                        
-            txt_buttonInfo.text = "Press (E) to use " + theInteractionController.furnitureInfo;
-            obj_buttonInfo.SetActive(true);
+            if(theInteractionController.furnitureInfo == "Work")
+            {
+                txt_buttonInfo.text = "Press (E) to start " + theInteractionController.furnitureInfo;
+                obj_buttonInfo.SetActive(true);
+            }
+            else
+            {
+                txt_buttonInfo.text = "Press (E) to use " + theInteractionController.furnitureInfo;
+                obj_buttonInfo.SetActive(true);
+            }
+
         }
     }
     

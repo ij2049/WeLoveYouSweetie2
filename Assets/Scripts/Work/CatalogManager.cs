@@ -53,6 +53,8 @@ public class CatalogManager : MonoBehaviour
 
     private CatalogCardInfo temp_cardInfo;
     private int[] tempNum = new int[8];
+    public int completeCardCount;
+    public int catalogCardsAmount;
 
     private void Awake()
     {
@@ -62,6 +64,8 @@ public class CatalogManager : MonoBehaviour
     private void Start()
     {
         TryCardsShuffleAndUpdate();
+        completeCardCount = 0;
+        catalogCardsAmount = randomnizeChoicesCards.Length;
     }
 
     public void TryCardsShuffleAndUpdate()
@@ -111,11 +115,7 @@ public class CatalogManager : MonoBehaviour
             randomnizeChoicesCards[i] = cardsInfo[i];
         }
     }
-
-    private void ResetCardInfo()
-    {
-        cardsInfo = resetCardInfo;
-    }
+    
     
     //change card info enum info to the string
     private void cardInfoInterpret(int _i, string _partName)
@@ -374,8 +374,14 @@ public class CatalogManager : MonoBehaviour
             Debug.LogError("card part type is not right");
         }
     }
-    
 
+    public void CompleteWork()
+    {
+        Debug.Log("Game Complete");
+
+        completeCardCount = 0;
+        cardsInfo = resetCardInfo;
+    }
 }
 
 

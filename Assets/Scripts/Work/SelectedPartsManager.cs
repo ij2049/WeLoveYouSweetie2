@@ -39,7 +39,9 @@ public class SelectedPartsManager : MonoBehaviour
         }
         Debug.Log("choosepart : " + choosePart);
         choosePart = 0;
-        theSelectedPartsInfo = null;
+
+        theSelectedPartsInfo = new PartsInfo[3];
+        
         for (int i = 0; i < img_SelectedParts.Length; i++)
         {
             img_SelectedParts[i].sprite = null;
@@ -49,6 +51,11 @@ public class SelectedPartsManager : MonoBehaviour
 
     public void SetPickedPartsInfo(PartsInfo _partsInfo)
     {
+        if (_partsInfo == null)
+        {
+            Debug.Log("_partsInfo is empty!");
+        }
+        
         if (choosePart < 3 && 0 <= choosePart)
         {
             theSelectedPartsInfo[choosePart] = _partsInfo;

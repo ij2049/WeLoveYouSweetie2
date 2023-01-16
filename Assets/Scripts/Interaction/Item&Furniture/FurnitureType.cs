@@ -26,6 +26,7 @@ public class VacuumInfo
 [System.Serializable]
 public class WorkInfo
 {
+    public GameObject workPanel;
     public Transform playerWorkPos;
     public GameObject workingBG;
     public GameObject BGCollider;
@@ -52,6 +53,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     private GameManager theGameManager;
     private PhotonView view;
     private PlayerInventory thePlayerInventory;
+    private PlayerInventory _tempPlayerInventory;
     public static bool isBedUsing;
     public static bool isPlayerWorking;
 
@@ -77,7 +79,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             case Furniture.Bed: StartCoroutine(TryBed(_playerInvenotry)); break;
             case Furniture.VacuumHolder: TryVacuumHolder(_playerInvenotry); break;
             case Furniture.Door: TryDoor(_playerInvenotry); break;
-            case Furniture.Work: TryWork(_playerInvenotry); break;
+            case Furniture.Work: WorkPanelOn(_playerInvenotry); break;
         }
     }
 
@@ -227,17 +229,32 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         //Try Door
     }
 
-    private void TryWork(PlayerInventory _playerInventory)
+    private void WorkPanelOn(PlayerInventory _playerInventory)
     {
-        PlayerStatusController _playerStatus = _playerInventory.gameObject.GetComponent<PlayerStatusController>();
-        string _playerName = _playerInventory.gameObject.name;
-        PlayerController _thePlayerController = _playerInventory.gameObject.GetComponent<PlayerController>();
+        theFurnitureType._tempPlayerInventory = _playerInventory;
+        theFurnitureType.theWorkInfo.workPanel.SetActive(true);
+    }
+    
+    //The working panel, pressed yes
+    //Do you want to start work?
+    public void WorkPanel_Yes()
+    {
+        PlayerStatusController _playerStatus = theFurnitureType._tempPlayerInventory.gameObject.GetComponent<PlayerStatusController>();
+        string _playerName = theFurnitureType._tempPlayerInventory.gameObject.name;
+        PlayerController _thePlayerController = theFurnitureType._tempPlayerInventory.gameObject.GetComponent<PlayerController>();
         if (!isPlayerWorking)
         {
             StartWorking();
             view.RPC("PlayerMoveToWork", RpcTarget.All,_playerName);
         }
     }
+
+    //The working panel, pressed no
+    public void WorkPanel_No()
+    {
+        theFurnitureType.theWorkInfo.workPanel.SetActive(false);
+    }
+    
     //player minigame start. This is not RPC. It's only happening on the playing player's view not the other player.
     private void StartWorking()
     {
@@ -256,9 +273,13 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     void PlayerMoveToWork(string _playerObjName)
     {
         Debug.Log("Rpc Door working");
-        GameObject _temp = GameObject.Find(_playerObjName);
-        PlayerController _playerController = _temp.GetComponent<PlayerController>();
-        _temp.transform.localPosition = theFurnitureType.theWorkInfo.playerWorkPos.localPosition;
+        GameObject _tempPlayer = GameObject.Find(_playerObjName);
+        PlayerController _playerController = _tempPlayer.GetComponent<PlayerController>();
+        if (_playerController == null)
+        {
+            Debug.Log("_player Controller empty");
+        }
+        _tempPlayer.transform.position = theFurnitureType.theWorkInfo.playerWorkPos.position;
         _playerController.isWorking = true;
     }
     

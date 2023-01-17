@@ -261,9 +261,9 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         //starting bool for the minigame
         FurnitureType.isPlayerWorking = true;
         theFurnitureType.theGameManager.UI.SetActive(false);
-        theFurnitureType.theWorkInfo.workingBG.SetActive(true);
         theFurnitureType.theWorkInfo.BGCollider.SetActive(false);
         theFurnitureType.theWorkInfo.BGFurniture.SetActive(false);
+        theFurnitureType.theWorkInfo.workingBG.SetActive(true);
         theFurnitureType.theWorkInfo.working_UI.SetActive(true);
         //start robot assemble
     }
@@ -275,6 +275,8 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         Debug.Log("Rpc Door working");
         GameObject _tempPlayer = GameObject.Find(_playerObjName);
         PlayerController _playerController = _tempPlayer.GetComponent<PlayerController>();
+        Debug.Log(_tempPlayer.gameObject.name);
+
         if (_playerController == null)
         {
             Debug.Log("_player Controller empty");

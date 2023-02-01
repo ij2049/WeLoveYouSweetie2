@@ -91,6 +91,7 @@ public class CatalogManager : MonoBehaviour
         for (int i = 0; i < cardController.Length; i++)
         {
             cardController[i].theCatalogCardController.theSpriteRenderer.sprite = cardController[i].theCatalogCardController.img_card;
+            //cardController[i].theCatalogCardController.theRawImage.texture = cardController[i].theCatalogCardController.img_card.texture;
         }
 
         RobotPartsManager _tempPartsManager = FindObjectOfType<RobotPartsManager>();
@@ -378,9 +379,9 @@ public class CatalogManager : MonoBehaviour
     public void CompleteWork()
     {
         Debug.Log("Game Complete");
-
-        completeCardCount = 0;
+            completeCardCount = 0;
         cardsInfo = resetCardInfo;
+        
     }
 }
 

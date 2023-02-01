@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun.Demo.PunBasics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CatalogCardController : MonoBehaviour
 {
     public SpriteRenderer theSpriteRenderer;
+    //public RawImage theRawImage;
     
     //the below publics are all auto filled up
     public Sprite img_card;

@@ -210,12 +210,21 @@ public class InteractionController : MonoBehaviourPunCallbacks
 
                 else
                 {
+                    PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
+
                     //using cradle
                     if (BabyManager.isBabyHold && theInteractionController.furnitureInfo == "Cradle")
                     {
                         Debug.Log("Trying Cradle");
                         obj_buttonInfo.SetActive(false);
-                        PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
+                        UseFurniture(_playerInventory);
+                    }
+                    
+                    //if player is holding vacuum but still want to pick up baby
+                    else if (!BabyManager.isBabyHold && PlayerInventory.isItemHolding &&_playerInventory.thePlayerInventory.holdingItems.isThisPlayerVacuumHold)
+                    {
+                        Debug.Log("Vacuum is hold but still can pick up baby");
+                        obj_buttonInfo.SetActive(false);
                         UseFurniture(_playerInventory);
                     }
                     
@@ -225,7 +234,6 @@ public class InteractionController : MonoBehaviourPunCallbacks
                         Debug.Log("Trying Vacuum holder");
 
                         obj_buttonInfo.SetActive(false);
-                        PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
                         UseFurniture(_playerInventory);
                     }
                     

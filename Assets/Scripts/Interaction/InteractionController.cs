@@ -211,15 +211,19 @@ public class InteractionController : MonoBehaviourPunCallbacks
                 else
                 {
                     //using cradle
-                    if (BabyManager.isBabyHold || theInteractionController.furnitureInfo == "Cradle")
+                    if (BabyManager.isBabyHold && theInteractionController.furnitureInfo == "Cradle")
                     {
+                        Debug.Log("Trying Cradle");
                         obj_buttonInfo.SetActive(false);
                         PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
                         UseFurniture(_playerInventory);
                     }
                     
+                    //using vacuum holder
                     else if (PlayerInventory.isItemHolding && theInteractionController.furnitureInfo == "VacuumHolder")
                     {
+                        Debug.Log("Trying Vacuum holder");
+
                         obj_buttonInfo.SetActive(false);
                         PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
                         UseFurniture(_playerInventory);
@@ -228,6 +232,11 @@ public class InteractionController : MonoBehaviourPunCallbacks
                     else
                     {
                         Debug.Log("Sth is hold");
+                        Debug.Log("BabyManager.isBabyHold : " + BabyManager.isBabyHold);
+                        Debug.Log("PlayerInventory.isItemHolding : " + PlayerInventory.isItemHolding);
+                        Debug.Log("theInteractionController.furnitureInfo : " + theInteractionController.furnitureInfo);
+                        
+
                     }
                 }
             }
@@ -238,6 +247,9 @@ public class InteractionController : MonoBehaviourPunCallbacks
                     PlayerInventory _playerInventory = _player.gameObject.GetComponent<PlayerInventory>();
                     UseFurniture(_playerInventory);
                     obj_buttonInfo.SetActive(false);
+                    Debug.Log("theInteractionController.isHoldable : " + theInteractionController.isHoldable);
+                    Debug.Log("tPlayerInventory.isItemHolding : " + PlayerInventory.isItemHolding);
+
                 }
                 else
                 {

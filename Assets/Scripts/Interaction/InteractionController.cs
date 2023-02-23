@@ -42,7 +42,6 @@ public class InteractionController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject obj_buttonInfo;
     [SerializeField] private TextMeshProUGUI txt_buttonInfo;
 
-    
     private string itemsInfo;
     private PhotonView view;
     private GameObject player;

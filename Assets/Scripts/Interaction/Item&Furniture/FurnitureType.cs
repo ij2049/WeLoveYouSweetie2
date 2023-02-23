@@ -29,6 +29,7 @@ public class WorkInfo
     public GameObject workPanel;
     public Transform playerWorkPos;
     public GameObject workingBG;
+    public GameObject workingBG2;
     public GameObject BGCollider;
     public GameObject BGFurniture;
     public GameObject working_UI;
@@ -264,6 +265,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         theFurnitureType.theWorkInfo.BGCollider.SetActive(false);
         theFurnitureType.theWorkInfo.BGFurniture.SetActive(false);
         theFurnitureType.theWorkInfo.workingBG.SetActive(true);
+        theFurnitureType.theWorkInfo.workingBG2.SetActive(true);
         theFurnitureType.theWorkInfo.working_UI.SetActive(true);
         //start robot assemble
     }

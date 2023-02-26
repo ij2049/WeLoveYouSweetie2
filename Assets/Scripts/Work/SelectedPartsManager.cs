@@ -33,10 +33,12 @@ public class SelectedPartsManager : MonoBehaviour
 
     public void ResetParts()
     {
+
         for (int i = 0; i < img_SelectedParts.Length; i++)
         {
             img_SelectedParts[i].color = new Color(1, 1, 1, 0);
         }
+
         Debug.Log("choosepart : " + choosePart);
         choosePart = 0;
 

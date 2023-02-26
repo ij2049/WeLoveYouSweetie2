@@ -221,7 +221,7 @@ public class RobotPartsManager : MonoBehaviour
         {
             donePartsCheckNum = 21;
         }
-            
+        
         if (theKeyManager.usedPartsNum != null)
         {
             for (int j = 0; j < theKeyManager.usedPartsNum.Count; j++)
@@ -239,7 +239,6 @@ public class RobotPartsManager : MonoBehaviour
     public void ResetPartsImageAlpha()
     {
         Debug.Log("ResetPartsImageAlpha");
-
         for (int i = 0; i < robotPartsControllers.Length; i++)
         {
             robotPartsControllers[i].img_part.color = new Color(1, 1, 1, 1);

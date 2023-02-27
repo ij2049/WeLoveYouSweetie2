@@ -289,6 +289,11 @@ public class InteractionController : MonoBehaviourPunCallbacks
                 if (_playerInventory.thePlayerInventory.playerItems[i].itemsName == "Bottle")
                 {
                     _playerInventory.thePlayerInventory.holdingItems.isThisPlayerBottleHold = true;
+                    //prevent double charge
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        MoneyManager.instance.TryUseMoney(10);
+                    }
                 }
                 
                 //check this is vacuum or not

@@ -15,7 +15,7 @@ public class KeyManager : MonoBehaviour
     private SelectedPartsManager theSelectedPartsManager;
     private CatalogManager theCatalogManager;
     private PartsSelectCursorController thePartsSelectCursorController;
-    public List<int> selectedPartsNum = new List<int>();
+    public List<int> selectedPartsNum = new List<int>(); //the parts that is selected from the player (space)
     public List<int> usedPartsNum = new List<int>();
     
     //bool

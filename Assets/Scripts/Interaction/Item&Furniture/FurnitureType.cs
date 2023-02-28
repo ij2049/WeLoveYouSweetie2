@@ -244,11 +244,10 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         PlayerStatusController _playerStatus = theFurnitureType._tempPlayerInventory.gameObject.GetComponent<PlayerStatusController>();
         string _playerName = theFurnitureType._tempPlayerInventory.gameObject.name;
         PlayerController _thePlayerController = theFurnitureType._tempPlayerInventory.gameObject.GetComponent<PlayerController>();
-        KeyManager theKeyManager = FindObjectOfType<KeyManager>();
-        theKeyManager.currentWorkingPlayerName = _playerName;
+
         if (!isPlayerWorking)
         {
-            StartWorking();
+            StartWorking(_playerName);
             view.RPC("PlayerMoveToWork", RpcTarget.All,_playerName);
         }
     }
@@ -260,7 +259,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     }
     
     //player minigame start. This is not RPC. It's only happening on the playing player's view not the other player.
-    private void StartWorking()
+    private void StartWorking(string _playerName)
     {
         //starting bool for the minigame
         FurnitureType.isPlayerWorking = true;
@@ -270,11 +269,14 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         theFurnitureType.theWorkInfo.workingBG.SetActive(true);
         theFurnitureType.theWorkInfo.workingBG2.SetActive(true);
         theFurnitureType.theWorkInfo.working_UI.SetActive(true);
+        KeyManager theKeyManager = FindObjectOfType<KeyManager>();
+        theKeyManager.currentWorkingPlayerName = _playerName;
         //start robot assemble
     }
 
     public void WorkDone(string _playerName)
     {
+        theFurnitureType.theWorkInfo.workPanel.SetActive(false);
         FurnitureType.isPlayerWorking = false;
         theFurnitureType.theGameManager.UI.SetActive(true);
         theFurnitureType.theWorkInfo.BGCollider.SetActive(true);
@@ -282,7 +284,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         theFurnitureType.theWorkInfo.workingBG.SetActive(false);
         theFurnitureType.theWorkInfo.workingBG2.SetActive(false);
         theFurnitureType.theWorkInfo.working_UI.SetActive(false);
-        view.RPC("PlayerMoveToWork", RpcTarget.All,_playerName);
+        view.RPC("PlayerMoveBackFromWork", RpcTarget.All,_playerName);
 
     }
     

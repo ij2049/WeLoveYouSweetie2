@@ -28,6 +28,7 @@ public class WorkInfo
 {
     public GameObject workPanel;
     public Transform playerWorkPos;
+    public Transform playerComingBackFromWorkPos;
     public GameObject workingBG;
     public GameObject workingBG2;
     public GameObject BGCollider;
@@ -243,6 +244,8 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         PlayerStatusController _playerStatus = theFurnitureType._tempPlayerInventory.gameObject.GetComponent<PlayerStatusController>();
         string _playerName = theFurnitureType._tempPlayerInventory.gameObject.name;
         PlayerController _thePlayerController = theFurnitureType._tempPlayerInventory.gameObject.GetComponent<PlayerController>();
+        KeyManager theKeyManager = FindObjectOfType<KeyManager>();
+        theKeyManager.currentWorkingPlayerName = _playerName;
         if (!isPlayerWorking)
         {
             StartWorking();
@@ -269,12 +272,24 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         theFurnitureType.theWorkInfo.working_UI.SetActive(true);
         //start robot assemble
     }
+
+    public void WorkDone(string _playerName)
+    {
+        FurnitureType.isPlayerWorking = false;
+        theFurnitureType.theGameManager.UI.SetActive(true);
+        theFurnitureType.theWorkInfo.BGCollider.SetActive(true);
+        theFurnitureType.theWorkInfo.BGFurniture.SetActive(true);
+        theFurnitureType.theWorkInfo.workingBG.SetActive(false);
+        theFurnitureType.theWorkInfo.workingBG2.SetActive(false);
+        theFurnitureType.theWorkInfo.working_UI.SetActive(false);
+        view.RPC("PlayerMoveToWork", RpcTarget.All,_playerName);
+
+    }
     
     //RPC Door
     [PunRPC]
     void PlayerMoveToWork(string _playerObjName)
     {
-        Debug.Log("Rpc Door working");
         GameObject _tempPlayer = GameObject.Find(_playerObjName);
         PlayerController _playerController = _tempPlayer.GetComponent<PlayerController>();
         Debug.Log(_tempPlayer.gameObject.name);
@@ -285,6 +300,21 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         }
         _tempPlayer.transform.position = theFurnitureType.theWorkInfo.playerWorkPos.position;
         _playerController.isWorking = true;
+    }
+    
+    [PunRPC]
+    void PlayerMoveBackFromWork(string _playerObjName)
+    {
+        GameObject _tempPlayer = GameObject.Find(_playerObjName);
+        PlayerController _playerController = _tempPlayer.GetComponent<PlayerController>();
+        Debug.Log(_tempPlayer.gameObject.name);
+
+        if (_playerController == null)
+        {
+            Debug.Log("_player Controller empty");
+        }
+        _tempPlayer.transform.position = theFurnitureType.theWorkInfo.playerComingBackFromWorkPos.position;
+        _playerController.isWorking = false;
     }
     
     //RPC Bed

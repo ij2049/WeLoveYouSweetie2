@@ -376,10 +376,12 @@ public class CatalogManager : MonoBehaviour
         }
     }
 
+    //100% Work Complete
     public void CompleteWork()
     {
         Debug.Log("Game Complete");
-            completeCardCount = 0;
+        TryCardsShuffleAndUpdate();
+        completeCardCount = 0;
         cardsInfo = resetCardInfo;
         
     }

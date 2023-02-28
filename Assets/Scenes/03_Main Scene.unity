@@ -2385,6 +2385,8 @@ MonoBehaviour:
   btn_parts: {fileID: 1854272775}
   obj_partsImg: {fileID: 576334526}
   obj_missonCompletePanel: {fileID: 1024282218}
+  workingFurnitureType: {fileID: 1076140834}
+  currentWorkingPlayerName: 
   selectedPartsNum: 
   usedPartsNum: 
 --- !u!1 &201092562
@@ -6094,8 +6096,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 627056053}
+  - component: {fileID: 627056055}
+  - component: {fileID: 627056054}
   m_Layer: 0
-  m_Name: Game Setup
+  m_Name: Game Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6116,6 +6120,54 @@ Transform:
   m_Father: {fileID: 1634553152}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &627056054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627056052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 28
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &627056055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627056052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 246930d7ae8adb54c810738230f332b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UI: {fileID: 89590415}
+  theGameOverData:
+    isGameOverWork: 0
+    obj_GameOver: {fileID: 39869334}
+    txt_GameOverInfo: {fileID: 1542327911}
+    restartSceName: 03_Main Scene
+    theGameOverTextInfo:
+      txt_GameOverStarve: "You can't starve your baby!\t"
+      txt_GameOverDirty: Your house it too dirty! It's not a good condition for the
+        children.
+      txt_GameOverNoMoney: You guys are broke. You can't afford to raise the children.
+      txt_GameOverBabyNotCared: You guys didn't take care your baby.
+      txt_GameOverParentHospitalized: Oh, no! You guys are hospitalized. Now who
+        will take care of your baby?
 --- !u!1 &642053187
 GameObject:
   m_ObjectHideFlags: 0
@@ -9548,6 +9600,7 @@ MonoBehaviour:
   theWorkInfo:
     workPanel: {fileID: 1916863475}
     playerWorkPos: {fileID: 1530182675}
+    playerComingBackFromWorkPos: {fileID: 0}
     workingBG: {fileID: 2042725336}
     workingBG2: {fileID: 1231468715}
     BGCollider: {fileID: 1680369898}
@@ -11681,6 +11734,7 @@ MonoBehaviour:
   theWorkInfo:
     workPanel: {fileID: 0}
     playerWorkPos: {fileID: 0}
+    playerComingBackFromWorkPos: {fileID: 0}
     workingBG: {fileID: 0}
     workingBG2: {fileID: 0}
     BGCollider: {fileID: 0}
@@ -12853,6 +12907,7 @@ MonoBehaviour:
   theWorkInfo:
     workPanel: {fileID: 0}
     playerWorkPos: {fileID: 0}
+    playerComingBackFromWorkPos: {fileID: 0}
     workingBG: {fileID: 0}
     workingBG2: {fileID: 0}
     BGCollider: {fileID: 0}
@@ -13847,6 +13902,7 @@ MonoBehaviour:
   theWorkInfo:
     workPanel: {fileID: 0}
     playerWorkPos: {fileID: 0}
+    playerComingBackFromWorkPos: {fileID: 0}
     workingBG: {fileID: 0}
     workingBG2: {fileID: 0}
     BGCollider: {fileID: 0}
@@ -14021,8 +14077,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1634553152}
-  - component: {fileID: 1634553153}
-  - component: {fileID: 1634553154}
   m_Layer: 0
   m_Name: ------Game Manager
   m_TagString: Untagged
@@ -14049,54 +14103,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1634553153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1634553151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 246930d7ae8adb54c810738230f332b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UI: {fileID: 89590415}
-  theGameOverData:
-    isGameOverWork: 1
-    obj_GameOver: {fileID: 39869334}
-    txt_GameOverInfo: {fileID: 1542327911}
-    restartSceName: 03_Main Scene
-    theGameOverTextInfo:
-      txt_GameOverStarve: "You can't starve your baby!\t"
-      txt_GameOverDirty: Your house it too dirty! It's not a good condition for the
-        children.
-      txt_GameOverNoMoney: You guys are broke. You can't afford to raise the children.
-      txt_GameOverBabyNotCared: You guys didn't take care your baby.
-      txt_GameOverParentHospitalized: Oh, no! You guys are hospitalized. Now who
-        will take care of your baby?
---- !u!114 &1634553154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1634553151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 28
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &1638291398
 GameObject:
   m_ObjectHideFlags: 0
@@ -14249,6 +14255,7 @@ MonoBehaviour:
   theWorkInfo:
     workPanel: {fileID: 0}
     playerWorkPos: {fileID: 0}
+    playerComingBackFromWorkPos: {fileID: 0}
     workingBG: {fileID: 0}
     workingBG2: {fileID: 0}
     BGCollider: {fileID: 0}
@@ -18843,6 +18850,8 @@ MonoBehaviour:
   btn_parts: {fileID: 1531138852}
   obj_partsImg: {fileID: 135604846}
   obj_missonCompletePanel: {fileID: 1538126213}
+  workingFurnitureType: {fileID: 0}
+  currentWorkingPlayerName: 
   selectedPartsNum: 
   usedPartsNum: 
 --- !u!4 &2042725338
@@ -19277,6 +19286,7 @@ MonoBehaviour:
   theWorkInfo:
     workPanel: {fileID: 0}
     playerWorkPos: {fileID: 0}
+    playerComingBackFromWorkPos: {fileID: 0}
     workingBG: {fileID: 0}
     workingBG2: {fileID: 0}
     BGCollider: {fileID: 0}

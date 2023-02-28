@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
     public GameOverData theGameOverData;
     public static bool isGameOver;
 
-
     //data
     private PhotonView view;
     private GameManager theGameManager;

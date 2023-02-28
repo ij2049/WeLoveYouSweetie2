@@ -51,7 +51,10 @@ public class PlayerStatusController : MonoBehaviour
         }
         else
         {
-            thePlayerStatusController.theGameManager.TryGameOver(false, false, false, false, true);
+            if (thePlayerStatusController.theGameManager.theGameOverData.isGameOverWork)
+            {
+                thePlayerStatusController.theGameManager.TryGameOver(false, false, false, false, true);
+            }
         }
     }
 

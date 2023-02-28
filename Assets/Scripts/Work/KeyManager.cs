@@ -9,12 +9,14 @@ public class KeyManager : MonoBehaviour
     [SerializeField] private GameObject btn_parts;
     [SerializeField] private GameObject obj_partsImg;
     [SerializeField] private GameObject obj_missonCompletePanel;
+    [SerializeField] private FurnitureType workingFurnitureType;
     
     //Data
     private RobotPartsManager theRobotPartsManager;
     private SelectedPartsManager theSelectedPartsManager;
     private CatalogManager theCatalogManager;
     private PartsSelectCursorController thePartsSelectCursorController;
+    [HideInInspector] public string currentWorkingPlayerName;
     public List<int> selectedPartsNum = new List<int>(); //the parts that is selected from the player (space)
     public List<int> usedPartsNum = new List<int>();
     
@@ -341,9 +343,16 @@ public class KeyManager : MonoBehaviour
             Debug.Log("Complete!");
             isComplete = true;
             obj_missonCompletePanel.SetActive(true);
+            //Shuffle the catalog cards for next and reset the catalog
             theCatalogManager.CompleteWork();
             usedPartsNum.Clear();
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(5f);
+            //turn on and off the BG working objects && let player move
+            workingFurnitureType.WorkDone(currentWorkingPlayerName);
+            obj_missonCompletePanel.SetActive(false);
+            //Add Earned Money
+            MoneyManager _theMoneyManager = FindObjectOfType<MoneyManager>();
+            _theMoneyManager.TryAddMoney(150);
             isComplete = false;
         }
         yield return null;

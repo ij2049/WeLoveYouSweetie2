@@ -16,11 +16,13 @@ public class PlayerStatusController : MonoBehaviour
     private PhotonView view;
     private PlayerStatusController thePlayerStatusController;
     private PlayerManager thePlayerManager;
-
+    private GameManager theGameManager;
+    
     private void Awake()
     {
         thePlayerStatusController = GetComponent<PlayerStatusController>();
         thePlayerStatusController.thePlayerManager = FindObjectOfType<PlayerManager>();
+        thePlayerStatusController.theGameManager = FindObjectOfType<GameManager>();
     }
     
     private void Start()
@@ -33,7 +35,7 @@ public class PlayerStatusController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (view.IsMine)
+        if (view.IsMine && !GameManager.isGameOver)
         {
             StartStatusCount();
             GaugeUpdate();
@@ -49,7 +51,7 @@ public class PlayerStatusController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Sp became 0");
+            thePlayerStatusController.theGameManager.TryGameOver(false, false, false, false, true);
         }
     }
 

@@ -66,7 +66,7 @@ public class SelectedPartsManager : MonoBehaviour
         }
         else
         {
-            TextManager.instance.TryTextInfoInput("All the parts are filled. Try Trashbin");
+            WorkingTextManager.instance.TryTextInfoInput("All the parts are filled. Try Trashbin");
             Debug.Log("choosepart : " + choosePart);
         }
     }

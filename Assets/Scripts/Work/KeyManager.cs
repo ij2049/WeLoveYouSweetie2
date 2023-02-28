@@ -186,13 +186,13 @@ public class KeyManager : MonoBehaviour
                             }
                             else
                             {
-                                TextManager.instance.TryTextInfoInput("All the parts are filled. Try Trashbin");
+                                WorkingTextManager.instance.TryTextInfoInput("All the parts are filled. Try Trashbin");
                             }
                         }
 
                         else
                         {
-                            TextManager.instance.TryTextInfoInput("This is empty slot");
+                            WorkingTextManager.instance.TryTextInfoInput("This is empty slot");
                         }
                     }
                     //empty the part
@@ -304,7 +304,7 @@ public class KeyManager : MonoBehaviour
                             }
                             else
                             {
-                                TextManager.instance.TryTextInfoInput("This card is already complete");
+                                WorkingTextManager.instance.TryTextInfoInput("This card is already complete");
                             }
                         }
                     }

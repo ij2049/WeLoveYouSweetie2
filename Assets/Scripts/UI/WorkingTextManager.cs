@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class TextManager : MonoBehaviour
+public class WorkingTextManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI txt_Info;
     
-    public static TextManager instance;
+    public static WorkingTextManager instance;
 
     private void Awake()
     {

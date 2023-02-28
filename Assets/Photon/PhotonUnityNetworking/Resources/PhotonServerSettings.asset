@@ -89,6 +89,12 @@ MonoBehaviour:
   - PlayerMoveToWork
   - AddMoney
   - UseMoney
+  - GameOverStarve
+  - GameOverBabyNotCared
+  - GameOverDirty
+  - GameOverNoMoney
+  - RestartGame
+  - GameOverParentHospitalized
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

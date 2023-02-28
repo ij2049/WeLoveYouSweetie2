@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (thePlayerController.view.IsMine && !thePlayerController.isPlayerUsingNomoveFurniture &&!isWorking)
+        if (thePlayerController.view.IsMine && !thePlayerController.isPlayerUsingNomoveFurniture &&!isWorking && !GameManager.isGameOver)
         {
             PlayerMovement();
             

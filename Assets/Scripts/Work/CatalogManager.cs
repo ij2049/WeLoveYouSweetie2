@@ -61,8 +61,20 @@ public class CatalogManager : MonoBehaviour
         resetCardInfo = cardsInfo;
     }
 
+    /*
     private void Start()
     {
+        TryCardsShuffleAndUpdate();
+        completeCardCount = 0;
+        catalogCardsAmount = randomnizeChoicesCards.Length;
+    }
+    */
+    
+    //Prepare for the game start 게임이 시작되기전 셔플하고 정보 넣기
+    public void StartShuffling()
+    {
+        Debug.Log("Start Shuffling");
+
         TryCardsShuffleAndUpdate();
         completeCardCount = 0;
         catalogCardsAmount = randomnizeChoicesCards.Length;
@@ -91,7 +103,6 @@ public class CatalogManager : MonoBehaviour
         for (int i = 0; i < cardController.Length; i++)
         {
             cardController[i].theCatalogCardController.theSpriteRenderer.sprite = cardController[i].theCatalogCardController.img_card;
-            //cardController[i].theCatalogCardController.theRawImage.texture = cardController[i].theCatalogCardController.img_card.texture;
         }
 
         RobotPartsManager _tempPartsManager = FindObjectOfType<RobotPartsManager>();
@@ -380,10 +391,13 @@ public class CatalogManager : MonoBehaviour
     public void CompleteWork()
     {
         Debug.Log("Game Complete");
-        TryCardsShuffleAndUpdate();
+        for (int i = 0; i < cardController.Length; i++)
+        {
+            cardController[i].img_Complete.SetActive(false);
+            cardController[i].isComplete = false;
+        }
         completeCardCount = 0;
         cardsInfo = resetCardInfo;
-        
     }
 }
 

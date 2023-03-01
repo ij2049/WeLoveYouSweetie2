@@ -34,6 +34,7 @@ public class WorkInfo
     public GameObject BGCollider;
     public GameObject BGFurniture;
     public GameObject working_UI;
+    public CatalogManager theCatalogManager;
 }
 
 public class FurnitureType : MonoBehaviourPunCallbacks
@@ -270,8 +271,10 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         theFurnitureType.theWorkInfo.workingBG2.SetActive(true);
         theFurnitureType.theWorkInfo.working_UI.SetActive(true);
         KeyManager theKeyManager = FindObjectOfType<KeyManager>();
+        theFurnitureType.theWorkInfo.theCatalogManager.StartShuffling();
+        //reset parts and put back in
+        theKeyManager.ResetCurrentPartsShow();
         theKeyManager.currentWorkingPlayerName = _playerName;
-        //start robot assemble
     }
 
     public void WorkDone(string _playerName)

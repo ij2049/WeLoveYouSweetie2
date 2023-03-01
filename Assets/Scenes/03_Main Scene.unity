@@ -9639,6 +9639,7 @@ MonoBehaviour:
     BGCollider: {fileID: 1680369898}
     BGFurniture: {fileID: 475931037}
     working_UI: {fileID: 201749314}
+    theCatalogManager: {fileID: 1765256405}
 --- !u!114 &1076140835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11773,6 +11774,7 @@ MonoBehaviour:
     BGCollider: {fileID: 0}
     BGFurniture: {fileID: 0}
     working_UI: {fileID: 0}
+    theCatalogManager: {fileID: 0}
 --- !u!114 &1368109560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12946,6 +12948,7 @@ MonoBehaviour:
     BGCollider: {fileID: 0}
     BGFurniture: {fileID: 0}
     working_UI: {fileID: 0}
+    theCatalogManager: {fileID: 0}
 --- !u!114 &1542366779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13941,6 +13944,7 @@ MonoBehaviour:
     BGCollider: {fileID: 0}
     BGFurniture: {fileID: 0}
     working_UI: {fileID: 0}
+    theCatalogManager: {fileID: 0}
 --- !u!1 &1619776340
 GameObject:
   m_ObjectHideFlags: 0
@@ -14294,6 +14298,7 @@ MonoBehaviour:
     BGCollider: {fileID: 0}
     BGFurniture: {fileID: 0}
     working_UI: {fileID: 0}
+    theCatalogManager: {fileID: 0}
 --- !u!114 &1638291404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19325,6 +19330,7 @@ MonoBehaviour:
     BGCollider: {fileID: 0}
     BGFurniture: {fileID: 0}
     working_UI: {fileID: 0}
+    theCatalogManager: {fileID: 0}
 --- !u!114 &2076920049
 MonoBehaviour:
   m_ObjectHideFlags: 0

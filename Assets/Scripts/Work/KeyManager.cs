@@ -200,12 +200,7 @@ public class KeyManager : MonoBehaviour
                     //empty the part
                     if (Input.GetKeyDown(KeyCode.Z))
                     {
-                        theSelectedPartsManager.ResetParts();
-                        SelectedCursorReset();
-                        CheckStacksForPartsCount();
-                        selectedPartsNum.Clear();
-                        theRobotPartsManager.AddImgToEachParts(theRobotPartsManager.countPartsStack);
-                        CheckSlot();
+                        WorkTrashbinReset();
                     }
                     //check the choice parts
                     if (Input.GetKeyDown(KeyCode.Return))
@@ -240,6 +235,26 @@ public class KeyManager : MonoBehaviour
             Debug.Log("isPlayerWorking false");
         }
         
+    }
+
+    //trashbin : put back parts from selected parts section. Reset the cursor.
+    private void WorkTrashbinReset()
+    {
+        theSelectedPartsManager.ResetParts();
+        SelectedCursorReset();
+        CheckStacksForPartsCount();
+        selectedPartsNum.Clear();
+        theRobotPartsManager.AddImgToEachParts(theRobotPartsManager.countPartsStack);
+        CheckSlot();
+    }
+
+    //current scene that is showing robot parts on the top reset
+    public void ResetCurrentPartsShow()
+    {
+        SelectedCursorReset();
+        theSelectedPartsManager.ResetParts();
+        selectedPartsNum.Clear();
+        theRobotPartsManager.AddImgToEachParts(theRobotPartsManager.countPartsStack);
     }
     
     private void CheckStacksForPartsCount()
@@ -343,13 +358,16 @@ public class KeyManager : MonoBehaviour
             Debug.Log("Complete!");
             isComplete = true;
             obj_missonCompletePanel.SetActive(true);
+            
             //Shuffle the catalog cards for next and reset the catalog
             theCatalogManager.CompleteWork();
             usedPartsNum.Clear();
             yield return new WaitForSeconds(5f);
+            
             //turn on and off the BG working objects && let player move
             workingFurnitureType.WorkDone(currentWorkingPlayerName);
             obj_missonCompletePanel.SetActive(false);
+
             //Add Earned Money
             MoneyManager _theMoneyManager = FindObjectOfType<MoneyManager>();
             _theMoneyManager.TryAddMoney(150);

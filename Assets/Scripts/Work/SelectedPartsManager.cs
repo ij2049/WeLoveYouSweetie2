@@ -12,8 +12,8 @@ public class SelectedPartsManager : MonoBehaviour
 
     [SerializeField] private Image[] img_SelectedParts;
 
-    [Tooltip("Auto refill. don't touch")]
-    public PartsInfo[] theSelectedPartsInfo;
+    //[Tooltip("Auto refill. don't touch")]
+    [HideInInspector] public PartsInfo[] theSelectedPartsInfo;
 
     //Data
     private int choosePart; // 0 == leg, 1 == body, 2 == head

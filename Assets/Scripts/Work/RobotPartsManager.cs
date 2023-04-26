@@ -245,4 +245,13 @@ public class RobotPartsManager : MonoBehaviour
             robotPartsControllers[i].isEmpty = false;
         }
     }
+    
+    //if the work 100% complete
+    public void WorkComplete()
+    {
+        randomPartsInfo.Clear();
+        tempParsInfo = null;
+        countPartsStack = 0;
+        donePartsCheckNum = 0;
+    }
 }

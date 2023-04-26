@@ -9,13 +9,18 @@ public class BabyStatus : MonoBehaviour
 {
     private PhotonView view;
     private PlayerManager thePlayerManager;
+    private BabyController theBabyController;
 
-    [Header("Baby hunger")] 
-    [SerializeField] private int hunger;
-    private int currenthunger;
-    [SerializeField] private int hungerDecreaseTime;
+    //hunger
+    private int hunger = 1000;
+    private int currenthunger; 
+    private int hungerDecreaseTime;
+
+    [Header("Baby hunger")]
+    [Range(0, 1000)]
+    [Tooltip("Max Hunger is 1000")]
     [SerializeField] private int whenHungerTelling;
-    private int currenthungerDecreaseTime;
+    private int currenthungerDecreaseTime = 1;
     public static bool isHungryCountDone;
 
     //Event time counting
@@ -28,6 +33,7 @@ public class BabyStatus : MonoBehaviour
     public static bool isBabyCrying;
     public static bool isBabySleepy;
     public static bool isBabyWhining;
+    public static bool isBabySmelly;
 
     //Baby Events Counter 
     [Header("How many Baby events?")]
@@ -40,6 +46,7 @@ public class BabyStatus : MonoBehaviour
     
     void Start()
     {
+        theBabyController = FindObjectOfType<BabyController>();
         thePlayerManager = GetComponent<PlayerManager>();
         view = GetComponent<PhotonView>();
         currenthunger = hunger;
@@ -84,6 +91,7 @@ public class BabyStatus : MonoBehaviour
         isBabyCrying = false;
         isBabySleepy = false;
         isBabyWhining = false;
+        isBabySmelly = false;
     }
 
     //Status Event Countdown
@@ -126,7 +134,7 @@ public class BabyStatus : MonoBehaviour
             timer = 0;
         }
 
-        if (!isBabyHungry && !isBabyCrying && !isBabySleepy && !isBabyWhining)
+        if (!isBabyHungry && !isBabyCrying && !isBabySleepy && !isBabyWhining &&!isBabySmelly)
         {
             ChooseRandomEvent();
         }
@@ -151,27 +159,35 @@ public class BabyStatus : MonoBehaviour
     {
 
         isBabyCrying = true;
-
-        if (_randomNum == 0)
+        if (!isBabyHungry && !isBabyWhining && !isBabySleepy && !isBabySmelly)
         {
-            if (!isBabyHungry && !isBabyWhining && !isBabySleepy)
+            //some reasons else if not working
+            
+            //sleepy
+            if (_randomNum == 0)
             {
                 isBabySleepy = true;
                 Debug.Log("Baby Sleepy!");
                 isCountdownStart = false;
             }
-        }
         
-        else if (_randomNum == 1)
-        {
-            if (!isBabyHungry && !isBabySleepy && !isBabyWhining)
+            //whining
+            if (_randomNum == 1)
             {
                 Debug.Log("Baby whining!");
                 isBabyWhining = true;
                 isCountdownStart = false;
             }
+        
+            //Smelly
+            if (_randomNum == 2)
+            {
+                Debug.Log("Baby Smelly!");
+                isBabySmelly = true;
+                isCountdownStart = false;
+            }
         }
-
+        
         else
         {
             Debug.Log("is baby sleepy : " + isBabySleepy + ", is baby whining : " + isBabyWhining + ", is baby hungry : " + isBabyHungry);
@@ -182,7 +198,6 @@ public class BabyStatus : MonoBehaviour
     [PunRPC]
     private void BabyHungryStatusCount()
     {
-        Debug.Log("BabyHungerCountDownStart!");
         //Hunger
         if (currenthunger > 0)
         {

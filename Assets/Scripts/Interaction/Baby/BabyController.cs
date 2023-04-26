@@ -55,8 +55,8 @@ public class BabyController : MonoBehaviourPunCallbacks
                         Debug.Log("view is empty!");
                     }
                 }
-
-                if (BabyStatus.isBabyWhining)
+                
+                else if (BabyStatus.isBabyWhining)
                 {
                     if (view != null)
                     {
@@ -69,13 +69,26 @@ public class BabyController : MonoBehaviourPunCallbacks
                         Debug.Log("view is empty!");
                     }
                 }
+                
+                else if (BabyStatus.isBabySmelly)
+                {
+                    if (view != null)
+                    {
+                        view.RPC("EventChecker", RpcTarget.All, "Smelly");
+                        Debug.Log("Try Smelly turn on");  
+                    }
+                    else
+                    {
+                        Debug.Log("view is empty!");
+                    }
+                }
             }
 
             else
             {
                 Debug.Log("isBabyCrying false, isStatusTurnedOff true");
 
-                if (!BabyStatus.isBabySleepy || !BabyStatus.isBabyWhining)
+                if (!BabyStatus.isBabySleepy || !BabyStatus.isBabyWhining || !BabyStatus.isBabySmelly)
                 {
                     view = GetComponent<PhotonView>();
 
@@ -87,6 +100,11 @@ public class BabyController : MonoBehaviourPunCallbacks
                     if(!BabyStatus.isBabyWhining)
                     {
                         view.RPC("EventTurnOff", RpcTarget.All, "Whining");
+                    }
+                    
+                    if (!BabyStatus.isBabySmelly)
+                    {
+                        view.RPC("EventTurnOff", RpcTarget.All, "Smelly");
                     }
                 }
             }
@@ -114,6 +132,7 @@ public class BabyController : MonoBehaviourPunCallbacks
                 }
             }
         }
+        
         else
         {
             for (int i = 0; i < theBabyController.theBabyAction.Length; i++)
@@ -233,22 +252,42 @@ public class BabyController : MonoBehaviourPunCallbacks
                     Debug.Log("view is empty!");
                 }
             }
+
+            if (BabyStatus.isBabySmelly)
+            {
+                Debug.Log("Smelly");
+                if (view != null)
+                {
+                    view.RPC("EventChecker", RpcTarget.All, "Smelly");
+                    Debug.Log("Try Smelly turn on");
+
+                }
+                else
+                {
+                    Debug.Log("view is empty!");
+                }
+            }
         }
 
         else
         {
             Debug.Log("isBabyCrying false, isStatusTurnedOff true");
 
-            if (!BabyStatus.isBabySleepy || !BabyStatus.isBabyWhining)
+            if (!BabyStatus.isBabySleepy || !BabyStatus.isBabyWhining || !BabyStatus.isBabySmelly)
             {
                 if (!BabyStatus.isBabySleepy)
                 {
                     view.RPC("EventTurnOff", RpcTarget.All, "Sleepy");
                 }
                 
-                if(!BabyStatus.isBabyWhining)
+                else if(!BabyStatus.isBabyWhining)
                 {
                     view.RPC("EventTurnOff", RpcTarget.All, "Whining");
+                }
+
+                else if (!BabyStatus.isBabySmelly)
+                {
+                    view.RPC("EventTurnOff", RpcTarget.All, "Smelly");
                 }
             }
         }

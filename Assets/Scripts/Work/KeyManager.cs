@@ -30,7 +30,11 @@ public class KeyManager : MonoBehaviour
         thePartsSelectCursorController = FindObjectOfType<PartsSelectCursorController>();
         theSelectedPartsManager = FindObjectOfType<SelectedPartsManager>();
         theCatalogManager = FindObjectOfType<CatalogManager>();
-        FurnitureType.isPlayerWorking = true; //delete this later it's for test
+    }
+
+    private void Start()
+    {
+        FurnitureType.isPlayerWorking = true;
     }
 
     private void Update()
@@ -351,17 +355,27 @@ public class KeyManager : MonoBehaviour
         theSelectedPartsManager.ResetParts();
         SelectedCursorReset();
         selectedPartsNum.Clear();
+        
         //if the player finish the work(work complete!)
         Debug.Log("theCatalogManager.completeCardCount : " + theCatalogManager.completeCardCount + " theCatalogManager.catalogCardsAmount : " + theCatalogManager.catalogCardsAmount);
         if (theCatalogManager.completeCardCount == theCatalogManager.catalogCardsAmount)
         {
             Debug.Log("Complete!");
             isComplete = true;
+            FurnitureType.isPlayerWorking = false;
             obj_missonCompletePanel.SetActive(true);
             
             //Shuffle the catalog cards for next and reset the catalog
             theCatalogManager.CompleteWork();
             usedPartsNum.Clear();
+            selectedPartsNum.Clear();
+
+            //catalog panel set off
+            catalogPanel.SetActive(false);
+            isCatalogOpened = false;
+            btn_parts.SetActive(true);
+            obj_partsImg.SetActive(true);
+            theRobotPartsManager.WorkComplete();
             yield return new WaitForSeconds(5f);
             
             //turn on and off the BG working objects && let player move

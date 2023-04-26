@@ -14,7 +14,8 @@ public enum Furniture
     Bed,
     VacuumHolder,
     Door,
-    Work
+    Work,
+    DiaperStationInfo,
 }
 
 [System.Serializable]
@@ -37,18 +38,29 @@ public class WorkInfo
     public CatalogManager theCatalogManager;
 }
 
+[System.Serializable]
+public class DiaperStationInfo
+{
+    public GameObject obj_baby;
+    public Transform DiaperStaionPos_On; //player moving position
+    public Transform DiaperStaionPos_Off; //player moving position
+}
+
 public class FurnitureType : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Furniture theFurniture;
 
     [Space(10)] [Header("Bed Info")] 
-    [SerializeField] private Transform[] bedPos;
+    [SerializeField] private Transform[] bedPos; //player moving position
 
     [Space(10)] [Header("Vacuum Info")] 
     [SerializeField] private VacuumInfo theVacuumInfo; //if the furniture is not a vacuum holder ignore it
     
     [Space(10)] [Header("Work Info")] 
     [SerializeField] private WorkInfo theWorkInfo; //if not door ignore it
+    
+    [Space(10)] [Header("Diaper Changing Station Info")] 
+    [SerializeField] private DiaperStationInfo theDiaperStationInfo;
 
     private FurnitureType theFurnitureType;
     private string furnitureInfo;
@@ -58,6 +70,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     private PlayerInventory thePlayerInventory;
     private PlayerInventory _tempPlayerInventory;
     public static bool isBedUsing;
+    public static bool isDiaperStationUsing;
     public static bool isPlayerWorking;
 
     private void Awake()
@@ -83,6 +96,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             case Furniture.VacuumHolder: TryVacuumHolder(_playerInvenotry); break;
             case Furniture.Door: TryDoor(_playerInvenotry); break;
             case Furniture.Work: WorkPanelOn(_playerInvenotry); break;
+            case Furniture.DiaperStationInfo: StartCoroutine(TryDiaperStation(_playerInvenotry)); break;
         }
     }
 
@@ -122,7 +136,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             if (!_playerInventory.holdingItems.isThisPlayerBabyHold)
             {
                 Debug.Log("Baby is not holding by player");
-                view.RPC("CurdleBoolSetting", RpcTarget.All, false,true);
+                view.RPC("FurnitureBabyBoolSetting", RpcTarget.All, false,true, false);
                 _playerInventory.holdingItems.isThisPlayerBabyHold = true;
                 for (int i = 0; i < _playerInventory.playerItems.Length; i++)
                 {
@@ -151,7 +165,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             if (_playerInventory.holdingItems.isThisPlayerBabyHold)
             {
 
-                view.RPC("CurdleBoolSetting", RpcTarget.All, true, false);
+                view.RPC("FurnitureBabyBoolSetting", RpcTarget.All, true, false, false);
                 _playerInventory.holdingItems.isThisPlayerBabyHold = false;
                 for (int i = 0; i < _playerInventory.playerItems.Length; i++)
                 {
@@ -237,7 +251,112 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         theFurnitureType._tempPlayerInventory = _playerInventory;
         theFurnitureType.theWorkInfo.workPanel.SetActive(true);
     }
-    
+
+    private IEnumerator TryDiaperStation(PlayerInventory _playerInventory)
+    {
+        PlayerStatusController _playerStatus = _playerInventory.gameObject.GetComponent<PlayerStatusController>();
+        string _playerName = _playerInventory.gameObject.name;
+        PlayerController _thePlayerController = _playerInventory.gameObject.GetComponent<PlayerController>();
+        
+        //put player front of diaper station, put baby on the diaper station
+        if (!_thePlayerController.isPlayerUsingNomoveFurniture && !isDiaperStationUsing && BabyManager.isBabyHold && !BabyManager.isBabyDiaperStation)
+        {
+            view.RPC("DiaperStationSetting", RpcTarget.All,_playerName, true);
+            view.RPC("DiaperStationPuttingPlayerPos", RpcTarget.All,_playerName ,true);
+            
+            view = GetComponent<PhotonView>();
+            
+            if (_playerInventory.holdingItems.isThisPlayerBabyHold)
+            {
+                //bool setting for baby hold
+                view.RPC("FurnitureBabyBoolSetting", RpcTarget.All, false, false, true);
+                _playerInventory.holdingItems.isThisPlayerBabyHold = false;
+                //turn off baby from player
+                for (int i = 0; i < _playerInventory.playerItems.Length; i++)
+                {
+                    if (_playerInventory.playerItems[i].itemsName == "Baby")
+                    {
+                        view.RPC("EnablePlayerBaby", RpcTarget.All,i,_playerName,false);
+
+                        for (int j = 0; j < theBabyManager.theBabyInfo.Length; j++)
+                        {
+                            if (theBabyManager.theBabyInfo[j].babyLocationName == "DiaperStation")
+                            {
+                                Debug.Log("Baby is Hold!");
+                                view.RPC("DiaperStaionBabyOnOff", RpcTarget.All, j,true);
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            yield return new WaitForSeconds(4f);
+        
+            //hold baby back from the station off
+            if (BabyManager.isBabyDiaperStation && !BabyManager.isBabyHold)
+            {
+                view = GetComponent<PhotonView>();
+                if (!_playerInventory.holdingItems.isThisPlayerBabyHold)
+                {
+                    //bool setting for baby hold
+                    view.RPC("FurnitureBabyBoolSetting", RpcTarget.All, false, true, false);
+                    _playerInventory.holdingItems.isThisPlayerBabyHold = true;
+                    for (int i = 0; i < _playerInventory.playerItems.Length; i++)
+                    {
+                        if (_playerInventory.playerItems[i].itemsName == "Baby")
+                        {
+                            view.RPC("EnablePlayerBaby", RpcTarget.All,i,_playerName,true);
+
+                            for (int j = 0; j < theBabyManager.theBabyInfo.Length; j++)
+                            {
+                                if (theBabyManager.theBabyInfo[j].babyLocationName == "DiaperStation")
+                                {
+                                    //hold baby
+                                    Debug.Log("Baby is Hold!");
+                                    view.RPC("DiaperStaionBabyOnOff", RpcTarget.All, j,false);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                else
+                {
+                    Debug.Log("Baby is Hold! Holding is not working");
+                }
+            }
+
+            else
+            {
+                if (!BabyManager.isBabyDiaperStation)
+                {
+                    Debug.Log( "Baby is Hold! Holding is not working : " + BabyManager.isBabyDiaperStation);
+
+                }
+
+                if(BabyManager.isBabyHold)
+                {
+                    Debug.Log("Baby is Hold! Holding is not working : " + BabyManager.isBabyHold);
+                }
+            }
+        
+            //put setting back
+            view.RPC("DiaperStationSetting", RpcTarget.All, _playerName,false);
+            //put player back to the prev position
+            view.RPC("DiaperStationPuttingPlayerPos", RpcTarget.All,_playerName ,false);
+        }
+        
+                    
+        else
+        {
+            //currently using
+        }
+
+      
+        yield return null;
+    }
+
     //The working panel, pressed yes
     //Do you want to start work?
     public void WorkPanel_Yes()
@@ -262,6 +381,11 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     //player minigame start. This is not RPC. It's only happening on the playing player's view not the other player.
     private void StartWorking(string _playerName)
     {
+        StartCoroutine(TryStartWorking(_playerName));
+    }
+
+    private IEnumerator TryStartWorking(string _playerName)
+    {
         //starting bool for the minigame
         FurnitureType.isPlayerWorking = true;
         theFurnitureType.theGameManager.UI.SetActive(false);
@@ -275,6 +399,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         //reset parts and put back in
         theKeyManager.ResetCurrentPartsShow();
         theKeyManager.currentWorkingPlayerName = _playerName;
+        yield return null;
     }
 
     public void WorkDone(string _playerName)
@@ -331,6 +456,7 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         thePlayerInventory.gameObject.transform.position = bedPos[_num].position;
     }
 
+    //stop player controller and let player know bed is using
     [PunRPC]
     void BedBoolSetting(string _playerObjName, bool _isUsing)
     {
@@ -339,6 +465,50 @@ public class FurnitureType : MonoBehaviourPunCallbacks
         _playerController.isPlayerUsingNomoveFurniture = _isUsing;
         isBedUsing = _isUsing;
     }
+    
+    //RPC DiaperStation
+    //stop player controller and let player know diaper station is using, put baby to the diaper station
+    [PunRPC]
+    void DiaperStationSetting(string _playerObjName, bool _isUsing)
+    {
+        GameObject _temp = GameObject.Find(_playerObjName);
+        PlayerController _playerController = _temp.GetComponent<PlayerController>();
+        _playerController.isPlayerUsingNomoveFurniture = _isUsing;
+        isDiaperStationUsing = _isUsing;
+        if (!_isUsing)
+        {
+            StartCoroutine(DiaperChangeComplete());
+        }
+        //Put Baby to the diaper station
+    }
+    
+    IEnumerator DiaperChangeComplete()
+    {
+        BabyStatus _temp = FindObjectOfType<BabyStatus>();
+        _temp.TryResetEventTimer();
+        BabyStatus.isHungryCountDone = false; //start feeding countdown
+        Debug.Log("Baby sleeping complete : " + BabyStatus.isBabySleepy);
+        BabyStatus.isBabySmelly = false;
+        yield return new WaitForSeconds(0.3f);
+        BabyStatus.isEventStart = false;
+    }
+    
+    [PunRPC]
+    void DiaperStationPuttingPlayerPos(string _playerObjName, bool _isUsing)
+    {
+        GameObject _temp = GameObject.Find(_playerObjName);
+        thePlayerInventory = _temp.GetComponent<PlayerInventory>();
+        if (_isUsing)
+        {
+            thePlayerInventory.gameObject.transform.position = theDiaperStationInfo.DiaperStaionPos_On.position;
+        }
+        else
+        {
+            thePlayerInventory.gameObject.transform.position = theDiaperStationInfo.DiaperStaionPos_Off.position;
+        }
+    }
+    
+
 
     //RPC Trashbin
     [PunRPC]
@@ -351,15 +521,17 @@ public class FurnitureType : MonoBehaviourPunCallbacks
     
     //RPC Curdle
     [PunRPC]
-    void CurdleBoolSetting(bool _isBabyCradle, bool isBabyHold)
+    void FurnitureBabyBoolSetting(bool _isBabyCradle, bool _isBabyHold, bool _isBabyDiaperStation)
     {
         BabyManager.isBabyCradle = _isBabyCradle;
-        BabyManager.isBabyHold = isBabyHold;
+        BabyManager.isBabyHold = _isBabyHold;
+        BabyManager.isBabyDiaperStation = _isBabyDiaperStation;
     }
 
     [PunRPC]
     void EnablePlayerBaby(int _num, string _playerObjName, bool _isOn)
     {
+        //_ison:true -> player baby hold, _isOn:false -> player baby not hold
         Debug.Log("player baby hold");
         GameObject _temp = GameObject.Find(_playerObjName);
         thePlayerInventory = _temp.GetComponent<PlayerInventory>();
@@ -389,6 +561,19 @@ public class FurnitureType : MonoBehaviourPunCallbacks
             Debug.Log("theBabyController is null");
     }
 
+    [PunRPC]
+    void DiaperStaionBabyOnOff(int _diaperStationBabyNum, bool _isOn)
+    {
+        theFurnitureType.theBabyManager.theBabyInfo[_diaperStationBabyNum].obj_baby.SetActive(_isOn);
+        
+        //check baby status first for baby speechballoon turn On and Off
+        BabyController theBabyController = theFurnitureType.theBabyManager.theBabyInfo[_diaperStationBabyNum].obj_baby.GetComponent<BabyController>();
+        if(theBabyController != null)
+            theBabyController.TryCheckBabyStatus();
+        else
+            Debug.Log("theBabyController is null");
+    }
+    
     //RPC Vacuum Holder
     [PunRPC]
     void TryPutBackVacuum(string _playerObjName, int _num)

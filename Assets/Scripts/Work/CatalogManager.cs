@@ -41,16 +41,17 @@ public class CatalogManager : MonoBehaviour
     private CatalogCardInfo[] cardsInfo;
 
     //randomize cards that is choice from cards infos
-    [Tooltip("Don't touch this. It's auto put in")]
+    [Tooltip("Don't touch this. It's auto put in. Just for checking")]
     [SerializeField] 
     private CatalogCardInfo[] randomnizeChoicesCards;
 
-    //each of the cards that is put from the unity
+    //each of the cards that is put from the unity Inspector
     public CatalogCardController[] cardController;
     
     //reset cardInfo
     private CatalogCardInfo[] resetCardInfo;
 
+    //data
     private CatalogCardInfo temp_cardInfo;
     private int[] tempNum = new int[8];
     public int completeCardCount;
@@ -61,15 +62,6 @@ public class CatalogManager : MonoBehaviour
         resetCardInfo = cardsInfo;
     }
 
-    /*
-    private void Start()
-    {
-        TryCardsShuffleAndUpdate();
-        completeCardCount = 0;
-        catalogCardsAmount = randomnizeChoicesCards.Length;
-    }
-    */
-    
     //Prepare for the game start 게임이 시작되기전 셔플하고 정보 넣기
     public void StartShuffling()
     {
@@ -391,6 +383,8 @@ public class CatalogManager : MonoBehaviour
     public void CompleteWork()
     {
         Debug.Log("Game Complete");
+        
+        //individual cards turn off
         for (int i = 0; i < cardController.Length; i++)
         {
             cardController[i].img_Complete.SetActive(false);

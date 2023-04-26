@@ -23,6 +23,7 @@ public enum InteractableFurniture
     VacuumHolder,
     Work,
     Door,
+    DiaperStation,
 }
 
 public class InteractionController : MonoBehaviourPunCallbacks
@@ -138,6 +139,9 @@ public class InteractionController : MonoBehaviourPunCallbacks
                 case InteractableFurniture.Work:
                     theInteractionController.furnitureInfo = "Work";
                     break;
+                case InteractableFurniture.DiaperStation:
+                    theInteractionController.furnitureInfo = "DiaperStation";
+                    break;
             }
         }
     }
@@ -236,14 +240,27 @@ public class InteractionController : MonoBehaviourPunCallbacks
                         UseFurniture(_playerInventory);
                     }
                     
+                    else if (BabyManager.isBabyHold && theInteractionController.furnitureInfo == "DiaperStation")
+                    {
+                        if (BabyStatus.isBabySmelly)
+                        {
+                            Debug.Log("Trying Diaper Changing Station");
+                            obj_buttonInfo.SetActive(false);
+                            UseFurniture(_playerInventory);
+                        }
+
+                        else
+                        {
+                            Debug.Log("Baby is not smelly!");
+                        }
+                    }
+                    
                     else
                     {
                         Debug.Log("Sth is hold");
                         Debug.Log("BabyManager.isBabyHold : " + BabyManager.isBabyHold);
                         Debug.Log("PlayerInventory.isItemHolding : " + PlayerInventory.isItemHolding);
                         Debug.Log("theInteractionController.furnitureInfo : " + theInteractionController.furnitureInfo);
-                        
-
                     }
                 }
             }

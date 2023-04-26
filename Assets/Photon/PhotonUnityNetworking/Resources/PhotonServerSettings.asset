@@ -96,6 +96,13 @@ MonoBehaviour:
   - RestartGame
   - GameOverParentHospitalized
   - PlayerMoveBackFromWork
+  - DiaperStationPuttingPlayerPos
+  - DiaperDationBabyOnOff
+  - DiaperSationBabyOnOff
+  - DiaperStaionBabyOnOff
+  - DiaperStationSetting
+  - FurnitureBabyBoolSetting
+  - DiaperChangeComplete
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

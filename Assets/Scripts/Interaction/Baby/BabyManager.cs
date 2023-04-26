@@ -16,6 +16,7 @@ public class BabyManager : MonoBehaviour
     public BabyInfo[] theBabyInfo;
     public static bool isBabyHold;
     public static bool isBabyCradle;
+    public static bool isBabyDiaperStation;
     public int soothingGauge;
     public float feedingGauge;
 

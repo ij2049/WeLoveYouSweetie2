@@ -42,7 +42,6 @@ public class DirtManager : MonoBehaviour
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                Debug.Log("counting start");
                 Countdown();
                 //view.RPC("Countdown",RpcTarget.All);
                 if(countDirtObj <= 0)

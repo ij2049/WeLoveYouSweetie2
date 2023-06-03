@@ -77,7 +77,7 @@ public class MoneyManager : MonoBehaviour
     
     private IEnumerator UseMoneyCoroutine(int _moneyAmount)
     {
-        txt_MoneyInfo.text = "-$" + _moneyAmount;
+        txt_MoneyInfo.text = "-" + _moneyAmount;
         currentMoney -= _moneyAmount;
         txt_Money.text = currentMoney.ToString();
         anim_moneyInfo.SetBool("Play", true);
